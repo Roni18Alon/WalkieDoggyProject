@@ -1,5 +1,8 @@
 import boto3
+import json
 import logging
+import secrets
+import hashlib
 
 event = {'resource': '/login', 'path': '/login', 'httpMethod': 'POST', 'headers': {'password': '1234567'},
          'multiValueHeaders': {'password': ['1234567']},
@@ -44,13 +47,23 @@ def lambda_handler(event, context):
     logger.info(f"user mail :{user_mail} user password {password}")
 
     # check from DB the relevant data
+    # check if user exists - if not return 403
+    # check if valid details - if not return 403
+
+    # if all valid generate a random token
+
+    token = secrets.token_hex(16)
+    # hash the token using SHA-256
+    hashed_token = hashlib.sha256(token.encode()).hexdigest()
+
+    return {
+        'statusCode': 200,
+        'headers': {
+            "Content-Type": "application/json",
+            'Set-Cookie': f"walkieDoggy={hashed_token}"
+        }
+    }
 
 
-    print("hi")
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     lambda_handler(event, "")
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
