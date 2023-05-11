@@ -1,12 +1,10 @@
-import boto3
-import json
 import logging
 import secrets
 import hashlib
-import bcrypt
 from datetime import datetime
 from aws.dynamoDB import DynamoDB
 from responses import responses
+from passlib.hash import pbkdf2_sha256
 
 event = {'resource': '/login', 'path': '/login', 'httpMethod': 'POST', 'headers': {'password': '123456'},
          'multiValueHeaders': {'password': ['123456']},
@@ -89,14 +87,12 @@ def lambda_handler(event, context):
             return responses.failed(error="password is incorrect", status_code=403)
 
     else:
-        return responses.failed(error="can't find user", status_code=403)
+        return responses.failed(error=f"can't find user {user_mail}", status_code=403)
 
 
 def validate_password(password, user_data):
     hashed_password_from_db = user_data.get("password")
-    salt = user_data.get("salt_password")
-    hashed_password_attempt = bcrypt.hashpw(password.encode(), salt.encode()).decode()
-    if hashed_password_attempt == hashed_password_from_db:
+    if pbkdf2_sha256.verify(password, hashed_password_from_db):
         return True
 
 
