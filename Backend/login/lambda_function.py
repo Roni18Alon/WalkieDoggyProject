@@ -1,3 +1,4 @@
+import json
 import logging
 import secrets
 import hashlib
@@ -79,7 +80,8 @@ def lambda_handler(event, context):
                     "Content-Type": "application/json",
                     'Access-Control-Allow-Origin': '*',
                     'Set-Cookie': f"walkieDoggy={hashed_token}"
-                }
+                },
+                'body': json.dumps('login in done')
             }
 
         else:
