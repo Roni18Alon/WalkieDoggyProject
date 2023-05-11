@@ -69,7 +69,7 @@ def lambda_handler(event, context):
 
             # update dynamo with current data
             user_new_data = user_data
-            user_new_data['last_visit'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            user_new_data['last_visit'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             user_new_data['token'] = hashed_token
             logger.info(f"insert new data for user {user_mail} the data {user_new_data}")
             dynamo.insert_item(item=user_new_data)
