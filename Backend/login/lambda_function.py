@@ -3,9 +3,13 @@ import json
 import logging
 import secrets
 import hashlib
+import bcrypt
+from datetime import datetime
+from aws.dynamoDB import DynamoDB
+from responses import responses
 
-event = {'resource': '/login', 'path': '/login', 'httpMethod': 'POST', 'headers': {'password': '1234567'},
-         'multiValueHeaders': {'password': ['1234567']},
+event = {'resource': '/login', 'path': '/login', 'httpMethod': 'POST', 'headers': {'password': '123456'},
+         'multiValueHeaders': {'password': ['123456']},
          'queryStringParameters': {'user_mail': 'ronialon2008@gmail.com'},
          'multiValueQueryStringParameters': {'user_mail': ['ronialon2008@gmail.com']}, 'pathParameters': None,
          'stageVariables': None,
@@ -34,6 +38,8 @@ formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(messag
 ch.setFormatter(formatter)
 logger.addHandler(ch)
 
+dynamo = DynamoDB('users-info')
+
 
 def lambda_handler(event, context):
     # get event data
@@ -41,28 +47,57 @@ def lambda_handler(event, context):
     query = event['queryStringParameters']
     headers = event['headers']
     # get user mail from params
-    user_mail = query.get('user_mail')
+    user_mail = query.get('user_mail').lower()
     # get user password from headers
     password = headers.get('password')
     logger.info(f"user mail :{user_mail} user password {password}")
 
     # check from DB the relevant data
     # check if user exists - if not return 403
-    # check if valid details - if not return 403
+    user = dynamo.get_item(key_name="user_email", key_value=user_mail)
+    if user:
+        user_data = user[0]
+        logger.info(f"user {user_mail} exists with data {user_data}")
+        logger.info(f"checking password validation for user ")
 
-    # if all valid generate a random token
+        # check password validation
+        if validate_password(password, user_data):
+            logger.info("Password is correct!")
 
-    token = secrets.token_hex(16)
-    # hash the token using SHA-256
-    hashed_token = hashlib.sha256(token.encode()).hexdigest()
+            # hash the token using SHA-256
+            token = secrets.token_hex(16)
+            hashed_token = hashlib.sha256(token.encode()).hexdigest()
 
-    return {
-        'statusCode': 200,
-        'headers': {
-            "Content-Type": "application/json",
-            'Set-Cookie': f"walkieDoggy={hashed_token}"
-        }
-    }
+            # update dynamo with current data
+            user_new_data = user_data
+            user_new_data['last_visit'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            user_new_data['token'] = hashed_token
+            logger.info(f"insert new data for user {user_mail} the data {user_new_data}")
+            dynamo.insert_item(item=user_new_data)
+            # return data with new cookie
+            return {
+                'statusCode': 200,
+                'headers': {
+                    "Content-Type": "application/json",
+                    'Access-Control-Allow-Origin': '*',
+                    'Set-Cookie': f"walkieDoggy={hashed_token}"
+                }
+            }
+
+        else:
+            logger.info("Password is incorrect.")
+            return responses.failed(error="password is incorrect", status_code=403)
+
+    else:
+        return responses.failed(error="can't find user", status_code=403)
+
+
+def validate_password(password, user_data):
+    hashed_password_from_db = user_data.get("password")
+    salt = user_data.get("salt_password")
+    hashed_password_attempt = bcrypt.hashpw(password.encode(), salt.encode()).decode()
+    if hashed_password_attempt == hashed_password_from_db:
+        return True
 
 
 if __name__ == '__main__':
