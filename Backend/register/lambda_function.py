@@ -79,11 +79,13 @@ logger = logging.getLogger('root')
 logger.setLevel(logging.INFO)
 ch = logging.StreamHandler()
 ch.setLevel(logging.INFO)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter(
+    '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 ch.setFormatter(formatter)
 logger.addHandler(ch)
 
 dynamo = DynamoDB('users-info')
+
 
 def lambda_handler(event, context):
     # Get event data
@@ -108,7 +110,8 @@ def lambda_handler(event, context):
             # Continue with the rest of your code
 
             # Example DynamoDB query using user_mail
-            existing_user = dynamo.get_item(key_name="user_email", key_value=user_mail)
+            existing_user = dynamo.get_item(
+                key_name="user_email", key_value=user_mail)
 
             # ...
         else:
@@ -120,7 +123,7 @@ def lambda_handler(event, context):
         logger.error("Event does not contain the required user details")
         # ...
     # Check if user already exists in DB
-    existing_user =dynamo.get_item(key_name="user_email", key_value=user_mail)
+    existing_user = dynamo.get_item(key_name="user_email", key_value=user_mail)
     if 'Item' in existing_user:
         logger.info(f"User {user_mail} already exists.")
         return {
@@ -150,12 +153,11 @@ def lambda_handler(event, context):
         'user_name': user_name,
         'zip': user_zip
     }
-    
+
     table = dynamo.resource.Table('users-info')
     logger.info(f"Inserting new data for user {user_mail}: {new_user_data}")
     table.put_item(Item=new_user_data)
-    
-    
+
     # Return success response
     return {
         'statusCode': 200,
@@ -165,6 +167,7 @@ def lambda_handler(event, context):
         },
         'body': json.dumps({'message': 'User registered successfully'})
     }
+
 
 if __name__ == '__main__':
     lambda_handler(event, "")
