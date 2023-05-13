@@ -1,10 +1,27 @@
-import React from "react";
+import React,{ useState } from "react";
 import "./dist/Register.css";
 import styles from "./dist/Register.module.css";
 import signup from "./dist/images/sign_up.png";
 import { Link } from "react-router-dom";
+import axios from "axios";
+
+
 
 const Register = () => {
+   // State to store the user parameters
+   const [userParams, setUserParams] = useState({ name: '', email: '', password: '', phone_number: '', country: '', city: '', zipCode: ''  });
+
+   // Function to handle form submission
+   const handleSubmit = (e) => {
+    axios.post("/register", userParams, { headers: { 'Content-Type': 'application/json'}})
+    .then(resp=> console.log(resp.data))
+   };
+ 
+   // Function to handle input changes
+   const handleInputChange = (e) => {
+     setUserParams({ ...userParams, [e.target.name]: e.target.value });
+     console.log(userParams)
+   };
   return (
     <div className="wrapper">
       <div className="main">
@@ -18,6 +35,7 @@ const Register = () => {
                   method="POST"
                   className="register-form"
                   id="register-form"
+                  onSubmit={handleSubmit}
                 >
                   <div className="form-group">
                     <label htmlFor="name">
@@ -29,6 +47,7 @@ const Register = () => {
                       id="name"
                       placeholder="Your Name"
                       required
+                      onChange={handleInputChange}
                     />
                   </div>
                   <div className="form-group">
@@ -41,6 +60,7 @@ const Register = () => {
                       id="email"
                       placeholder="Your Email"
                       required
+                      onChange={handleInputChange}
                     />
                   </div>
                   <div className="form-group">
@@ -53,6 +73,7 @@ const Register = () => {
                       id="mobile"
                       placeholder="Mobile"
                       required
+                      onChange={handleInputChange}
                     />
                   </div>
                   <div className="form-group">
@@ -65,6 +86,7 @@ const Register = () => {
                       id="address"
                       placeholder="Address"
                       required
+                      onChange={handleInputChange}
                     />
                   </div>
                   <div className="form-group">
@@ -77,6 +99,7 @@ const Register = () => {
                       id="pass"
                       placeholder="Password"
                       required
+                      onChange={handleInputChange}
                     />
                   </div>
 
@@ -125,6 +148,6 @@ const Register = () => {
       </div>
     </div>
   );
-};
+};  
 
 export default Register;
