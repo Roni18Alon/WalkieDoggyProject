@@ -1,5 +1,6 @@
 import User from "./images/kindpng_248729.png";
 import { Link } from "react-router-dom";
+import React from 'react';
 
 function EditProfileContent() {
   return (
