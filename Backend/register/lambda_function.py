@@ -5,6 +5,7 @@ import hashlib
 from datetime import datetime
 from aws.dynamoDB import DynamoDB
 from passlib.hash import pbkdf2_sha256
+from responses import responses
 
 event = {
     'resource': '/register',
@@ -98,6 +99,8 @@ def lambda_handler(event, context):
         # Assign values to variables
         user_name = user_details.get('user_name')
         user_mail = user_details.get('user_email')
+        user_full_name = user_details.get('user_full_name')
+        user_last_name = user_details.get('user_last_name')
         phone_number = user_details.get('phone_number')
         user_address = user_details.get('address')
         user_city = user_details.get('city')
@@ -110,63 +113,52 @@ def lambda_handler(event, context):
             # Continue with the rest of your code
 
             # Example DynamoDB query using user_mail
-            existing_user = dynamo.get_item(
-                key_name="user_email", key_value=user_mail)
+            existing_user = dynamo.get_item(key_name="user_email", key_value=user_mail)
+            if existing_user:
+                return responses.failed(error=f"User {user_mail} already exists.", status_code=400)
+            hashed_password = pbkdf2_sha256.hash(password)
+            token = secrets.token_hex(16)
+            hashed_token = hashlib.sha256(token.encode()).hexdigest()
+            new_user_data = {
+                'user_email': user_mail,
+                'address': user_address,
+                'city': user_city,
+                'country': user_country,
+                'last_visit': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                'first_visit': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                'password': hashed_password,
+                'phone_number': phone_number,
+                'registration_date': datetime.now().strftime('%Y-%m-%d'),
+                'token': hashed_token,
+                'user_full_name': user_full_name,
+                'user_name': user_name,
+                'user_last_name': user_last_name,
+                'zip': user_zip
+            }
 
-            # ...
+            table = dynamo.resource.Table('users-info')
+            logger.info(f"Inserting new data for user {user_mail}: {new_user_data}")
+            table.put_item(Item=new_user_data)
+
+            # Return success response
+            return {
+                'statusCode': 200,
+                'headers': {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                    'Set-Cookie': f"walkieDoggy={hashed_token}"
+                },
+                'body': json.dumps({'message': 'User registered successfully'})
+            }
+
         else:
             # Handle the case when any of the required variables are missing
             logger.error("Missing required user details")
-            # ...
+            return responses.failed(error=f"didn't get body in request", status_code=400)
     else:
         # Handle the case when the event does not contain the relevant keys
         logger.error("Event does not contain the required user details")
-        # ...
-    # Check if user already exists in DB
-    existing_user = dynamo.get_item(key_name="user_email", key_value=user_mail)
-    if 'Item' in existing_user:
-        logger.info(f"User {user_mail} already exists.")
-        return {
-            'statusCode': 400,
-            'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            },
-            'body': json.dumps({'error': 'User already exists'})
-        }
-    # Create a new user
-    hashed_password = pbkdf2_sha256.hash(password)
-    token = secrets.token_hex(16)
-    hashed_token = hashlib.sha256(token.encode()).hexdigest()
-    new_user_data = {
-        'user_email': user_mail,
-        'address': user_address,
-        'city': user_city,
-        'country': user_country,
-        'last_visit': user_details['last_visit'],
-        'password': hashed_password,
-        'phone_number': phone_number,
-        'registration_date': user_details['registration_date'],
-        'token': hashed_token,
-        'user_full_name': user_details['user_full_name'],
-        'user_last_name': user_details['user_last_name'],
-        'user_name': user_name,
-        'zip': user_zip
-    }
-
-    table = dynamo.resource.Table('users-info')
-    logger.info(f"Inserting new data for user {user_mail}: {new_user_data}")
-    table.put_item(Item=new_user_data)
-
-    # Return success response
-    return {
-        'statusCode': 200,
-        'headers': {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-        },
-        'body': json.dumps({'message': 'User registered successfully'})
-    }
+        return responses.failed(error=f"didn't get body in request", status_code=400)
 
 
 if __name__ == '__main__':
