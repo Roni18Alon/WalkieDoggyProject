@@ -1,12 +1,19 @@
 import React from "react";
 import User from "./images/kindpng_248729.png";
 import { Link } from "react-router-dom";
+import Calendar from '../../Calendar';
 
 function ProfileContent() {
   // const [fileName, setFileName] = useState("No file chosen");
   // function handleFileChange(e) {
   //   setFileName(e.target.files[0].name);
+
   //}
+  const handleDateSelection = (selectedDateTime) => {
+    console.log('Selected date/time:', selectedDateTime);
+    // Perform additional actions
+  };
+
   return (
     <>
       <div
@@ -39,7 +46,14 @@ function ProfileContent() {
                         Tel Aviv, Israel
                       </p>
                     </div>
+                    
                   </div>
+                  <div>
+      <h1>Welcome to My App</h1>
+      {/* Add the Calendar component here */}
+      <Calendar onSelectDateTime={handleDateSelection} />
+      <button>Select</button>
+    </div>
                 </div>
               </div>
             </div>
