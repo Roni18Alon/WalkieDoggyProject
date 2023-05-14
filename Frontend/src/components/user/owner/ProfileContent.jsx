@@ -1,12 +1,20 @@
 import React from "react";
 import User from "./images/kindpng_248729.png";
 import { Link } from "react-router-dom";
+import Calendar from '../../Calendar/Calendar';
+import StarRating from "../../StarRating";
 
 function ProfileContent() {
   // const [fileName, setFileName] = useState("No file chosen");
   // function handleFileChange(e) {
   //   setFileName(e.target.files[0].name);
+
   //}
+  const handleDateSelection = (selectedDateTime) => {
+    console.log('Selected date/time:', selectedDateTime);
+    // Perform additional actions
+  };
+
   return (
     <>
       <div
@@ -26,6 +34,7 @@ function ProfileContent() {
               <div className="card">
                 <div className="card-body ">
                   <div className="d-flex flex-column align-items-center text-center">
+                  
                     <img
                       src={User}
                       alt="Admin"
@@ -39,8 +48,16 @@ function ProfileContent() {
                         Tel Aviv, Israel
                       </p>
                     </div>
+                    
                   </div>
+                  
+                  <div>
+      {/* Add the Calendar component here */}
+      <Calendar onSelectDateTime={handleDateSelection} />
+    </div>
+    <div>   <StarRating/></div>
                 </div>
+              
               </div>
             </div>
 
@@ -82,9 +99,9 @@ function ProfileContent() {
                     <div className="col-sm-9 text-secondary">
                       Dizingof, Tel Aviv, Israel
                     </div>
+                    
                   </div>
                   <hr />
-
                   <div className="row">
                     <div className="col-sm-12">
                       <Link

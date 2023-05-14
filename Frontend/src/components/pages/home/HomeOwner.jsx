@@ -7,7 +7,9 @@ import OurDogWalkerSection from "./OurDogWalkerSection";
 import GallerySection from "./GallerySection";
 import NavbarOwner from "../../constants/NavbarOwner";
 
+
 const HomeOwner = () => {
+
   return (
     <>
       <div class="site-wrap">
