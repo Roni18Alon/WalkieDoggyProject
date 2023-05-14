@@ -1,7 +1,8 @@
 import React from "react";
 import User from "./images/kindpng_248729.png";
 import { Link } from "react-router-dom";
-import Calendar from '../../Calendar';
+import Calendar from '../../Calendar/Calendar';
+import StarRating from "../../StarRating";
 
 function ProfileContent() {
   // const [fileName, setFileName] = useState("No file chosen");
@@ -33,6 +34,7 @@ function ProfileContent() {
               <div className="card">
                 <div className="card-body ">
                   <div className="d-flex flex-column align-items-center text-center">
+                  
                     <img
                       src={User}
                       alt="Admin"
@@ -48,13 +50,14 @@ function ProfileContent() {
                     </div>
                     
                   </div>
+                  
                   <div>
-      <h1>Welcome to My App</h1>
       {/* Add the Calendar component here */}
       <Calendar onSelectDateTime={handleDateSelection} />
-      <button>Select</button>
     </div>
+    <div>   <StarRating/></div>
                 </div>
+              
               </div>
             </div>
 
@@ -96,9 +99,9 @@ function ProfileContent() {
                     <div className="col-sm-9 text-secondary">
                       Dizingof, Tel Aviv, Israel
                     </div>
+                    
                   </div>
                   <hr />
-
                   <div className="row">
                     <div className="col-sm-12">
                       <Link
