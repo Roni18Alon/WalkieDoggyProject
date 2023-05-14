@@ -6,7 +6,7 @@ logger = logging.getLogger("main")
 
 def succeeded(filtered_samples):
     # remove Send Count from the results
-    result = {"file_security": filtered_samples}
+    result = {"body": filtered_samples}
     status_code = 200
     return _return_response(status_code, simplejson.dumps(result, use_decimal=True))
 
