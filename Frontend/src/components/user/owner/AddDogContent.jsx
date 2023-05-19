@@ -66,7 +66,7 @@ function AddDogContent() {
               </select>
             </div>
             <div className="col-md-12 mt-3">
-              <button type="submit" className="btn w-100 mt-2">
+              <button type="submit" className="btn btn-primary mt-2">
                 Submit
               </button>
             </div>
