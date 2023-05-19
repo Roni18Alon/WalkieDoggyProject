@@ -3,7 +3,7 @@
 // import User from "./images/kindpng_248729.png";
 // import { Link } from "react-router-dom";
 
-function WalkerHistoryContent() {
+function OwnerHistoryContent() {
   return (
     <>
       <div
@@ -204,4 +204,4 @@ function WalkerHistoryContent() {
   );
 }
 
-export default WalkerHistoryContent;
+export default OwnerHistoryContent;

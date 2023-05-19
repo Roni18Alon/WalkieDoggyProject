@@ -1,4 +1,5 @@
-import React from "react";
+// import React from "react";
+import AddImage from "../owner/AddImage";
 
 function AddDogContent() {
   return (
@@ -66,7 +67,8 @@ function AddDogContent() {
               </select>
             </div>
             <div className="col-md-12 mt-3">
-              <button type="submit" className="btn w-100 mt-2">
+              <AddImage />
+              <button type="submit" className="btn w-100 mt-2 btn btn-primary">
                 Submit
               </button>
             </div>

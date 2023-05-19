@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { Link, useLocation } from "react-router-dom";
 
-function Sidebar() {
+function SidebarWalker() {
   const [activePage, setActivePage] = useState("");
 
   // Get the current path using the useLocation hook from react-router-dom
@@ -93,13 +93,13 @@ function Sidebar() {
       <ul className="nav navbar-show flex-column">
         <li
           className={`nav-item nav-item-profile mt-4 ${
-            isActive("/Profile") ? "active" : ""
+            isActive("/WalkerProfile") ? "active" : ""
           }`}
         >
           <Link
             className="nav-link nav-link-profile"
-            to="/Profile"
-            onClick={() => handlePageClick("/Profile")}
+            to="/WalkerProfile"
+            onClick={() => handlePageClick("/WalkerProfile")}
           >
             <span className="d-flex jusitfy-content-center">
               <span
@@ -112,61 +112,45 @@ function Sidebar() {
         </li>
         <li
           className={`nav-item nav-item-profile ${
-            isActive("/AddDog") ? "active" : ""
+            isActive("/EditWalkerProfile") ? "active" : ""
           }`}
         >
           <Link
             className="nav-link nav-link-profile"
-            to="/AddDog"
-            onClick={() => handlePageClick("/AddDog")}
+            to="/EditWalkerProfile"
+            onClick={() => handlePageClick("/EditWalkerProfile")}
           >
             <span className="d-flex jusitfy-content-center">
-              <span className="icon fa-solid fa-dog" />
-              Add Dog
+              <span className="icon fa-solid fa-pen-to-square" />
+              Edit Profile
             </span>
           </Link>
         </li>
         <li
           className={`nav-item nav-item-profile ${
-            isActive("/MyDogs") ? "active" : ""
+            isActive("/WalkerFutureMeetings") ? "active" : ""
           }`}
         >
           <Link
             className="nav-link nav-link-profile"
-            to="/MyDogs"
-            onClick={() => handlePageClick("/MyDogs")}
+            to="/WalkerFutureMeetings"
+            onClick={() => handlePageClick("/WalkerFutureMeetings")}
           >
             <span className="d-flex jusitfy-content-center">
-              <span className="icon fa-solid fa-list" />
-              My Dogs
+              <span className="icon fa-solid fa-handshake" />
+              Future Meetings
             </span>
           </Link>
         </li>
         <li
           className={`nav-item nav-item-profile ${
-            isActive("/DogWalkersList") ? "active" : ""
+            isActive("/WalkerHistory") ? "active" : ""
           }`}
         >
           <Link
             className="nav-link nav-link-profile"
-            to="/DogWalkersList"
-            onClick={() => handlePageClick("/DogWalkersList")}
-          >
-            <span className="d-flex jusitfy-content-center">
-              <span className="icon icon-search" />
-              Find Dog Walkers
-            </span>
-          </Link>
-        </li>
-        <li
-          className={`nav-item nav-item-profile ${
-            isActive("/OwnerHistory") ? "active" : ""
-          }`}
-        >
-          <Link
-            className="nav-link nav-link-profile"
-            to="/OwnerHistory"
-            onClick={() => handlePageClick("/OwnerHistory")}
+            to="/WalkerHistory"
+            onClick={() => handlePageClick("/WalkerHistory")}
           >
             <span className="d-flex jusitfy-content-center">
               <span className="icon icon-calendar" />
@@ -180,4 +164,4 @@ function Sidebar() {
   );
 }
 
-export default Sidebar;
+export default SidebarWalker;
