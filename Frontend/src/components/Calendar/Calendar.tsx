@@ -1,24 +1,18 @@
-import React from "react";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
+import * as React from "react";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { StaticDateTimePicker } from "@mui/x-date-pickers/StaticDateTimePicker";
+import dayjs from "dayjs";
 
-function Calendar() {
+export default function StaticDateTimePickerLandscape() {
   return (
-    <div>
-      <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        initialView={"dayGridMonth"}
-        headerToolbar={{
-          start: "today prev,next", // will normally be on the left. if RTL, will be on the right
-          center: "title",
-          end: "dayGridMonth,timeGridWeek,timeGridDay", // will normally be on the right. if RTL, will be on the left
-        }}
-        height={"90vh"}
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <StaticDateTimePicker
+        orientation="landscape"
+        ampm={false}
+        defaultValue={dayjs(new Date())}
+        // onChange={sethandler}
       />
-    </div>
+    </LocalizationProvider>
   );
 }
-
-export default Calendar;

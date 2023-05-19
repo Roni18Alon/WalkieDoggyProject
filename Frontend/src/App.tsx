@@ -17,6 +17,7 @@ import WalkerPersonalProfile from "./components/user/dogwalker/WalkerPersonalPro
 import EditWalkerProfile from "./components/user/dogwalker/EditWalkerProfile";
 import WalkerFutureMeetings from "./components/user/dogwalker/WalkerFutureMeetings";
 import WalkerHistory from "./components/user/dogwalker/WalkerHistory";
+import OwnerHistory from "./components/user/owner/OwnerHistory";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
           element={<WalkerFutureMeetings />}
         />
         <Route path="/WalkerHistory" element={<WalkerHistory />} />
+        <Route path="/OwnerHistory" element={<OwnerHistory />} />
         <Route path="/EditProfile" element={<EditProfile />} />
         <Route path="/AddDog" element={<AddDog />} />
         <Route path="/MyDogs" element={<MyDogs />} />
