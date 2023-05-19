@@ -160,7 +160,7 @@ function Sidebar() {
         </li>
         <li
           className={`nav-item nav-item-profile ${
-            isActive("/WalkerHistory") ? "active" : ""
+            isActive("/OwnerHistory") ? "active" : ""
           }`}
         >
           <Link
