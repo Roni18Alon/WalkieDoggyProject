@@ -7,26 +7,7 @@ from aws.dynamoDB import DynamoDB
 from responses import responses
 from passlib.hash import pbkdf2_sha256
 
-event = {'resource': '/login', 'path': '/login', 'httpMethod': 'POST', 'headers': {'password': '123456'},
-         'multiValueHeaders': {'password': ['123456']},
-         'queryStringParameters': {'user_mail': 'ronialon2008@gmail.com'},
-         'multiValueQueryStringParameters': {'user_mail': ['ronialon2008@gmail.com']}, 'pathParameters': None,
-         'stageVariables': None,
-         'requestContext': {'resourceId': 'sud8f5', 'resourcePath': '/login', 'httpMethod': 'POST',
-                            'extendedRequestId': 'Ef2hkHRgIAMFr9A=', 'requestTime': '06/May/2023:11:18:59 +0000',
-                            'path': '/login', 'accountId': '339030231570', 'protocol': 'HTTP/1.1',
-                            'stage': 'test-invoke-stage', 'domainPrefix': 'testPrefix',
-                            'requestTimeEpoch': 1683371939370, 'requestId': 'fd90b734-e045-4324-a83a-7d6deb2026fd',
-                            'identity': {'cognitoIdentityPoolId': None, 'cognitoIdentityId': None,
-                                         'apiKey': 'test-invoke-api-key', 'principalOrgId': None,
-                                         'cognitoAuthenticationType': None, 'userArn': 'arn:aws:iam::339030231570:root',
-                                         'apiKeyId': 'test-invoke-api-key-id',
-                                         'userAgent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36',
-                                         'accountId': '339030231570', 'caller': '339030231570',
-                                         'sourceIp': 'test-invoke-source-ip', 'accessKey': 'ASIAU536GZIJBXLBJF3X',
-                                         'cognitoAuthenticationProvider': None, 'user': '339030231570'},
-                            'domainName': 'testPrefix.testDomainName', 'apiId': 'aej45saso5'}, 'body': None,
-         'isBase64Encoded': False}
+event = {'resource': '/login', 'path': '/login', 'httpMethod': 'POST', 'headers': {'accept': '*/*', 'accept-encoding': 'gzip, deflate, br', 'accept-language': 'en-US,en;q=0.9', 'Host': 'aej45saso5.execute-api.us-east-1.amazonaws.com', 'origin': 'http://localhost:3000', 'referer': 'http://localhost:3000/', 'sec-ch-ua': '"Google Chrome";v="113", "Chromium";v="113", "Not-A.Brand";v="24"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'no-cors', 'sec-fetch-site': 'cross-site', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36', 'X-Amzn-Trace-Id': 'Root=1-6463c7d7-0f973f464e583fba60d8ba5a', 'X-Forwarded-For': '93.172.169.19', 'X-Forwarded-Port': '443', 'X-Forwarded-Proto': 'https'}, 'multiValueHeaders': {'accept': ['*/*'], 'accept-encoding': ['gzip, deflate, br'], 'accept-language': ['en-US,en;q=0.9'], 'Host': ['aej45saso5.execute-api.us-east-1.amazonaws.com'], 'origin': ['http://localhost:3000'], 'referer': ['http://localhost:3000/'], 'sec-ch-ua': ['"Google Chrome";v="113", "Chromium";v="113", "Not-A.Brand";v="24"'], 'sec-ch-ua-mobile': ['?0'], 'sec-ch-ua-platform': ['"Windows"'], 'sec-fetch-dest': ['empty'], 'sec-fetch-mode': ['no-cors'], 'sec-fetch-site': ['cross-site'], 'User-Agent': ['Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36'], 'X-Amzn-Trace-Id': ['Root=1-6463c7d7-0f973f464e583fba60d8ba5a'], 'X-Forwarded-For': ['93.172.169.19'], 'X-Forwarded-Port': ['443'], 'X-Forwarded-Proto': ['https']}, 'queryStringParameters': {'user_mail': 'ronialon2008@gmail.com'}, 'multiValueQueryStringParameters': {'user_mail': ['ronialon2008@gmail.com']}, 'pathParameters': None, 'stageVariables': None, 'requestContext': {'resourceId': 'sud8f5', 'resourcePath': '/login', 'httpMethod': 'POST', 'extendedRequestId': 'FBwpuHUkoAMFh0A=', 'requestTime': '16/May/2023:18:13:43 +0000', 'path': '/prod/login', 'accountId': '339030231570', 'protocol': 'HTTP/1.1', 'stage': 'prod', 'domainPrefix': 'aej45saso5', 'requestTimeEpoch': 1684260823551, 'requestId': '95c3d832-bc8f-483b-bda5-6877f5c9a87d', 'identity': {'cognitoIdentityPoolId': None, 'accountId': None, 'cognitoIdentityId': None, 'caller': None, 'sourceIp': '93.172.169.19', 'principalOrgId': None, 'accessKey': None, 'cognitoAuthenticationType': None, 'cognitoAuthenticationProvider': None, 'userArn': None, 'userAgent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36', 'user': None}, 'domainName': 'aej45saso5.execute-api.us-east-1.amazonaws.com', 'apiId': 'aej45saso5'}, 'body': None, 'isBase64Encoded': False}
 
 # set a logger
 logger = logging.getLogger('root')
