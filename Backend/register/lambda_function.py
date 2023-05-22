@@ -79,7 +79,7 @@ def lambda_handler(event, context):
                     'Access-Control-Allow-Origin': '*',
                     'Set-Cookie': f"walkieDoggy={hashed_token}"
                 },
-                'body': json.dumps({'message': 'User registered successfully'})
+                'body': json.dumps(new_user_data)
             }
 
         else:
