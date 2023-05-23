@@ -2,9 +2,11 @@ import json
 import logging
 from datetime import datetime
 from aws.dynamoDB import DynamoDB
+from aws.s3 import S3
 from responses import responses
 from dateutil.relativedelta import relativedelta
-
+import base64
+import io
 
 event = {'resource': '/register', 'path': '/register', 'httpMethod': 'POST',
          'headers': {'accept': '*/*', 'accept-encoding': 'gzip, deflate, br', 'accept-language': 'en-US,en;q=0.9',
@@ -42,7 +44,7 @@ event = {'resource': '/register', 'path': '/register', 'httpMethod': 'POST',
                                          'userAgent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36',
                                          'user': None}, 'domainName': 'aej45saso5.execute-api.us-east-1.amazonaws.com',
                             'apiId': 'aej45saso5'},
-         'body': '{"dog_name":"mini","dog_breed":"shitzo","dog_weight":"23","dog_gender":"male","dog_birthday":"12-10-2011","free_text":"","spayed":"True","rabies_vaccinated":"True","human_friendly":"True","dog_friendly":"True"}',
+         'body': '{"dog_name":"mini","dog_breed":"shitzo","dog_weight":"23","dog_gender":"male","dog_birthday":"12-10-2011","free_text":"","spayed":"True","rabies_vaccinated":"True",                      "human_friendly":"True","dog_friendly":"True"}',
          'isBase64Encoded': False}
 
 # Set up logging
@@ -56,6 +58,7 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 
 dynamo = DynamoDB('users-info')
+s3_bucket = S3(bucket_name='walkie-doggy-dogs')
 
 
 def lambda_handler(event, context):
@@ -77,6 +80,13 @@ def lambda_handler(event, context):
         rabies_vaccinated = bool(dog_details.get('rabies_vaccinated').lower())
         human_friendly = bool(dog_details.get('human_friendly').lower())
         dog_friendly = bool(dog_details.get('dog_friendly').lower())
+        dog_image_b64 = dog_details.get('dog_image')
+        # if uploaded image save in s3
+        if dog_image_b64:
+            # dog_image = convert_to_base64(dog_image_b64)
+            key = f"{user_mail}_{dog_name}.png"
+            image_bytes = base64.b64decode(dog_image_b64)
+            s3_bucket.upload_image(img=image_bytes, key=key)
 
         # check if user exists
         user = dynamo.get_item(key_name="user_email", key_value=user_mail)
@@ -93,8 +103,10 @@ def lambda_handler(event, context):
                 "spayed": spayed,
                 "rabies_vaccinated": rabies_vaccinated,
                 "human_friendly": human_friendly,
-                "dog_friendly": dog_friendly
+                "dog_friendly": dog_friendly,
             }
+            if dog_image_b64:
+                dog_data['dog_image']=f'https://walkie-doggy-dogs.s3.amazonaws.com/{key}'
 
             dogs_list = user_data.get('dogs', [])
             # add dog to the list
@@ -105,7 +117,9 @@ def lambda_handler(event, context):
                 logger.info(f"Inserting new data of dog  {dog_data} to user {user_mail}.all data : {user_data}")
                 dynamo.insert_item(item=user_data)
                 # Return success response
-                return responses.succeeded(message="insert new dog completed")
+                # if dog_image_b64:
+                #     user_data['dog_image'] = base64.b64encode(dog_image_b64).decode('utf-8')
+                return responses.succeeded(message=user_data)
             else:
                 logger.error(f"dog already exists for this user")
                 return responses.failed(error=f"dog {dog_name} already exists for this user", status_code=404)
