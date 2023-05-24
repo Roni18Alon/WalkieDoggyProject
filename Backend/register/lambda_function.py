@@ -7,6 +7,7 @@ from aws.dynamoDB import DynamoDB
 from passlib.hash import pbkdf2_sha256
 from responses import responses
 
+<<<<<<< HEAD
 event = {'resource': '/register', 'path': '/register', 'httpMethod': 'POST', 'headers': None, 'multiValueHeaders': None,
          'queryStringParameters': {'user_role': 'walker'}, 'multiValueQueryStringParameters': {'user_role': ['walker']},
          'pathParameters': None, 'stageVariables': None,
@@ -25,6 +26,44 @@ event = {'resource': '/register', 'path': '/register', 'httpMethod': 'POST', 'he
                                          'cognitoAuthenticationProvider': None, 'user': '339030231570'},
                             'domainName': 'testPrefix.testDomainName', 'apiId': 'aej45saso5'},
          'body': '{\r\n    "user_email": "gb@example.com",\r\n    "address": "123 Main St",\r\n    "city": "Holon",\r\n    "country": "Israel",\r\n    "password": "123456",\r\n    "phone_number": "555-555-5555",\r\n    "user_last_name": "Guy",\r\n    "user_name": "Ben haim",\r\n    "zip": "1234567"\r\n}',
+=======
+event = {'resource': '/register', 'path': '/register', 'httpMethod': 'POST',
+         'headers': {'accept': '*/*', 'accept-encoding': 'gzip, deflate, br', 'accept-language': 'en-US,en;q=0.9',
+                     'content-type': 'application/json', 'Host': 'aej45saso5.execute-api.us-east-1.amazonaws.com',
+                     'origin': 'http://localhost:3000', 'referer': 'http://localhost:3000/',
+                     'sec-ch-ua': '"Chromium";v="112", "Google Chrome";v="112", "Not:A-Brand";v="99"',
+                     'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty',
+                     'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site',
+                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36',
+                     'X-Amzn-Trace-Id': 'Root=1-64614286-27809c76657a173b50064282', 'X-Forwarded-For': '93.172.169.19',
+                     'X-Forwarded-Port': '443', 'X-Forwarded-Proto': 'https'},
+         'multiValueHeaders': {'accept': ['*/*'], 'accept-encoding': ['gzip, deflate, br'],
+                               'accept-language': ['en-US,en;q=0.9'], 'content-type': ['application/json'],
+                               'Host': ['aej45saso5.execute-api.us-east-1.amazonaws.com'],
+                               'origin': ['http://localhost:3000'], 'referer': ['http://localhost:3000/'],
+                               'sec-ch-ua': ['"Chromium";v="112", "Google Chrome";v="112", "Not:A-Brand";v="99"'],
+                               'sec-ch-ua-mobile': ['?0'], 'sec-ch-ua-platform': ['"Windows"'],
+                               'sec-fetch-dest': ['empty'], 'sec-fetch-mode': ['cors'],
+                               'sec-fetch-site': ['cross-site'], 'User-Agent': [
+                 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36'],
+                               'X-Amzn-Trace-Id': ['Root=1-64614286-27809c76657a173b50064282'],
+                               'X-Forwarded-For': ['93.172.169.19'], 'X-Forwarded-Port': ['443'],
+                               'X-Forwarded-Proto': ['https']}, 'queryStringParameters': {'user_role': 'DogOwner'},
+         'multiValueQueryStringParameters': {'user_role': ['DogOwner']}, 'pathParameters': None, 'stageVariables': None,
+         'requestContext': {'resourceId': '937d4w', 'resourcePath': '/register', 'httpMethod': 'POST',
+                            'extendedRequestId': 'E7dVCFS6oAMFb4w=', 'requestTime': '14/May/2023:20:20:22 +0000',
+                            'path': '/prod/register', 'accountId': '339030231570', 'protocol': 'HTTP/1.1',
+                            'stage': 'prod', 'domainPrefix': 'aej45saso5', 'requestTimeEpoch': 1684095622394,
+                            'requestId': 'a5546aae-364b-4f3a-92ad-721d4734dc1a',
+                            'identity': {'cognitoIdentityPoolId': None, 'accountId': None, 'cognitoIdentityId': None,
+                                         'caller': None, 'sourceIp': '93.172.169.19', 'principalOrgId': None,
+                                         'accessKey': None, 'cognitoAuthenticationType': None,
+                                         'cognitoAuthenticationProvider': None, 'userArn': None,
+                                         'userAgent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36',
+                                         'user': None}, 'domainName': 'aej45saso5.execute-api.us-east-1.amazonaws.com',
+                            'apiId': 'aej45saso5'},
+         'body': '{"user_email":"gb@example.com","address":"123 Main St","city":"Holon","country":"Israel","password":"123456","phone_number":"555-555-5555","user_name":"Ben haim","zip":"1234567"}',
+>>>>>>> origin
          'isBase64Encoded': False}
 
 # Set up logging
@@ -75,14 +114,25 @@ def lambda_handler(event, context):
                 'last_visit': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
                 'first_visit': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
                 'password': hashed_password,
+<<<<<<< HEAD
                 'phone_number': phone_number,
+=======
+                'phone_number': phone_number.replace("-", ""),
+>>>>>>> origin
                 'registration_date': datetime.now().strftime('%Y-%m-%d'),
                 'token': hashed_token,
                 'user_full_name': f'{user_name.lower()} {user_last_name.lower()}',
                 'user_name': user_name.lower(),
                 'user_last_name': user_last_name.lower(),
                 'zip': user_zip,
+<<<<<<< HEAD
                 'user_role': role.lower()
+=======
+                'user_role': role.lower(),
+                'rank': 0,
+                'num_of_ranks': 0,
+                'whatsapp_link': f'https://api.whatsapp.com/send?phone={phone_number.replace("-", "")}'
+>>>>>>> origin
             }
 
             table = dynamo.resource.Table('users-info')
@@ -97,7 +147,11 @@ def lambda_handler(event, context):
                     'Access-Control-Allow-Origin': '*',
                     'Set-Cookie': f"walkieDoggy={hashed_token}"
                 },
+<<<<<<< HEAD
                 'body': json.dumps({'message': 'User registered successfully'})
+=======
+                'body': json.dumps(new_user_data)
+>>>>>>> origin
             }
 
         else:
