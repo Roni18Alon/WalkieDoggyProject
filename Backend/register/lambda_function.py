@@ -93,7 +93,7 @@ def lambda_handler(event, context):
                 'last_visit': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
                 'first_visit': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
                 'password': hashed_password,
-                'phone_number': phone_number,
+                'phone_number': phone_number.replace("-", ""),
                 'registration_date': datetime.now().strftime('%Y-%m-%d'),
                 'token': hashed_token,
                 'user_full_name': f'{user_name.lower()} {user_last_name.lower()}',
@@ -102,7 +102,8 @@ def lambda_handler(event, context):
                 'zip': user_zip,
                 'user_role': role.lower(),
                 'rank': 0,
-                'num_of_ranks': 0
+                'num_of_ranks': 0,
+                'whatsapp_link': f'https://api.whatsapp.com/send?phone={phone_number.replace("-", "")}'
             }
 
             table = dynamo.resource.Table('users-info')
