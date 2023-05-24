@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+<<<<<<< HEAD
 import ResultList from "./ResultList";
 import { IoPawSharp } from "react-icons/io5";
 import Rating from "react-rating-stars-component";
@@ -35,6 +36,17 @@ function EditProfileContent() {
   };
 
   /*const rows = document.querySelectorAll("tbody tr");
+=======
+
+function EditProfileContent() {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const rows = document.querySelectorAll("tbody tr");
+>>>>>>> origin
   let rowCount = 0;
 
   rows.forEach((row) => {
@@ -47,6 +59,7 @@ function EditProfileContent() {
       row.style.display = "none";
     }
   });
+<<<<<<< HEAD
   
   const message = rowCount === 0 ? "No records found." : "";*/
 
@@ -56,6 +69,10 @@ function EditProfileContent() {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
 
+=======
+
+  const message = rowCount === 0 ? "No records found." : "";
+>>>>>>> origin
   return (
     <>
       <div
@@ -127,6 +144,7 @@ function EditProfileContent() {
                               <option>Paris</option>
                             </select>
                           </div> */}
+<<<<<<< HEAD
 
                           {/* Rating */}
                           <div className="col-4 p-4" style={{ left: "30px" }}>
@@ -242,6 +260,19 @@ function EditProfileContent() {
                               className="btn btn-base"
                               onClick={isEmpty()}
                             >
+=======
+                          <div className="col-lg-11 col-md-6 col-sm-12 p-0">
+                            <input
+                              type="text"
+                              placeholder="Search..."
+                              className="form-control"
+                              value={searchTerm}
+                              onChange={handleChange}
+                            />
+                          </div>
+                          <div className="col-lg-1 col-md-3 col-sm-12 p-0">
+                            <button type="submit" className="btn btn-base">
+>>>>>>> origin
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width={24}
@@ -266,8 +297,11 @@ function EditProfileContent() {
                 </div>
               </div>
             </div>
+<<<<<<< HEAD
 
             {/*Result Section------ */}
+=======
+>>>>>>> origin
           </div>
           <div className="row" style={{ marginTop: "-50px" }}>
             <div className="col-12">
@@ -283,8 +317,12 @@ function EditProfileContent() {
                           <div className="table-responsive">
                             <table className="table widget-26">
                               <tbody>
+<<<<<<< HEAD
                                 {ResultList()}
                                 {/*}   <tr>
+=======
+                                <tr>
+>>>>>>> origin
                                   <td>
                                     <div className="widget-26-job-emp-img mt-2">
                                       <img
@@ -1019,9 +1057,18 @@ function EditProfileContent() {
                                       </a>
                                     </div>
                                   </td>
+<<<<<<< HEAD
                                       </tr>*/}
                               </tbody>
                             </table>
+=======
+                                </tr>
+                              </tbody>
+                            </table>
+                            {message && (
+                              <p className="text-center">{message}</p>
+                            )}
+>>>>>>> origin
                           </div>
                         </div>
                       </div>

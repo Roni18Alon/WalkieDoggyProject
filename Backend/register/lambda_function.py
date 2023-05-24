@@ -8,6 +8,7 @@ from passlib.hash import pbkdf2_sha256
 from responses import responses
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 event = {'resource': '/register', 'path': '/register', 'httpMethod': 'POST', 'headers': None, 'multiValueHeaders': None,
          'queryStringParameters': {'user_role': 'walker'}, 'multiValueQueryStringParameters': {'user_role': ['walker']},
          'pathParameters': None, 'stageVariables': None,
@@ -27,6 +28,8 @@ event = {'resource': '/register', 'path': '/register', 'httpMethod': 'POST', 'he
                             'domainName': 'testPrefix.testDomainName', 'apiId': 'aej45saso5'},
          'body': '{\r\n    "user_email": "gb@example.com",\r\n    "address": "123 Main St",\r\n    "city": "Holon",\r\n    "country": "Israel",\r\n    "password": "123456",\r\n    "phone_number": "555-555-5555",\r\n    "user_last_name": "Guy",\r\n    "user_name": "Ben haim",\r\n    "zip": "1234567"\r\n}',
 =======
+=======
+>>>>>>> origin
 event = {'resource': '/register', 'path': '/register', 'httpMethod': 'POST',
          'headers': {'accept': '*/*', 'accept-encoding': 'gzip, deflate, br', 'accept-language': 'en-US,en;q=0.9',
                      'content-type': 'application/json', 'Host': 'aej45saso5.execute-api.us-east-1.amazonaws.com',
@@ -63,6 +66,9 @@ event = {'resource': '/register', 'path': '/register', 'httpMethod': 'POST',
                                          'user': None}, 'domainName': 'aej45saso5.execute-api.us-east-1.amazonaws.com',
                             'apiId': 'aej45saso5'},
          'body': '{"user_email":"gb@example.com","address":"123 Main St","city":"Holon","country":"Israel","password":"123456","phone_number":"555-555-5555","user_name":"Ben haim","zip":"1234567"}',
+<<<<<<< HEAD
+>>>>>>> origin
+=======
 >>>>>>> origin
          'isBase64Encoded': False}
 
@@ -115,7 +121,11 @@ def lambda_handler(event, context):
                 'first_visit': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
                 'password': hashed_password,
 <<<<<<< HEAD
+<<<<<<< HEAD
                 'phone_number': phone_number,
+=======
+                'phone_number': phone_number.replace("-", ""),
+>>>>>>> origin
 =======
                 'phone_number': phone_number.replace("-", ""),
 >>>>>>> origin
@@ -126,12 +136,18 @@ def lambda_handler(event, context):
                 'user_last_name': user_last_name.lower(),
                 'zip': user_zip,
 <<<<<<< HEAD
+<<<<<<< HEAD
                 'user_role': role.lower()
 =======
+=======
+>>>>>>> origin
                 'user_role': role.lower(),
                 'rank': 0,
                 'num_of_ranks': 0,
                 'whatsapp_link': f'https://api.whatsapp.com/send?phone={phone_number.replace("-", "")}'
+<<<<<<< HEAD
+>>>>>>> origin
+=======
 >>>>>>> origin
             }
 
@@ -148,7 +164,11 @@ def lambda_handler(event, context):
                     'Set-Cookie': f"walkieDoggy={hashed_token}"
                 },
 <<<<<<< HEAD
+<<<<<<< HEAD
                 'body': json.dumps({'message': 'User registered successfully'})
+=======
+                'body': json.dumps(new_user_data)
+>>>>>>> origin
 =======
                 'body': json.dumps(new_user_data)
 >>>>>>> origin

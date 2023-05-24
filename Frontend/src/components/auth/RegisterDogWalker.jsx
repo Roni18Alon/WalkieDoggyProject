@@ -5,6 +5,7 @@ import signup from "./dist/images/sign_up.png";
 import { Link } from "react-router-dom";
 
 const RegisterDogWalker = () => {
+<<<<<<< HEAD
      // State to store the user parameters
      const postData = async () => {
       const url = 'https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register'; // Replace with your actual API endpoint URL
@@ -84,6 +85,8 @@ const RegisterDogWalker = () => {
         console.log('Error:', error.message);
       }
     };
+=======
+>>>>>>> origin
   return (
     <div className="wrapper">
       <div className="main">
@@ -184,7 +187,10 @@ const RegisterDogWalker = () => {
                         id="signup"
                         className="form-submit"
                         defaultValue="Register"
+<<<<<<< HEAD
                         onClick={postData}
+=======
+>>>>>>> origin
                       />
                     </Link>
                   </div>

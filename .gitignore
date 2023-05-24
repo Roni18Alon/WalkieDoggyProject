@@ -1,7 +1,11 @@
 /venv/
 /Backend/venv/
 <<<<<<< HEAD
+<<<<<<< HEAD
 /Frontend/
+=======
+/Frontend/__MACOSX/
+>>>>>>> origin
 =======
 /Frontend/__MACOSX/
 >>>>>>> origin

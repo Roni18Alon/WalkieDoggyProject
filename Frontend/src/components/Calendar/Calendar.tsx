@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
+=======
+import React from "react";
+>>>>>>> origin
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
+<<<<<<< HEAD
 import { DateSelectArg } from "@fullcalendar/core";
 import dayjs from "dayjs";
 
@@ -85,5 +90,24 @@ const Calendar: React.FC = () => {
     </div>
   );
 };
+=======
+
+function Calendar() {
+  return (
+    <div>
+      <FullCalendar
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+        initialView={"dayGridMonth"}
+        headerToolbar={{
+          start: "today prev,next", // will normally be on the left. if RTL, will be on the right
+          center: "title",
+          end: "dayGridMonth,timeGridWeek,timeGridDay", // will normally be on the right. if RTL, will be on the left
+        }}
+        height={"90vh"}
+      />
+    </div>
+  );
+}
+>>>>>>> origin
 
 export default Calendar;

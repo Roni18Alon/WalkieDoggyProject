@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 import React, {useState} from "react";
+=======
+import React from "react";
+>>>>>>> origin
 import "./dist/Register.css";
 import styles from "./dist/Register.module.css";
 import signin from "./dist/images/sign_in.png";
 import { Link } from "react-router-dom";
+<<<<<<< HEAD
 import axios from "axios";
 
 
@@ -46,6 +51,10 @@ const LoginDogWalker = () => {
         console.error('Error:', error);
       });
   };
+=======
+
+const LoginDogWalker = () => {
+>>>>>>> origin
   return (
     <div className="wrapper">
       <div className="main">
@@ -79,7 +88,10 @@ const LoginDogWalker = () => {
                         name="your_name"
                         id="your_name"
                         placeholder="Your Name"
+<<<<<<< HEAD
                         onChange={e => setUsername(e.target.value)}
+=======
+>>>>>>> origin
                       />
                     </div>
                     <div className="form-group">
@@ -91,7 +103,10 @@ const LoginDogWalker = () => {
                         name="your_pass"
                         id="your_pass"
                         placeholder="Password"
+<<<<<<< HEAD
                         onChange={e => setPassword(e.target.value)}
+=======
+>>>>>>> origin
                       />
                     </div>
                     <div className="form-group">
@@ -116,8 +131,11 @@ const LoginDogWalker = () => {
                           id="signin"
                           className="form-submit"
                           defaultValue="Log in"
+<<<<<<< HEAD
                           onClick={handleFormSubmit
                           }
+=======
+>>>>>>> origin
                         />
                       </Link>
                     </div>

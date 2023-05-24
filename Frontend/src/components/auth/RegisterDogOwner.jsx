@@ -9,6 +9,7 @@ import axios from "axios";
 
 const Register = () => {
    // State to store the user parameters
+<<<<<<< HEAD
    const postData = async () => {
     const url = 'https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register'; // Replace with your actual API endpoint URL
     const form = document.getElementById('register-form');
@@ -102,6 +103,22 @@ form.addEventListener('submit', (event) => {
     22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
   ];
    return (
+=======
+   const [userParams, setUserParams] = useState({ name: '', email: '', password: '', phone_number: '', country: '', city: '', zipCode: ''  });
+
+   // Function to handle form submission
+   const handleSubmit = (e) => {
+    axios.post("/register", userParams, { headers: { 'Content-Type': 'application/json'}})
+    .then(resp=> console.log(resp.data))
+   };
+ 
+   // Function to handle input changes
+   const handleInputChange = (e) => {
+     setUserParams({ ...userParams, [e.target.name]: e.target.value });
+     console.log(userParams)
+   };
+  return (
+>>>>>>> origin
     <div className="wrapper">
       <div className="main">
         {/* Sign up form */}
@@ -114,6 +131,7 @@ form.addEventListener('submit', (event) => {
                   method="POST"
                   className="register-form"
                   id="register-form"
+<<<<<<< HEAD
                 >
                   {/* User name */}
                   <div className="form-group">
@@ -130,6 +148,10 @@ form.addEventListener('submit', (event) => {
                     />
                   </div>
                    {/* Last name */}
+=======
+                  onSubmit={handleSubmit}
+                >
+>>>>>>> origin
                   <div className="form-group">
                     <label htmlFor="name">
                       <i className="zmdi zmdi-account material-icons-name" />
@@ -137,6 +159,7 @@ form.addEventListener('submit', (event) => {
                     <input
                       type="text"
                       name="name"
+<<<<<<< HEAD
                       id="user_last_name"
                       placeholder="Your last name"
                       required
@@ -158,6 +181,53 @@ form.addEventListener('submit', (event) => {
                     />
                   </div>
                    {/* password */}
+=======
+                      id="name"
+                      placeholder="Your Name"
+                      required
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="email">
+                      <i className="zmdi zmdi-email" />
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      id="email"
+                      placeholder="Your Email"
+                      required
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="mobile">
+                      <i className="zmdi zmdi-phone" />
+                    </label>
+                    <input
+                      type="text"
+                      name="mobile"
+                      id="mobile"
+                      placeholder="Mobile"
+                      required
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="address">
+                      <i className="zmdi zmdi-home" />
+                    </label>
+                    <input
+                      type="text"
+                      name="address"
+                      id="address"
+                      placeholder="Address"
+                      required
+                      onChange={handleInputChange}
+                    />
+                  </div>
+>>>>>>> origin
                   <div className="form-group">
                     <label htmlFor="pass">
                       <i className="zmdi zmdi-lock" />
@@ -168,6 +238,7 @@ form.addEventListener('submit', (event) => {
                       id="pass"
                       placeholder="Password"
                       required
+<<<<<<< HEAD
                    
                     />
                   </div>
@@ -252,10 +323,14 @@ form.addEventListener('submit', (event) => {
                       id="petName"
                       placeholder="Pet's name"
                       required
+=======
+                      onChange={handleInputChange}
+>>>>>>> origin
                     />
                   </div>
 
                   <div className="form-group">
+<<<<<<< HEAD
                     <label htmlFor="petAge1">
                       <i className="zmdi zmdi-favorite" />
                     </label>
@@ -421,6 +496,8 @@ form.addEventListener('submit', (event) => {
                   </div>
                 */}
                   <div className="form-group">
+=======
+>>>>>>> origin
                     <input
                       type="checkbox"
                       name="agree-term"
@@ -445,7 +522,10 @@ form.addEventListener('submit', (event) => {
                         id="signup"
                         className="form-submit"
                         defaultValue="Register"
+<<<<<<< HEAD
                         onClick={postData}
+=======
+>>>>>>> origin
                       />
                     </Link>
                   </div>

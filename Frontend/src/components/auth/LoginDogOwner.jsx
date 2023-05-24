@@ -3,6 +3,7 @@ import "./dist/Register.css";
 import styles from "./dist/Register.module.css";
 import signin from "./dist/images/sign_in.png";
 import { Link } from "react-router-dom";
+<<<<<<< HEAD
 import { useMutation } from "react-query";
 
 
@@ -60,6 +61,10 @@ const headers = {
     }
   };
   
+=======
+
+const LoginDogOwner = () => {
+>>>>>>> origin
   return (
     <div className="wrapper">
       <div className="main">
@@ -91,8 +96,13 @@ const headers = {
                       <input
                         type="text"
                         name="your_name"
+<<<<<<< HEAD
                         id="user_email"
                         placeholder="User name"
+=======
+                        id="your_name"
+                        placeholder="Your Name"
+>>>>>>> origin
                       />
                     </div>
                     <div className="form-group">
@@ -102,7 +112,11 @@ const headers = {
                       <input
                         type="password"
                         name="your_pass"
+<<<<<<< HEAD
                         id="password"
+=======
+                        id="your_pass"
+>>>>>>> origin
                         placeholder="Password"
                       />
                     </div>
@@ -128,7 +142,10 @@ const headers = {
                           id="signin"
                           className="form-submit"
                           defaultValue="Log in"
+<<<<<<< HEAD
                           onClick={postData}
+=======
+>>>>>>> origin
                         />
                       </Link>
                     </div>

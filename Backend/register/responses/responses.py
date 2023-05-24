@@ -7,7 +7,11 @@ logger = logging.getLogger("main")
 def succeeded(filtered_samples):
     # remove Send Count from the results
 <<<<<<< HEAD
+<<<<<<< HEAD
     result = {"file_security": filtered_samples}
+=======
+    result = {"body": filtered_samples}
+>>>>>>> origin
 =======
     result = {"body": filtered_samples}
 >>>>>>> origin

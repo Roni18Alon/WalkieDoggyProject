@@ -1,10 +1,17 @@
 import React from "react";
+<<<<<<< HEAD
 import User from "./images/roni.png";
+=======
+import User from "./images/kindpng_248729.png";
+>>>>>>> origin
 import { Link } from "react-router-dom";
 import Calendar from '../../Calendar/Calendar';
 import StarRating from "../../StarRating";
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin
 function ProfileContent() {
   // const [fileName, setFileName] = useState("No file chosen");
   // function handleFileChange(e) {
@@ -43,7 +50,11 @@ function ProfileContent() {
                       width={130}
                     />
                     <div className="mt-3">
+<<<<<<< HEAD
                       <h4>Roni Alon</h4>
+=======
+                      <h4>John Smith</h4>
+>>>>>>> origin
                       <p className="text-secondary mb-1">Dog Owner</p>
                       <p className="text-muted font-size-sm">
                         Tel Aviv, Israel
@@ -51,6 +62,7 @@ function ProfileContent() {
                     </div>
                     
                   </div>
+<<<<<<< HEAD
                   <div class="rating-position">
   <button class="rating-button"><i class="fa-solid fa-paw"></i></button>
   <button class="rating-button"><i class="fa-solid fa-paw"></i></button>
@@ -64,6 +76,14 @@ function ProfileContent() {
       { <Calendar onSelectDateTime={handleDateSelection} />}
     </div>
     
+=======
+                  
+                  <div>
+      {/* Add the Calendar component here */}
+      <Calendar onSelectDateTime={handleDateSelection} />
+    </div>
+    <div>   <StarRating/></div>
+>>>>>>> origin
                 </div>
               
               </div>
@@ -79,7 +99,11 @@ function ProfileContent() {
                       <h6 className="mb-0">Full Name</h6>
                     </div>
                     <div className="col-sm-9 text-secondary mt-2">
+<<<<<<< HEAD
                       Roni Alon
+=======
+                      John Smith
+>>>>>>> origin
                     </div>
                   </div>
                   <hr />
@@ -87,7 +111,11 @@ function ProfileContent() {
                     <div className="col-sm-3">
                       <h6 className="mb-0">Email</h6>
                     </div>
+<<<<<<< HEAD
                     <div className="col-sm-9 text-secondary">ronialon2008@gmail.com</div>
+=======
+                    <div className="col-sm-9 text-secondary">fip@gmail.com</div>
+>>>>>>> origin
                   </div>
                   <hr />
 
