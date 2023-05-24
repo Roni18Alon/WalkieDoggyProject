@@ -17,8 +17,7 @@ const Home = () => {
             <div className="card-body text-center py-5">
               <h2 className="card-title">Walkie Doggy</h2>
               <p className="">
-                Welcome to Dog Walker, you need to choice if you dog walker or
-                dog owner
+              Welcome to Walkie Doggy! Are you a dog walker or a dog owner? Please choose your role.
               </p>{" "}
               <br />
               <div className="btn-group">
