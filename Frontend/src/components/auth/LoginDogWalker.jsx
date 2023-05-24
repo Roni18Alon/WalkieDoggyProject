@@ -1,10 +1,51 @@
-import React from "react";
+import React, {useState} from "react";
 import "./dist/Register.css";
 import styles from "./dist/Register.module.css";
 import signin from "./dist/images/sign_in.png";
 import { Link } from "react-router-dom";
+import axios from "axios";
+
 
 const LoginDogWalker = () => {
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleFormSubmit = (e) => {
+    console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
+    console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
+    console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
+    console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
+    
+    e.preventDefault();
+
+    // Make a POST request using Axios
+    axios.post(' https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/login', {
+      username: username,
+      password: password
+    })
+      .then(response => {
+        // Handle the response data
+        console.log('Response:', response.data);
+        console.log('Response:', response.data);
+        console.log('Response:', response.data);
+        console.log('Response:', response.data);
+
+        console.log('Response:', response.data);
+        console.log('Response:', response.data);
+        console.log('Response:', response.data);
+        console.log('Response:', response.data);
+        console.log('Response:', response.data);
+        console.log('Response:', response.data);
+        console.log('Response:', response.data);
+        console.log('Response:', response.data);
+
+      })
+      .catch(error => {
+        // Handle the error
+        console.error('Error:', error);
+      });
+  };
   return (
     <div className="wrapper">
       <div className="main">
@@ -38,6 +79,7 @@ const LoginDogWalker = () => {
                         name="your_name"
                         id="your_name"
                         placeholder="Your Name"
+                        onChange={e => setUsername(e.target.value)}
                       />
                     </div>
                     <div className="form-group">
@@ -49,6 +91,7 @@ const LoginDogWalker = () => {
                         name="your_pass"
                         id="your_pass"
                         placeholder="Password"
+                        onChange={e => setPassword(e.target.value)}
                       />
                     </div>
                     <div className="form-group">
@@ -73,6 +116,8 @@ const LoginDogWalker = () => {
                           id="signin"
                           className="form-submit"
                           defaultValue="Log in"
+                          onClick={handleFormSubmit
+                          }
                         />
                       </Link>
                     </div>

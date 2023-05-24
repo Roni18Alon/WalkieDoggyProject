@@ -3,8 +3,63 @@ import "./dist/Register.css";
 import styles from "./dist/Register.module.css";
 import signin from "./dist/images/sign_in.png";
 import { Link } from "react-router-dom";
+import { useMutation } from "react-query";
+
 
 const LoginDogOwner = () => {
+  const postData = async () => {
+    const url = 'https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/login'; // Replace with your actual API endpoint URL
+    const form = document.getElementById('login-form');
+
+    const user_email = document.getElementById('user_email').value;
+    const password = document.getElementById('password').value;
+
+    // Use the captured input values as needed
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+ 
+
+  // Perform further actions with the captured input values
+  // ...
+});
+const params = {
+  user_mail: user_email,
+};
+
+const headers = {
+  'password': password,
+  'Content-Type': 'application/json',  
+};
+  
+      // Create query string parameters
+      // const params = new URLSearchParams({ user_email: user_email });
+      const requestOptions = {
+        method: 'POST',
+        headers: headers,
+      };
+      
+    try {
+      const response = await fetch(`${url}?${new URLSearchParams(params)}`, requestOptions);
+      console.log("-----------------------"+requestOptions.headers)
+      console.log(response.status + " SAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+      if(response.status == '400') { 
+        alert('Bad Request: Please check your request data.');
+      }
+      if (response.ok) {
+        // POST request was successful
+        console.log('Request sent successfully!' + response.status);
+        // Do something with the response if needed
+      }
+      else {
+        prompt('Error:', response.error);
+      }
+    } catch (error) {
+      console.log('Error:', error.message);
+      
+    }
+  };
+  
   return (
     <div className="wrapper">
       <div className="main">
@@ -36,8 +91,8 @@ const LoginDogOwner = () => {
                       <input
                         type="text"
                         name="your_name"
-                        id="your_name"
-                        placeholder="Your Name"
+                        id="user_email"
+                        placeholder="User name"
                       />
                     </div>
                     <div className="form-group">
@@ -47,7 +102,7 @@ const LoginDogOwner = () => {
                       <input
                         type="password"
                         name="your_pass"
-                        id="your_pass"
+                        id="password"
                         placeholder="Password"
                       />
                     </div>
@@ -73,6 +128,7 @@ const LoginDogOwner = () => {
                           id="signin"
                           className="form-submit"
                           defaultValue="Log in"
+                          onClick={postData}
                         />
                       </Link>
                     </div>
