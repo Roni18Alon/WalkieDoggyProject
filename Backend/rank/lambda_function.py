@@ -2,6 +2,7 @@ import json
 import logging
 from aws.dynamoDB import DynamoDB
 from responses import responses
+from datetime import datetime
 
 event = {'resource': '/rank', 'path': '/rank', 'httpMethod': 'POST', 'headers': None, 'multiValueHeaders': None,
          'queryStringParameters': None, 'multiValueQueryStringParameters': None, 'pathParameters': None,
@@ -39,8 +40,6 @@ dynamo = DynamoDB('users-info')
 def lambda_handler(event, context):
     # Get event data
     logger.info(f"event: {event}")
-    # get user mail from params
-    # user_mail = event['queryStringParameters'].get("user_mail").lower()
     try:
         if event.get("body"):
             body = json.loads(event["body"])
@@ -48,6 +47,8 @@ def lambda_handler(event, context):
             ranking_user = body.get("ranking_user")  # the user fill the rank
             rank = int(body.get("rank"))  # rank from 1 to 5
             ranked_user = body.get("ranked_user")  # the user that we are ranking
+            review = body.get("review")
+            review_date = datetime.now().strftime('%Y-%m-%d')
 
             # get ranked user data
             user = dynamo.get_item(key_name="user_email", key_value=ranked_user)
@@ -61,6 +62,9 @@ def lambda_handler(event, context):
                 user_data['num_of_ranks'] = num_of_ranks
                 user_data['rank'] = new_rank
                 logger.info(f"update rank to user {ranked_user} with {new_rank} rank")
+                reviews = user_data.get('reviews', [])
+                reviews.append({'body': review, 'date': review_date})
+                user_data['reviews'] = reviews
                 dynamo.insert_item(item=user_data)
                 return responses.succeeded(message=user_data)
 
