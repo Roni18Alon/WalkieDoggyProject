@@ -1,14 +1,40 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import ResultList from "./ResultList";
+import { IoPawSharp } from "react-icons/io5";
+import Rating from "react-rating-stars-component";
 
 function EditProfileContent() {
-  const [searchTerm, setSearchTerm] = useState("");
+  const handleSearch = () => {
+    /*axios
+      .post(
+        "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/search",
+        {
+          newDog
+        }
+      )
 
-  const handleChange = (event) => {
-    setSearchTerm(event.target.value);
+      .then(function (response) {
+        console.log(response);
+      })
+
+      .catch(function (error) {
+        console.log(error);
+      }); 
+    ResultList();*/
   };
 
-  const rows = document.querySelectorAll("tbody tr");
+  const isEmpty = () => {
+    return rating && distance && startDate && endDate && price
+      ? handleSearch
+      : null;
+  };
+
+  const handleChange = (newRating) => {
+    setRating(newRating);
+  };
+
+  /*const rows = document.querySelectorAll("tbody tr");
   let rowCount = 0;
 
   rows.forEach((row) => {
@@ -21,8 +47,15 @@ function EditProfileContent() {
       row.style.display = "none";
     }
   });
+  
+  const message = rowCount === 0 ? "No records found." : "";*/
 
-  const message = rowCount === 0 ? "No records found." : "";
+  const [distance, setDistance] = useState(0);
+  const [rating, setRating] = useState(null);
+  const [price, setPrice] = useState(null);
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+
   return (
     <>
       <div
@@ -94,17 +127,121 @@ function EditProfileContent() {
                               <option>Paris</option>
                             </select>
                           </div> */}
-                          <div className="col-lg-11 col-md-6 col-sm-12 p-0">
-                            <input
-                              type="text"
-                              placeholder="Search..."
-                              className="form-control"
-                              value={searchTerm}
-                              onChange={handleChange}
-                            />
+
+                          {/* Rating */}
+                          <div className="col-4 p-4" style={{ left: "30px" }}>
+                            {[...Array(5)].map((_, index) => {
+                              const currentRating = index + 1;
+                              return (
+                                <label key={currentRating}>
+                                  <Rating
+                                    count={5}
+                                    onChange={handleChange}
+                                    size={35}
+                                    activeColor="#ffc107"
+                                    filledIcon={
+                                      <div className="custom-icon">
+                                        <IoPawSharp />
+                                      </div>
+                                    }
+                                    emptyIcon={
+                                      <div className="custom-icon">
+                                        <IoPawSharp />
+                                      </div>
+                                    }
+                                    value={rating}
+                                  />
+                                </label>
+                              );
+                            })}
                           </div>
-                          <div className="col-lg-1 col-md-3 col-sm-12 p-0">
-                            <button type="submit" className="btn btn-base">
+
+                          {/* Price-Range */}
+                          <div
+                            className="col-lg-3 col-md-3 col-sm-12 p-0"
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              right: "100px",
+                            }}
+                          >
+                            <div>
+                              <label
+                                htmlFor="Price-range"
+                                className="form-label"
+                              ></label>
+                              <input
+                                type="range"
+                                min="0"
+                                max="100"
+                                step="1"
+                                value={price}
+                                onChange={(e) => setPrice(e.target.value)}
+                                class="form-range"
+                                id={"Price-range" + price} // save for back
+                              />
+                              <h7
+                                className="col-lg-12"
+                                style={{ left: "30px", opacity: "0.75" }}
+                              >
+                                Price range
+                              </h7>
+                              <h4 className="col-12" style={{ left: "50px" }}>
+                                {price}
+                              </h4>
+                            </div>
+                            <div
+                              className="col-lg-3 col-md-3 col-sm-12 p-0"
+                              style={{ left: "50px" }}
+                            >
+                              <input
+                                type="text"
+                                placeholder="from:"
+                                className="form-control"
+                                value={startDate}
+                                onChange={(e) => setStartDate(e.target.value)}
+                              />
+                            </div>
+                            <div
+                              className="col-lg-3 col-md-3 col-sm-12 p-0"
+                              style={{ left: "100px" }}
+                            >
+                              <input
+                                type="text"
+                                placeholder="to:"
+                                className="form-control"
+                                value={endDate}
+                                onChange={(e) => setEndDate(e.target.value)}
+                              />
+                            </div>
+                          </div>
+                          {/* Distance */}
+                          <div>
+                            <select
+                              className="col-lg-3 col-md-3 col-sm-12 p-0"
+                              style={{ left: "80px" }}
+                              name="Distance"
+                              onChange={(e) => {
+                                setDistance(e.target.value);
+                              }}
+                            >
+                              <option value="0">Distance</option>
+                              <option value="1">1 km</option>
+                              <option value="5">5 km</option>
+                              <option value="10">10 km</option>
+                            </select>
+                          </div>
+
+                          {/* Search btn */}
+                          <div
+                            className="col-lg-3 col-md-3 col-sm-12 p-0"
+                            style={{ left: "80px" }}
+                          >
+                            <button
+                              type="submit"
+                              className="btn btn-base"
+                              onClick={isEmpty()}
+                            >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width={24}
@@ -129,6 +266,8 @@ function EditProfileContent() {
                 </div>
               </div>
             </div>
+
+            {/*Result Section------ */}
           </div>
           <div className="row" style={{ marginTop: "-50px" }}>
             <div className="col-12">
@@ -144,7 +283,8 @@ function EditProfileContent() {
                           <div className="table-responsive">
                             <table className="table widget-26">
                               <tbody>
-                                <tr>
+                                {ResultList()}
+                                {/*}   <tr>
                                   <td>
                                     <div className="widget-26-job-emp-img mt-2">
                                       <img
@@ -879,12 +1019,9 @@ function EditProfileContent() {
                                       </a>
                                     </div>
                                   </td>
-                                </tr>
+                                      </tr>*/}
                               </tbody>
                             </table>
-                            {message && (
-                              <p className="text-center">{message}</p>
-                            )}
                           </div>
                         </div>
                       </div>

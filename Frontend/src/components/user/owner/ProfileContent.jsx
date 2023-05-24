@@ -1,8 +1,9 @@
 import React from "react";
-import User from "./images/kindpng_248729.png";
+import User from "./images/roni.png";
 import { Link } from "react-router-dom";
 import Calendar from '../../Calendar/Calendar';
 import StarRating from "../../StarRating";
+
 
 function ProfileContent() {
   // const [fileName, setFileName] = useState("No file chosen");
@@ -42,7 +43,7 @@ function ProfileContent() {
                       width={130}
                     />
                     <div className="mt-3">
-                      <h4>John Smith</h4>
+                      <h4>Roni Alon</h4>
                       <p className="text-secondary mb-1">Dog Owner</p>
                       <p className="text-muted font-size-sm">
                         Tel Aviv, Israel
@@ -50,12 +51,19 @@ function ProfileContent() {
                     </div>
                     
                   </div>
-                  
+                  <div class="rating-position">
+  <button class="rating-button"><i class="fa-solid fa-paw"></i></button>
+  <button class="rating-button"><i class="fa-solid fa-paw"></i></button>
+  <button class="rating-button"><i class="fa-solid fa-paw"></i></button>
+  <button class="rating-button"><i class="fa-solid fa-paw"></i></button>
+  <button class="rating-button"><i class="fa-solid fa-paw low"></i></button>
+</div>
+
                   <div>
       {/* Add the Calendar component here */}
-      <Calendar onSelectDateTime={handleDateSelection} />
+      { <Calendar onSelectDateTime={handleDateSelection} />}
     </div>
-    <div>   <StarRating/></div>
+    
                 </div>
               
               </div>
@@ -71,7 +79,7 @@ function ProfileContent() {
                       <h6 className="mb-0">Full Name</h6>
                     </div>
                     <div className="col-sm-9 text-secondary mt-2">
-                      John Smith
+                      Roni Alon
                     </div>
                   </div>
                   <hr />
@@ -79,7 +87,7 @@ function ProfileContent() {
                     <div className="col-sm-3">
                       <h6 className="mb-0">Email</h6>
                     </div>
-                    <div className="col-sm-9 text-secondary">fip@gmail.com</div>
+                    <div className="col-sm-9 text-secondary">ronialon2008@gmail.com</div>
                   </div>
                   <hr />
 
