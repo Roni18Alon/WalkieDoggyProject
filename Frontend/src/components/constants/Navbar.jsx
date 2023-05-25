@@ -1,17 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useQueryClient } from 'react-query';
 import { useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const responseData = JSON.parse(searchParams.get("data"));
-  console.log(responseData);
-  const queryClient = useQueryClient();
-
-  const response = queryClient.getQueryData(['loginMutation']);
-  console.log(response);
+  
 
   return (
     <>

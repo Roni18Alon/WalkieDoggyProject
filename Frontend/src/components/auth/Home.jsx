@@ -4,7 +4,6 @@ import HeroSection from "../pages/home/HeroSection";
 import AboutSection from "../pages/home/AboutSection";
 import OurDogWalkerSection from "../pages/home/OurDogWalkerSection";
 import GallerySection from "../pages/home/GallerySection";
-
 const Home = () => {
   return (
     <div className="site-wrap">
@@ -39,7 +38,7 @@ const Home = () => {
               <AboutSection />
               <OurDogWalkerSection />
               <GallerySection />
-            </div>
+             </div>
           </div>
         </div>
       </div>
