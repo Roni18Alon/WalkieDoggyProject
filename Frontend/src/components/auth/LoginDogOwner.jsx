@@ -4,60 +4,107 @@ import styles from "./dist/Register.module.css";
 import signin from "./dist/images/sign_in.png";
 import { Link } from "react-router-dom";
 import { useMutation } from "react-query";
-
+import axios from "axios";
 
 const LoginDogOwner = () => {
-  const postData = async () => {
-    const url = 'https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/login'; // Replace with your actual API endpoint URL
-    const form = document.getElementById('login-form');
+//   const postData = async () => {
+//     const url = 'https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/login'; // Replace with your actual API endpoint URL
+//     const form = document.getElementById('login-form');
 
-    const user_email = document.getElementById('user_email').value;
-    const password = document.getElementById('password').value;
+//     const user_email = document.getElementById('user_email').value;
+//     const password = document.getElementById('password').value;
 
-    // Use the captured input values as needed
-form.addEventListener('submit', (event) => {
-  event.preventDefault();
+//     // Use the captured input values as needed
+// form.addEventListener('submit', (event) => {
+//   event.preventDefault();
 
  
 
-  // Perform further actions with the captured input values
-  // ...
-});
-const params = {user_mail: user_email};
+//   // Perform further actions with the captured input values
+//   // ...
+// });
+// const params = {user_mail: user_email};
 
-const headers = {
-  'password': password,
-  'Content-Type': 'application/json',  
-};
+// const headers = {
+//   'password': password,
+//   'Content-Type': 'application/json',  
+// };
   
-      // Create query string parameters
-      // const params = new URLSearchParams({ user_email: user_email });
-      const requestOptions = {
-        method: 'POST',
-        headers: headers,
-      };
+//       // Create query string parameters
+//       // const params = new URLSearchParams({ user_email: user_email });
+//       const requestOptions = {
+//         method: 'POST',
+//         headers: headers,
+//       };
       
-    try {
-      const response = await fetch(`${url}?${new URLSearchParams(params)}`, requestOptions);
-      console.log("-----------------------"+requestOptions.headers)
-      console.log(response.status + " SAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-      if(response.status == '400') { 
-        alert('Bad Request: Please check your request data.');
-      }
-      if (response.ok) {
-        // POST request was successful
-        console.log('Request sent successfully!' + response.status);
-        // Do something with the response if needed
-      }
-      else {
-        prompt('Error:', response.error);
-      }
-    } catch (error) {
-      console.log('Error:', error.message);
+//     try {
+//       const response = await fetch(`${url}?${new URLSearchParams(params)}`, requestOptions);
+//       console.log("-----------------------"+requestOptions.headers)
+//       console.log(response.status + " SAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+//       if(response.status == '400') { 
+//         alert('Bad Request: Please check your request data.');
+//       }
+//       if (response.ok) {
+//         // POST request was successful
+//         console.log('Request sent successfully!' + response.status);
+//         // Do something with the response if needed
+//       }
+//       else {
+//         prompt('Error:', response.error);
+//       }
+//     } catch (error) {
+//       console.log('Error:', error.message);
       
-    }
-  };
-  
+//     }
+//   };
+const postData = async () => {
+
+  const url = 'https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/login'; // Replace with your actual API endpoint URL
+  const form = document.getElementById('login-form');
+
+  const user_email = document.getElementById('user_email').value;
+  const password = document.getElementById('password').value;
+
+  // Use the captured input values as needed
+  // const requestData = {
+  //   user_email: user_email,
+  //   address: address,
+  //   city: city,
+  //   country: country,
+  //   password: password,
+  //   phone_number: phone_number,
+  //   user_last_name: user_last_name,  
+  //   user_name: user_name,     
+  //   zip: zip
+  // };
+
+  const params = new URLSearchParams({ user_email: user_email });
+
+  form.addEventListener('submit', (event) => {
+  event.preventDefault();
+// Perform further actions with the captured input values
+// ...
+});
+axios
+        .post(`${url}?${params}`, 'none', {
+          headers: {
+            "Password": password,
+            "Content-Type": "application/json",
+          },
+        })
+       .then((res) => console.log(res))
+       .catch((error) => {
+         console.log("Error:", error);
+       });
+
+// axios({
+//   method: 'POST',
+//   url: `${url}?${params}`,
+//   mode: 'no-cors',
+//   // headers: {'Content-Type': 'application/json'},
+//   body: JSON.stringify(requestData)
+// })
+}
   return (
     <div className="wrapper">
       <div className="main">
