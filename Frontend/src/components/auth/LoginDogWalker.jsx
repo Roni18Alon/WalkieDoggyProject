@@ -63,9 +63,9 @@ const LoginDogWalker = () => {
                       alt="sing up image"
                     />
                   </figure>
-                  <Link to="/RegisterDogWalker" className="signup-image-link">
-                    Create an account
-                  </Link>
+                  <button className="signup-image-link button-54" onClick={() => { window.location.href = "/RegisterDogOwner"; }}>
+  Create an account
+</button>
                 </div>
                 <div className="signin-form">
                   <h2 className="form-title">Sign in</h2>

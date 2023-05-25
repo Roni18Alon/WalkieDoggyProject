@@ -19,9 +19,9 @@ const Register = () => {
                                 <figure>
                                     <img src={signin} className='signin-img' alt="sing up image" />
                                 </figure>
-                                <Link to="/Register" className="signup-image-link">
-                                    Create an account
-                                </Link>
+                                <button className="signup-image-link button-54" onClick={() => { window.location.href = "/Register"; }}>
+  Create an account
+</button>
                             </div>
                             <div className="signin-form">
                                 <h2 className="form-title">Sign in</h2>

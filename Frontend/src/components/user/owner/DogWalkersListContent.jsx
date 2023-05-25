@@ -1,11 +1,44 @@
-import React, { useState } from "react";
+import React, { useState , useRef } from "react";
 import { Link } from "react-router-dom";
 import ResultList from "./ResultList";
 import { IoPawSharp } from "react-icons/io5";
 import Rating from "react-rating-stars-component";
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { format } from 'date-fns';
 
 function EditProfileContent() {
+
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const startDatePickerRef = useRef(null);
+  const endDatePickerRef = useRef(null);
+
+  const openStartDatePicker = () => {
+    if (startDatePickerRef.current) {
+      startDatePickerRef.current.setOpen(true);
+    }
+  };
+
+  const openEndDatePicker = () => {
+    if (endDatePickerRef.current) {
+      endDatePickerRef.current.setOpen(true);
+    }
+  };
+
+  const handleSubmit = () => {
+    // if (startDate && endDate) {
+    //   const startTime = format(startDate, 'yyyy-MM-dd HH:mm:ss');
+    //   const endTime = format(endDate, 'yyyy-MM-dd HH:mm:ss');
+
+    //   console.log('Start Time:', startTime);
+    //   console.log('End Time:', endTime);
+    // }
+  };
+  
   const handleSearch = () => {
+
+
     /*axios
       .post(
         "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/search",
@@ -25,7 +58,7 @@ function EditProfileContent() {
   };
 
   const isEmpty = () => {
-    return rating && distance && startDate && endDate && price
+    return rating && distance && startDate  && price
       ? handleSearch
       : null;
   };
@@ -34,27 +67,29 @@ function EditProfileContent() {
     setRating(newRating);
   };
 
-  /*const rows = document.querySelectorAll("tbody tr");
-  let rowCount = 0;
 
-  rows.forEach((row) => {
-    const name = row.cells[1].textContent;
 
-    if (name.toLowerCase().includes(searchTerm.toLowerCase())) {
-      row.style.display = "";
-      rowCount++;
-    } else {
-      row.style.display = "none";
-    }
-  });
+  // rows.forEach((row) => {
+  //   const name = row.cells[1].textContent;
+
+  //   if (name.toLowerCase().includes(searchTerm.toLowerCase())) {
+  //     row.style.display = "";
+  //     rowCount++;
+  //   } else {
+  //     row.style.display = "none";
+  //   }
+  // });
   
-  const message = rowCount === 0 ? "No records found." : "";*/
+ // const message = rowCount === 0 ? "No records found." : "";
 
   const [distance, setDistance] = useState(0);
   const [rating, setRating] = useState(null);
   const [price, setPrice] = useState(null);
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
+  // const [startDate, setStartDate] = useState();
+  // const [endDate, setEndDate] = useState();
+
+  // const [startDate, setStartDate] = useState(null);
+  // const [selectedTime, setSelectedTime] = useState(null);
 
   return (
     <>
@@ -105,30 +140,71 @@ function EditProfileContent() {
         <div className="container">
           <div className="row">
             <div className="col-lg-12 card-margin">
+            <div>
+      <div className="input-group mb-3">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="From"
+          value={startDate ? startDate.toString() : ''}
+          readOnly
+        />
+        <div className="input-group-append">
+          <button
+            className="btn btn-outline-secondary"
+            type="button"
+            onClick={openStartDatePicker}
+          >
+            From
+          </button>
+        </div>
+      </div>
+      <div className="input-group mb-3">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="To"
+          value={endDate ? endDate.toString() : ''}
+          readOnly
+        />
+        <div className="input-group-append">
+          <button
+            className="btn btn-outline-secondary"
+            type="button"
+            onClick={openEndDatePicker}
+          >
+            To
+          </button>
+        </div>
+      </div>
+      <div>
+        <DatePicker
+          selected={startDate}
+          onChange={(date) => setStartDate(date)}
+          showTimeSelect
+          dateFormat="Pp"
+          className="d-none"
+          ref={startDatePickerRef}
+        />
+        <DatePicker
+          selected={endDate}
+          onChange={(date) => setEndDate(date)}
+          showTimeSelect
+          dateFormat="Pp"
+          className="d-none"
+          ref={endDatePickerRef}
+        />
+      </div>
+    </div>
               <div className="card search-form">
                 <div className="card-body p-0">
                   <form id="search-form">
                     <div className="row">
                       <div className="col-12">
                         <div className="row no-gutters">
-                          {/* <div className="col-lg-3 col-md-3 col-sm-12 p-0">
-                            <select
-                              className="custom-select"
-                              id="exampleFormControlSelect1"
-                              style={{ color: "black" }}
-                            >
-                              <i class="fa-solid fa-caret-down"></i>
-                              <option>Location</option>
-                              <option>London</option>
-                              <option>Boston</option>
-                              <option>Mumbai</option>
-                              <option>New York</option>
-                              <option>Toronto</option>
-                              <option>Paris</option>
-                            </select>
-                          </div> */}
 
-                          {/* Rating */}
+                          {/* Rating  Section*/}
+
                           <div className="col-4 p-4" style={{ left: "30px" }}>
                             {[...Array(5)].map((_, index) => {
                               const currentRating = index + 1;
@@ -162,7 +238,7 @@ function EditProfileContent() {
                             style={{
                               display: "flex",
                               alignItems: "center",
-                              right: "100px",
+                              right: "80px",
                             }}
                           >
                             <div>
@@ -192,34 +268,28 @@ function EditProfileContent() {
                             </div>
                             <div
                               className="col-lg-3 col-md-3 col-sm-12 p-0"
-                              style={{ left: "50px" }}
+                              style={{ left: "100px" }}
                             >
-                              <input
+                              {/* <input
                                 type="text"
                                 placeholder="from:"
                                 className="form-control"
+                                style={{width: "100px"}}
                                 value={startDate}
                                 onChange={(e) => setStartDate(e.target.value)}
-                              />
+                              /> */}
                             </div>
-                            <div
-                              className="col-lg-3 col-md-3 col-sm-12 p-0"
-                              style={{ left: "100px" }}
-                            >
-                              <input
-                                type="text"
-                                placeholder="to:"
-                                className="form-control"
-                                value={endDate}
-                                onChange={(e) => setEndDate(e.target.value)}
-                              />
-                            </div>
+
+
+
                           </div>
+
                           {/* Distance */}
                           <div>
                             <select
                               className="col-lg-3 col-md-3 col-sm-12 p-0"
-                              style={{ left: "80px" }}
+                              style={{ width: "90px",
+                                    left: "60px" }}
                               name="Distance"
                               onChange={(e) => {
                                 setDistance(e.target.value);
@@ -240,7 +310,7 @@ function EditProfileContent() {
                             <button
                               type="submit"
                               className="btn btn-base"
-                              onClick={isEmpty()}
+                              onClick={handleSubmit()}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -259,6 +329,7 @@ function EditProfileContent() {
                               </svg>
                             </button>
                           </div>
+
                         </div>
                       </div>
                     </div>
@@ -284,742 +355,6 @@ function EditProfileContent() {
                             <table className="table widget-26">
                               <tbody>
                                 {ResultList()}
-                                {/*}   <tr>
-                                  <td>
-                                    <div className="widget-26-job-emp-img mt-2">
-                                      <img
-                                        src="https://bootdey.com/img/Content/avatar/avatar5.png"
-                                        alt="Company"
-                                      />
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-title">
-                                      <a to="/#">James Smith</a>
-                                      <p className="m-0">
-                                        <Link
-                                          to="/WalkerProfileForUser"
-                                          className="employer-name"
-                                        >
-                                          See Profile
-                                        </Link>
-                                      </p>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-info mt-3">
-                                      <p className="text-muted m-0">
-                                        <span className="location my-auto">
-                                          London, UK
-                                        </span>
-                                      </p>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-salary mt-3">
-                                      $ 20/hr
-                                    </div>
-                                  </td>
-
-                                  <td>
-                                    <div className="widget-26-job-starred mt-3">
-                                      <span
-                                        className="m-auto"
-                                        style={{
-                                          color: "#fd8b2c",
-                                          fontWeight: "600",
-                                        }}
-                                      >
-                                        5
-                                      </span>{" "}
-                                      <span
-                                        style={{
-                                          fontWeight: "lighter",
-                                          fontSize: "10px",
-                                        }}
-                                      >
-                                        (25)
-                                      </span>
-                                      <a to="/#">
-                                        <span className="icon-paw icon-paw-review" />
-                                      </a>
-                                    </div>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    <div className="widget-26-job-emp-img mt-2">
-                                      <img
-                                        src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                        alt="Company"
-                                      />
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-title">
-                                      <a to="/#">Daniel Jack</a>
-                                      <p className="m-0">
-                                        <Link
-                                          to="/WalkerProfile"
-                                          className="employer-name"
-                                        >
-                                          See Profile
-                                        </Link>
-                                      </p>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-info mt-3">
-                                      <p className="text-muted m-0">
-                                        <span className="location">
-                                          New York, US
-                                        </span>
-                                      </p>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-salary mt-3">
-                                      $ 15/hr
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div
-                                      className="widget-26-job-starred mt-3"
-                                      style={{ float: "right" }}
-                                    >
-                                      <span
-                                        className="m-auto"
-                                        style={{
-                                          color: "#fd8b2c",
-                                          fontWeight: "600",
-                                        }}
-                                      >
-                                        0
-                                      </span>{" "}
-                                      <span
-                                        style={{
-                                          fontWeight: "lighter",
-                                          fontSize: "10px",
-                                        }}
-                                      >
-                                        (0)
-                                      </span>
-                                      <a to="/#">
-                                        <span className="icon-paw icon-paw-review" />
-                                      </a>
-                                    </div>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    <div className="widget-26-job-emp-img mt-2">
-                                      <img
-                                        src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                                        alt="Company"
-                                      />
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-title">
-                                      <a to="/#">David Michael</a>
-                                      <p className="m-0">
-                                        <Link
-                                          to="/WalkerProfile"
-                                          className="employer-name"
-                                        >
-                                          See Profile
-                                        </Link>
-                                      </p>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-info mt-3">
-                                      <p className="text-muted m-0">
-                                        <span className="location">
-                                          New York, US
-                                        </span>
-                                      </p>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-salary mt-3">
-                                      $ 10/hr
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-starred mt-3">
-                                      <span
-                                        className="m-auto"
-                                        style={{
-                                          color: "#fd8b2c",
-                                          fontWeight: "600",
-                                        }}
-                                      >
-                                        4.8
-                                      </span>{" "}
-                                      <span
-                                        style={{
-                                          fontWeight: "lighter",
-                                          fontSize: "10px",
-                                        }}
-                                      >
-                                        (20)
-                                      </span>
-                                      <a to="/#">
-                                        <span className="icon-paw icon-paw-review" />
-                                      </a>
-                                    </div>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    <div className="widget-26-job-emp-img mt-2">
-                                      <img
-                                        src="https://bootdey.com/img/Content/avatar/avatar4.png"
-                                        alt="Company"
-                                      />
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-title">
-                                      <a to="/#">James Smith</a>
-                                      <p className="m-0">
-                                        <Link
-                                          to="/WalkerProfile"
-                                          className="employer-name"
-                                        >
-                                          See Profile
-                                        </Link>
-                                      </p>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-info">
-                                      <p className="text-muted mt-3">
-                                        <span className="location">
-                                          Toronto, CAN
-                                        </span>
-                                      </p>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-salary mt-3">
-                                      $ 35/hr
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-starred mt-3">
-                                      <span
-                                        className="m-auto"
-                                        style={{
-                                          color: "#fd8b2c",
-                                          fontWeight: "600",
-                                        }}
-                                      >
-                                        2.5
-                                      </span>{" "}
-                                      <span
-                                        style={{
-                                          fontWeight: "lighter",
-                                          fontSize: "10px",
-                                        }}
-                                      >
-                                        (12)
-                                      </span>
-                                      <a to="/#">
-                                        <span className="icon-paw icon-paw-review" />
-                                      </a>
-                                    </div>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    <div className="widget-26-job-emp-img mt-2">
-                                      <img
-                                        src="https://bootdey.com/img/Content/avatar/avatar5.png"
-                                        alt="Company"
-                                      />
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-title">
-                                      <a to="/#">James Smith</a>
-                                      <p className="m-0">
-                                        <Link
-                                          to="/WalkerProfile"
-                                          className="employer-name"
-                                        >
-                                          See Profile
-                                        </Link>
-                                      </p>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-info mt-3">
-                                      <p className="text-muted m-0">
-                                        <span className="location my-auto">
-                                          London, UK
-                                        </span>
-                                      </p>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-salary mt-3">
-                                      $ 20/hr
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-starred mt-3">
-                                      <span
-                                        className="m-auto"
-                                        style={{
-                                          color: "#fd8b2c",
-                                          fontWeight: "600",
-                                        }}
-                                      >
-                                        5
-                                      </span>{" "}
-                                      <span
-                                        style={{
-                                          fontWeight: "lighter",
-                                          fontSize: "10px",
-                                        }}
-                                      >
-                                        (25)
-                                      </span>
-                                      <a to="/#">
-                                        <span className="icon-paw icon-paw-review" />
-                                      </a>
-                                    </div>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    <div className="widget-26-job-emp-img mt-2">
-                                      <img
-                                        src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                        alt="Company"
-                                      />
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-title">
-                                      <a to="/#">Daniel Jack</a>
-                                      <p className="m-0">
-                                        <Link
-                                          to="/WalkerProfile"
-                                          className="employer-name"
-                                        >
-                                          See Profile
-                                        </Link>
-                                      </p>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-info mt-3">
-                                      <p className="text-muted m-0">
-                                        <span className="location">
-                                          New York, US
-                                        </span>
-                                      </p>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-salary mt-3">
-                                      $ 15/hr
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-starred mt-3">
-                                      <span
-                                        className="m-auto"
-                                        style={{
-                                          color: "#fd8b2c",
-                                          fontWeight: "600",
-                                        }}
-                                      >
-                                        0
-                                      </span>{" "}
-                                      <span
-                                        style={{
-                                          fontWeight: "lighter",
-                                          fontSize: "10px",
-                                        }}
-                                      >
-                                        (0)
-                                      </span>
-                                      <a to="/#">
-                                        <span className="icon-paw icon-paw-review" />
-                                      </a>
-                                    </div>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    <div className="widget-26-job-emp-img mt-2">
-                                      <img
-                                        src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                                        alt="Company"
-                                      />
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-title">
-                                      <a to="/#">David Michael</a>
-                                      <p className="m-0">
-                                        <Link
-                                          to="/WalkerProfile"
-                                          className="employer-name"
-                                        >
-                                          See Profile
-                                        </Link>
-                                      </p>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-info mt-3">
-                                      <p className="text-muted m-0">
-                                        <span className="location">
-                                          New York, US
-                                        </span>
-                                      </p>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-salary mt-3">
-                                      $ 10/hr
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-starred mt-3">
-                                      <span
-                                        className="m-auto"
-                                        style={{
-                                          color: "#fd8b2c",
-                                          fontWeight: "600",
-                                        }}
-                                      >
-                                        4.8
-                                      </span>{" "}
-                                      <span
-                                        style={{
-                                          fontWeight: "lighter",
-                                          fontSize: "10px",
-                                        }}
-                                      >
-                                        (20)
-                                      </span>
-                                      <a to="/#">
-                                        <span className="icon-paw icon-paw-review" />
-                                      </a>
-                                    </div>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    <div className="widget-26-job-emp-img mt-2">
-                                      <img
-                                        src="https://bootdey.com/img/Content/avatar/avatar4.png"
-                                        alt="Company"
-                                      />
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-title">
-                                      <a to="/#">James Smith</a>
-                                      <p className="m-0">
-                                        <Link
-                                          to="/WalkerProfile"
-                                          className="employer-name"
-                                        >
-                                          See Profile
-                                        </Link>
-                                      </p>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-info">
-                                      <p className="text-muted mt-3">
-                                        <span className="location">
-                                          Toronto, CAN
-                                        </span>
-                                      </p>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-salary mt-3">
-                                      $ 35/hr
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-starred mt-3">
-                                      <span
-                                        className="m-auto"
-                                        style={{
-                                          color: "#fd8b2c",
-                                          fontWeight: "600",
-                                        }}
-                                      >
-                                        2.5
-                                      </span>{" "}
-                                      <span
-                                        style={{
-                                          fontWeight: "lighter",
-                                          fontSize: "10px",
-                                        }}
-                                      >
-                                        (12)
-                                      </span>
-                                      <a to="/#">
-                                        <span className="icon-paw icon-paw-review" />
-                                      </a>
-                                    </div>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    <div className="widget-26-job-emp-img mt-2">
-                                      <img
-                                        src="https://bootdey.com/img/Content/avatar/avatar5.png"
-                                        alt="Company"
-                                      />
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-title">
-                                      <a to="/#">James Smith</a>
-                                      <p className="m-0">
-                                        <Link
-                                          to="/WalkerProfile"
-                                          className="employer-name"
-                                        >
-                                          See Profile
-                                        </Link>
-                                      </p>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-info mt-3">
-                                      <p className="text-muted m-0">
-                                        <span className="location my-auto">
-                                          London, UK
-                                        </span>
-                                      </p>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-salary mt-3">
-                                      $ 20/hr
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-starred mt-3">
-                                      <span
-                                        className="m-auto"
-                                        style={{
-                                          color: "#fd8b2c",
-                                          fontWeight: "600",
-                                        }}
-                                      >
-                                        5
-                                      </span>{" "}
-                                      <span
-                                        style={{
-                                          fontWeight: "lighter",
-                                          fontSize: "10px",
-                                        }}
-                                      >
-                                        (25)
-                                      </span>
-                                      <a to="/#">
-                                        <span className="icon-paw icon-paw-review" />
-                                      </a>
-                                    </div>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    <div className="widget-26-job-emp-img mt-2">
-                                      <img
-                                        src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                        alt="Company"
-                                      />
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-title">
-                                      <a to="/#">Daniel Jack</a>
-                                      <p className="m-0">
-                                        <Link
-                                          to="/WalkerProfile"
-                                          className="employer-name"
-                                        >
-                                          See Profile
-                                        </Link>
-                                      </p>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-info mt-3">
-                                      <p className="text-muted m-0">
-                                        <span className="location">
-                                          New York, US
-                                        </span>
-                                      </p>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-salary mt-3">
-                                      $ 15/hr
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-starred mt-3">
-                                      <span
-                                        className="m-auto"
-                                        style={{
-                                          color: "#fd8b2c",
-                                          fontWeight: "600",
-                                        }}
-                                      >
-                                        0
-                                      </span>{" "}
-                                      <span
-                                        style={{
-                                          fontWeight: "lighter",
-                                          fontSize: "10px",
-                                        }}
-                                      >
-                                        (0)
-                                      </span>
-                                      <a to="/#">
-                                        <span className="icon-paw icon-paw-review" />
-                                      </a>
-                                    </div>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    <div className="widget-26-job-emp-img mt-2">
-                                      <img
-                                        src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                                        alt="Company"
-                                      />
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-title">
-                                      <a to="/#">David Michael</a>
-                                      <p className="m-0">
-                                        <Link
-                                          to="/WalkerProfile"
-                                          className="employer-name"
-                                        >
-                                          See Profile
-                                        </Link>
-                                      </p>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-info mt-3">
-                                      <p className="text-muted m-0">
-                                        <span className="location">
-                                          New York, US
-                                        </span>
-                                      </p>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-salary mt-3">
-                                      $ 10/hr
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-starred mt-3">
-                                      <span
-                                        className="m-auto"
-                                        style={{
-                                          color: "#fd8b2c",
-                                          fontWeight: "600",
-                                        }}
-                                      >
-                                        4.8
-                                      </span>{" "}
-                                      <span
-                                        style={{
-                                          fontWeight: "lighter",
-                                          fontSize: "10px",
-                                        }}
-                                      >
-                                        (20)
-                                      </span>
-                                      <a to="/#">
-                                        <span className="icon-paw icon-paw-review" />
-                                      </a>
-                                    </div>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    <div className="widget-26-job-emp-img mt-2">
-                                      <img
-                                        src="https://bootdey.com/img/Content/avatar/avatar4.png"
-                                        alt="Company"
-                                      />
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-title">
-                                      <a to="/#">James Smith</a>
-                                      <p className="m-0">
-                                        <Link
-                                          to="/WalkerProfile"
-                                          className="employer-name"
-                                        >
-                                          See Profile
-                                        </Link>
-                                      </p>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-info">
-                                      <p className="text-muted mt-3">
-                                        <span className="location">
-                                          Toronto, CAN
-                                        </span>
-                                      </p>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-salary mt-3">
-                                      $ 35/hr
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="widget-26-job-starred mt-3">
-                                      <span
-                                        className="m-auto"
-                                        style={{
-                                          color: "#fd8b2c",
-                                          fontWeight: "600",
-                                        }}
-                                      >
-                                        2.5
-                                      </span>{" "}
-                                      <span
-                                        style={{
-                                          fontWeight: "lighter",
-                                          fontSize: "10px",
-                                        }}
-                                      >
-                                        (12)
-                                      </span>
-                                      <a to="/#">
-                                        <span className="icon-paw icon-paw-review" />
-                                      </a>
-                                    </div>
-                                  </td>
-                                      </tr>*/}
                               </tbody>
                             </table>
                           </div>
