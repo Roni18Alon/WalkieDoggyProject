@@ -69,7 +69,7 @@ return (
         <div className={styles.container}>
           <div className="signup-content">
             <div className="signup-form">
-              <h2 className="form-title">Sign up</h2>
+            <h2 className="form-title"> Sign Up <br/>as a Dog Walker</h2>
               <form
                 method="POST"
                 className="register-form"
@@ -415,9 +415,12 @@ return (
               <figure>
                 <img src={signup} alt="sing up image" />
               </figure>
-              <a href="/LoginDogOwner" className="signup-image-link">
-                I am already member
-              </a>
+             <button
+  className="signup-image-link button-54"
+  onClick={() => { window.location.href = "/LoginDogOwner"; }}
+>
+  I am already a member
+</button>
             </div>
           </div>
         </div>

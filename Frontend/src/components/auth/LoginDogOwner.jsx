@@ -1,38 +1,68 @@
-import React from "react";
+import React, { useState } from "react";
 import "./dist/Register.css";
 import styles from "./dist/Register.module.css";
 import signin from "./dist/images/sign_in.png";
 import { Link } from "react-router-dom";
-import { useMutation } from "react-query";
-import axios from "axios";
+import { useLoginMutation } from './../api';
+import { useNavigate } from "react-router-dom";
+
 
 const LoginDogOwner = () => {
+  const navigate = useNavigate();
+  const loginMutation = useLoginMutation();
+  const [responseData, setResponseData] = useState(null);
 
-const postData = async () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const user_email = document.getElementById("user_email").value;
+    const password = document.getElementById("password").value;
 
-  const url = 'https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/login';
-  const form = document.getElementById('login-form');
-  const user_email = document.getElementById('user_email').value;
-  const password = document.getElementById('password').value;
+    try {
+      const response = await loginMutation.mutateAsync({ user_email, password });
+      console.log(response); // Access the response body
+      setResponseData(response);
+
+      if (loginMutation.status === "success") {
+      
+        console.log(response);
+        console.log(response);
+        console.log(response);
+        console.log(response);
+        // Route to the profile page
+        navigate("/Profile?data=" + JSON.stringify(responseData));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+// const postData = async () => {
+
+  
+
+//   // const url = 'https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/login';
+//   // const form = document.getElementById('login-form');
+//   // const user_email = document.getElementById('user_email').value;
+//   // const password = document.getElementById('password').value;
  
 
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    // Perform further actions with the captured input values
-    // ...
-  });
+//   // form.addEventListener('submit', (event) => {
+//   //   event.preventDefault();
+//   //   // Perform further actions with the captured input values
+//   //   // ...
+//   // });
 
-  axios.get(url, {
-    params: {"user_mail": user_email},
-    headers: {
-      "password": password
-    },
-  })
-    .then((res) => console.log(res))
-    .catch((error) => {
-      console.log("Error:", error);
-    });
-}
+//   // axios.get(url, {
+//   //   params: {"user_mail": user_email},
+//   //   headers: {
+//   //     "password": password
+//   //   },
+//   // })
+//   //   .then((res) => console.log(res))
+//   //   .catch((error) => {
+//   //     console.log("Error:", error);
+//   //   });
+// }
   return (
     <div className="wrapper">
       <div className="main">
@@ -50,9 +80,9 @@ const postData = async () => {
                       alt="sing up image"
                     />
                   </figure>
-                  <Link to="/RegisterDogOwner" className="signup-image-link">
-                    Create an account
-                  </Link>
+                  <button className="signup-image-link button-54" onClick={() => { window.location.href = "/RegisterDogOwner"; }}>
+  Create an account
+</button>
                 </div>
                 <div className="signin-form">
                   <h2 className="form-title">Sign in</h2>
@@ -101,7 +131,7 @@ const postData = async () => {
                           id="signin"
                           className="form-submit"
                           defaultValue="Log in"
-                          onClick={postData}
+                          onClick={handleSubmit}
                         />
                       </Link>
                     </div>

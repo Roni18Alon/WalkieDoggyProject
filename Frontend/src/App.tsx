@@ -17,9 +17,12 @@ import WalkerPersonalProfile from "./components/user/dogwalker/WalkerPersonalPro
 import EditWalkerProfile from "./components/user/dogwalker/EditWalkerProfile";
 import WalkerFutureMeetings from "./components/user/dogwalker/WalkerFutureMeetings";
 import WalkerHistory from "./components/user/dogwalker/WalkerHistory";
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 function App() {
+  const queryClient = new QueryClient();
   return (
+    <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Register />} />
@@ -51,6 +54,7 @@ function App() {
         <Route path="/DogWalkersList" element={<DogWalkersList />} />
       </Routes>
     </BrowserRouter>
+    </QueryClientProvider>
   );
 }
 
