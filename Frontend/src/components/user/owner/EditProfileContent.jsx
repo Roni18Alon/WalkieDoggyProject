@@ -42,7 +42,7 @@ function EditProfileContent() {
 
             <div className="col-lg-8">
               <div className="card mb-3">
-                <div className="card-body" style={{ padding: "30px 20px" }}>
+                <div className="card-body" style={{ padding: "20px 10px" }}>
                   <p className="card-text ">Profile Details</p>
                   <hr />
                   <>

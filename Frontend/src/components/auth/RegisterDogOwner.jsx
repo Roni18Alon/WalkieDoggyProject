@@ -1,18 +1,17 @@
-import React,{ useState } from "react";
+// import React,{ useState } from "react";
 import "./dist/Register.css";
 import styles from "./dist/Register.module.css";
 import signup from "./dist/images/sign_up.png";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-
-
 const Register = () => {
+    
    // State to store the user parameters
    const postData = async () => {
+
     const url = 'https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register'; // Replace with your actual API endpoint URL
     const form = document.getElementById('register-form');
-
     const user_name = document.getElementById('user_name').value;
     const user_last_name = document.getElementById('user_last_name').value;
     const user_email = document.getElementById('user_email').value;
@@ -34,73 +33,88 @@ const Register = () => {
       user_name: user_name,     
       zip: zip
     };
-form.addEventListener('submit', (event) => {
-  event.preventDefault();
 
- 
+    const requestOptions = {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestData),
+    };
+    
+    const userRole = 'owner'; 
+    const params = new URLSearchParams({ user_role: userRole });
+    console.log(`${url}?${params}`)
+    console.log("------------------------------"+JSON.stringify(requestData));
+    console.log("------------------------------"+JSON.stringify(requestData));
+    console.log("------------------------------"+JSON.stringify(requestData));
+    console.log("------------------------------"+JSON.stringify(requestData));
 
+
+
+
+
+    form.addEventListener('submit', (event) => {
+    event.preventDefault();
   // Perform further actions with the captured input values
   // ...
 });
-/*
-    const data = {
-      user_user_email: 'gb@example.com',
-      address: '123 Main St',
-      city: 'Holon',
-      country: 'Israel',
-      password: '123456',
-      phone_number: '555-555-5555',
-      user_last_name: 'Guy',
-      user_name: 'Ben haim',
-      zip: '1234567'
-    };
-  */
-    const userRole = 'owner'; // Replace with the desired user role
-  
-      // Create query string parameters
-  const params = new URLSearchParams({ user_role: userRole });
+axios
+          .post(`${url}?${params}`, JSON.stringify(requestData), {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+         .then((res) => console.log(res))
+         .catch((error) => {
+           console.log("Error:", error);
+         });
 
-  const requestOptions = {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(requestData),
-  };
+// axios({
+//   method: 'POST',
+//   url: `${url}?${params}`,
+//   mode: 'no-cors',
+//   // headers: {'Content-Type': 'application/json'},
+//   body: JSON.stringify(requestData)
+// })
+}
+  // Replace with the desired user role
+      // Create query string parameters
   
-    try {
-      const response = await fetch(`${url}?${params}`, requestOptions);
-      if(response.status == '400') { 
-        alert('Bad Request: Please check your request data.');
-        prompt("UserAlready exists")
-      }
-      if (response.ok) {
-        // POST request was successful
-        console.log('Request sent successfully!');
-        // Do something with the response if needed
-      } else {
-        // Handle the error
-        console.log('Error:', response.error);
-        prompt("UserAlready exists")
-      }
-    } catch (error) {
-      console.log('Error:', error.message);
-    }
-  };
+
+
+    // try {
+    //   const response = await fetch(`${url}?${params}`, requestOptions);
+    //   if(response.status == '400') { 
+    //     alert('Bad Request: Please check your request data.');
+    //     prompt("UserAlready exists")
+    //   }
+    //   if (response.ok) {
+    //     // POST request was successful
+    //     console.log('Request sent successfully!');
+    //     // Do something with the response if needed
+    //   } else {
+    //     // Handle the error
+    //     console.log('Error:', response.error);
+    //   }
+    // } catch (error) {
+    //   console.log('Error:', error.message);
+    // }
+
   // close func
   
 
-   const [gender, setGender] = useState();
-  const days = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-    22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
-  ];
-  const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-  const years = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-    22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
-  ];
+  //  const [gender, setGender] = useState();
+  // const days = [
+  //   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+  //   22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+  // ];
+  // const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  // const years = [
+  //   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+  //   22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+  // ];
    return (
     <div className="wrapper">
       <div className="main">
