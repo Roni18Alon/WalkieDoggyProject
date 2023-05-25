@@ -759,6 +759,32 @@ textarea.form-control {
   margin-bottom: 1rem;
 }
 
+.search-button {
+  display: inline-block;
+  padding: 8px 12px;
+  background-color: #3498db;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #2980b9;
+}
+
+.search-button:focus {
+  outline: none;
+}
+
+.search-button:active {
+  background-color: #1f618d;
+}
+
+
 .btn {
   display: inline-block;
   font-weight: 400;

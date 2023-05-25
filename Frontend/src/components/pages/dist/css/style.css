@@ -696,7 +696,8 @@ body:after {
 
 .search-form {
   background: #f7f7f7;
-  padding: 10px; }
+  padding: 20px;}
+  
   .search-form .form-group {
     position: relative; }
     .search-form .form-group input {

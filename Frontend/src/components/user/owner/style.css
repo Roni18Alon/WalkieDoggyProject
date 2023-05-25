@@ -121,7 +121,7 @@
   
   
   .search-form {
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
     margin-top: 1rem;
   }
@@ -1744,4 +1744,41 @@ CONTACT MODAL VIEW
 
 .low {
   color: #999999;
+}
+
+.card-body {
+  background: #f7f7f7;
+  padding: 20px;
+}
+
+.owner-info {
+  display: flex;
+  align-items: center;
+}
+
+.owner-image {
+  width: 80px;
+  height: 80px;
+  margin-right: 20px;
+}
+
+.owner-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.owner-details {
+  flex: 1;
+}
+
+.owner-name {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.owner-age {
+  font-size: 14px;
+  color: #888;
 }
