@@ -21,6 +21,8 @@ const Register = () => {
     const city = document.getElementById('City').value;
     const zip = document.getElementById('zip').value;
     const address = document.getElementById('Address').value;
+
+
     // Use the captured input values as needed
     const requestData = {
       user_email: user_email,
@@ -34,26 +36,8 @@ const Register = () => {
       zip: zip
     };
 
-    const requestOptions = {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestData),
-    };
-    
     const userRole = 'owner'; 
     const params = new URLSearchParams({ user_role: userRole });
-    console.log(`${url}?${params}`)
-    console.log("------------------------------"+JSON.stringify(requestData));
-    console.log("------------------------------"+JSON.stringify(requestData));
-    console.log("------------------------------"+JSON.stringify(requestData));
-    console.log("------------------------------"+JSON.stringify(requestData));
-
-
-
-
 
     form.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -79,42 +63,7 @@ axios
 //   body: JSON.stringify(requestData)
 // })
 }
-  // Replace with the desired user role
-      // Create query string parameters
-  
 
-
-    // try {
-    //   const response = await fetch(`${url}?${params}`, requestOptions);
-    //   if(response.status == '400') { 
-    //     alert('Bad Request: Please check your request data.');
-    //     prompt("UserAlready exists")
-    //   }
-    //   if (response.ok) {
-    //     // POST request was successful
-    //     console.log('Request sent successfully!');
-    //     // Do something with the response if needed
-    //   } else {
-    //     // Handle the error
-    //     console.log('Error:', response.error);
-    //   }
-    // } catch (error) {
-    //   console.log('Error:', error.message);
-    // }
-
-  // close func
-  
-
-  //  const [gender, setGender] = useState();
-  // const days = [
-  //   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-  //   22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
-  // ];
-  // const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-  // const years = [
-  //   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-  //   22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
-  // ];
    return (
     <div className="wrapper">
       <div className="main">
