@@ -88,3 +88,4 @@ def calculate_new_rank(current_rank, num_people_ranked, new_rank):
 
 if __name__ == '__main__':
     lambda_handler(event, "")
+
