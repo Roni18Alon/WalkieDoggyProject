@@ -5,85 +5,61 @@ import signup from "./dist/images/sign_up.png";
 import { Link } from "react-router-dom";
 
 const RegisterDogWalker = () => {
-     // State to store the user parameters
-     const postData = async () => {
-      const url = 'https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register'; // Replace with your actual API endpoint URL
-      const form = document.getElementById('register-form');
-  
-      const user_name = document.getElementById('user_name').value;
-      const user_last_name = document.getElementById('user_last_name').value;
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('pass').value;
-      const mobile = document.getElementById('mobile').value;
-      const country = document.getElementById('Country').value;
-      const city = document.getElementById('City').value;
-      const zipCode = document.getElementById('ZipCode').value;
-    
-      // Use the captured input values as needed
-      const requestData = {
-        user_name: user_name,
-        user_last_name: user_last_name,
-        email: email,
-        password: password,
-        mobile: mobile,
-        country: country,
-        city: city,
-        zipCode: zipCode
-      };
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-  
-   
-  
-    // Perform further actions with the captured input values
-    // ...
-  });
-  /*
-      const data = {
-        user_email: 'gb@example.com',
-        address: '123 Main St',
-        city: 'Holon',
-        country: 'Israel',
-        password: '123456',
-        phone_number: '555-555-5555',
-        user_last_name: 'Guy',
-        user_name: 'Ben haim',
-        zip: '1234567'
-      };
-    */
-      const userRole = 'walker'; // Replace with the desired user role
-    
-        // Create query string parameters
+  const postData = async () => {
+
+    const url = 'https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register'; // Replace with your actual API endpoint URL
+    const form = document.getElementById('register-form');
+    const user_name = document.getElementById('user_name').value;
+    const user_last_name = document.getElementById('user_last_name').value;
+    const user_email = document.getElementById('user_email').value;
+    const password = document.getElementById('pass').value;
+    const phone_number = document.getElementById('phone_number').value;
+    const country = document.getElementById('Country').value;
+    const city = document.getElementById('City').value;
+    const zip = document.getElementById('zip').value;
+    const address = document.getElementById('Address').value;
+
+
+    // Use the captured input values as needed
+    const requestData = {
+      user_email: user_email,
+      address: address,
+      city: city,
+      country: country,
+      password: password,
+      phone_number: phone_number,
+      user_last_name: user_last_name,  
+      user_name: user_name,     
+      zip: zip
+    };
+
+    const userRole = 'walker'; 
     const params = new URLSearchParams({ user_role: userRole });
-  
-    const requestOptions = {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestData),
-    };
-    
-      try {
-        const response = await fetch(`${url}?${params}`, requestOptions);
-        if(response.status == '400') { 
-          alert('Bad Request: Please check your request data.');
-          prompt("UserAlready exists")
-        }
-        if (response.ok) {
-          // POST request was successful
-          console.log('Request sent successfully!');
-          // Do something with the response if needed
-        } else {
-          // Handle the error
-          console.log('Error:', response.error);
-          prompt("UserAlready exists")
-        }
-      } catch (error) {
-        console.log('Error:', error.message);
-      }
-    };
+
+    form.addEventListener('submit', (event) => {
+    event.preventDefault();
+  // Perform further actions with the captured input values
+  // ...
+});
+axios
+          .post(`${url}?${params}`, JSON.stringify(requestData), {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+         .then((res) => console.log(res))
+         .catch((error) => {
+           console.log("Error:", error);
+         });
+
+// axios({
+//   method: 'POST',
+//   url: `${url}?${params}`,
+//   mode: 'no-cors',
+//   // headers: {'Content-Type': 'application/json'},
+//   body: JSON.stringify(requestData)
+// })
+}
   return (
     <div className="wrapper">
       <div className="main">
