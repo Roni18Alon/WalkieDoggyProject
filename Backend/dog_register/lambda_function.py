@@ -6,7 +6,6 @@ from aws.s3 import S3
 from responses import responses
 from dateutil.relativedelta import relativedelta
 import base64
-import io
 
 event = {'resource': '/register', 'path': '/register', 'httpMethod': 'POST',
          'headers': {'accept': '*/*', 'accept-encoding': 'gzip, deflate, br', 'accept-language': 'en-US,en;q=0.9',
@@ -76,10 +75,10 @@ def lambda_handler(event, context):
         dog_gender = dog_details.get('dog_gender').lower()
         dog_birthday = dog_details.get('dog_birthday')
         free_text = dog_details.get('free_text', "").lower()
-        spayed = bool(dog_details.get('spayed').lower())
-        rabies_vaccinated = bool(dog_details.get('rabies_vaccinated').lower())
-        human_friendly = bool(dog_details.get('human_friendly').lower())
-        dog_friendly = bool(dog_details.get('dog_friendly').lower())
+        spayed = bool(dog_details.get('spayed'))
+        rabies_vaccinated = bool(dog_details.get('rabies_vaccinated'))
+        human_friendly = bool(dog_details.get('human_friendly'))
+        dog_friendly = bool(dog_details.get('dog_friendly'))
         dog_image_b64 = dog_details.get('dog_image')
         # if uploaded image save in s3
         if dog_image_b64:
