@@ -23,9 +23,7 @@ form.addEventListener('submit', (event) => {
   // Perform further actions with the captured input values
   // ...
 });
-const params = {
-  user_mail: user_email,
-};
+const params = {user_mail: user_email};
 
 const headers = {
   'password': password,

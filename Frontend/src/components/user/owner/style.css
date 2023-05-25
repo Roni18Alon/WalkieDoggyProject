@@ -1718,4 +1718,30 @@ CONTACT MODAL VIEW
 }
 .panel-order .panel-deading {
 	margin-bottom: 0;
-}                    
+}
+
+.calendar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.rating-position {
+  margin-top: 20px;
+}
+
+.rating-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.fa-paw {
+  color: #ffcc00;
+}
+
+.low {
+  color: #999999;
+}
