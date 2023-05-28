@@ -1,110 +1,86 @@
-import React, { useState } from "react";
-import "./dist/Register.css";
-import styles from "./dist/Register.module.css";
-import signin from "./dist/images/sign_in.png";
-import { Link } from "react-router-dom";
-import { useLoginMutation } from './../api';
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useMutation } from "react-query";
+import { useLoginMutation } from "./../api";
 
+import signin from "./dist/images/sign_in.png";
 
 const LoginDogOwner = () => {
   const navigate = useNavigate();
   const loginMutation = useLoginMutation();
-  const [responseData, setResponseData] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     const user_email = document.getElementById("user_email").value;
     const password = document.getElementById("password").value;
 
     try {
-      const response = await loginMutation.mutateAsync({ user_email, password });
-      console.log(response); // Access the response body
-      setResponseData(response);
+      await loginMutation.mutateAsync({ user_email, password });
 
-      if (loginMutation.status === "success") {
-      
+      if (loginMutation.isSuccess) {
+        const response = loginMutation.data;
         console.log(response);
-        console.log(response);
-        console.log(response);
-        console.log(response);
+        localStorage.setItem("responseData", JSON.stringify(response));
         // Route to the profile page
-        navigate("/Profile?data=" + JSON.stringify(responseData));
+        navigate("/Profile?data=" + JSON.stringify(response));
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-// const postData = async () => {
-
-  
-
-//   // const url = 'https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/login';
-//   // const form = document.getElementById('login-form');
-//   // const user_email = document.getElementById('user_email').value;
-//   // const password = document.getElementById('password').value;
- 
-
-//   // form.addEventListener('submit', (event) => {
-//   //   event.preventDefault();
-//   //   // Perform further actions with the captured input values
-//   //   // ...
-//   // });
-
-//   // axios.get(url, {
-//   //   params: {"user_mail": user_email},
-//   //   headers: {
-//   //     "password": password
-//   //   },
-//   // })
-//   //   .then((res) => console.log(res))
-//   //   .catch((error) => {
-//   //     console.log("Error:", error);
-//   //   });
-// }
   return (
     <div className="wrapper">
       <div className="main">
         {/* Sing in  Form */}
         <section className="sign-in">
-          <div className={styles.container}>
+          <div className="container">
             <div className="inner">
-              {" "}
               <div className="signin-content">
                 <div className="signin-image">
                   <figure>
                     <img
                       src={signin}
                       className="signin-img"
-                      alt="sing up image"
+                      alt="sign in image"
                     />
                   </figure>
-                  <button className="signup-image-link button-54" onClick={() => { window.location.href = "/RegisterDogOwner"; }}>
-  Create an account
-</button>
+                  <button
+                    className="signup-image-link button-54"
+                    onClick={() => {
+                      window.location.href = "/RegisterDogOwner";
+                    }}
+                  >
+                    Create an account
+                  </button>
                 </div>
                 <div className="signin-form">
                   <h2 className="form-title">Sign in</h2>
-                  <form method="POST" className="register-form" id="login-form">
+                  <form
+                    method="POST"
+                    className="register-form"
+                    id="login-form"
+                    onSubmit={handleSubmit}
+                  >
                     <div className="form-group">
-                      <label htmlFor="your_name">
+                      <label htmlFor="user_email">
                         <i className="zmdi zmdi-account material-icons-name" />
                       </label>
                       <input
                         type="text"
-                        name="your_name"
+                        name="user_email"
                         id="user_email"
                         placeholder="User name"
                       />
                     </div>
                     <div className="form-group">
-                      <label htmlFor="your_pass">
+                      <label htmlFor="password">
                         <i className="zmdi zmdi-lock" />
                       </label>
                       <input
                         type="password"
-                        name="your_pass"
+                        name="password"
                         id="password"
                         placeholder="Password"
                       />
@@ -116,7 +92,10 @@ const LoginDogOwner = () => {
                         id="remember-me"
                         className="agree-term"
                       />
-                      <label htmlFor="remember-me" className="label-agree-term">
+                      <label
+                        htmlFor="remember-me"
+                        className="label-agree-term"
+                      >
                         <span>
                           <span />
                         </span>
@@ -124,16 +103,13 @@ const LoginDogOwner = () => {
                       </label>
                     </div>
                     <div className="form-group form-button">
-                      <Link to="/Profile">
-                        <input
-                          type="submit"
-                          name="signin"
-                          id="signin"
-                          className="form-submit"
-                          defaultValue="Log in"
-                          onClick={handleSubmit}
-                        />
-                      </Link>
+                      <input
+                        type="submit"
+                        name="signin"
+                        id="signin"
+                        className="form-submit"
+                        value="Log in"
+                      />
                     </div>
                   </form>
                 </div>

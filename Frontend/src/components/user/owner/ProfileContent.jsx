@@ -1,15 +1,14 @@
 import React from "react";
 import User from "./images/roni.png";
-import { Link } from "react-router-dom";
-import Calendar from '../../Calendar/Calendar';
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import Calendar from "../../Calendar/Calendar";
 
 function ProfileContent() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const responseData = JSON.parse(searchParams.get("data"));
+  const responseData = JSON.parse(localStorage.getItem("responseData"));
   console.log(responseData);
- 
+
   const handleDateSelection = (selectedDateTime) => {
     console.log('Selected date/time:', selectedDateTime);
     // Perform additional actions
