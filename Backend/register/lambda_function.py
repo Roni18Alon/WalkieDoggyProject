@@ -119,7 +119,7 @@ def lambda_handler(event, context):
                     'Access-Control-Allow-Origin': '*',
                     'Set-Cookie': f"walkieDoggy={hashed_token}"
                 },
-                'body': simplejson.dumps(new_user_data, use_decimal=True)
+                'body': simplejson.dumps({"body": new_user_data}, use_decimal=True)
             }
 
         else:
