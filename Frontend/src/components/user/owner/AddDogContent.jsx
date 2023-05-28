@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+
 function AddDogContent() {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const responseData = JSON.parse(searchParams.get("data"));
+  console.log(responseData);
+
   //Birthday arrays:
   const days = [
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
@@ -65,60 +72,62 @@ function AddDogContent() {
   };
   //add Dog to database
   const handleAddDog = async () => {
-
-    const url ="https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register-dog";
+    const url =
+      "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register-dog";
     setDate(bithDay + "-" + bithMonth + "-" + bithYear);
     console.log("in HandleaddDog");
-      const newDog = {
-        dog_name: name,
-        dog_breed: breed,
-        dog_weight: Weight,
-        dog_gender: gender,
-        dog_birthday: date,
-        free_text: info,
-        spayed: spayed,
-        rabies_vaccinated: vaccinated,
-        human_friendly: hFriendly,
-        dog_friendly: DFriendly,
-      };
-
-       // Replace with your actual API endpoint URL
-      const params = new URLSearchParams({
-        user_mail: "user_email",
-      });
-
-      // Create query string parameters
-      // const params = new URLSearchParams({ user_email: user_email });
-      const requestOptions = {
-        method: "POST",
-        mode: 'no-cors',
-        Headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newDog),
-      };
-
-      try {
-        const response = await fetch(`${url}?${new URLSearchParams(params)}`,requestOptions);
-        console.log(name);
-        console.log("-----------------------" + requestOptions.body);
-        console.log(response.status + " hi");
-        if (response.status == "400") {
-          alert("Bad Request: Please check your request data.");
-        }
-        if (response.ok) {
-          // POST request was successful
-          console.log("Request sent successfully!" + response.status);
-          // Do something with the response if needed
-        } else {
-          prompt("Error:", response.error);
-        }
-      } catch (error) {
-        console.log("Error:", error.message);
-      }
+    const newDog = {
+      dog_name: name,
+      dog_breed: breed,
+      dog_weight: Weight,
+      dog_gender: gender,
+      dog_birthday: date,
+      free_text: info,
+      spayed: spayed,
+      rabies_vaccinated: vaccinated,
+      human_friendly: hFriendly,
+      dog_friendly: DFriendly,
     };
 
-  
+    // Replace with your actual API endpoint URL
+    const params = new URLSearchParams({
+      user_mail: "ronialon2008@gmail.com",
+    });
+
+    // Create query string parameters
+    // const params = new URLSearchParams({ user_email: user_email });
+    const requestOptions = {
+      method: "POST",
+      mode: "no-cors",
+      Headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newDog),
+    };
+
+    try {
+      const response = await fetch(
+        `${url}?${new URLSearchParams(params)}`,
+        requestOptions
+      );
+      console.log(name);
+      console.log("-----------------------" + requestOptions.body);
+      console.log(response.status + " hi");
+      if (response.status == "400") {
+        alert("Bad Request: Please check your request data.");
+      }
+      if (response.ok) {
+        // POST request was successful
+        console.log("Request sent successfully!" + response.status);
+        // Do something with the response if needed
+      } else {
+        prompt("Error:", response.error);
+      }
+    } catch (error) {
+      console.log("Error:", error.message);
+    }
+  };
+
   return (
     <div className="col-12 col-md-9 p-4 " style={{ marginTop: "58px" }}>
       <div className="card p-4 m-3">
@@ -309,12 +318,12 @@ function AddDogContent() {
               </label>
             </div>
             <input
-                type="file"
-                accept="image/*"
-                className="form-control"
-                id="inputImage"
-                onChange={handleImageUpload}
-              />     
+              type="file"
+              accept="image/*"
+              className="form-control"
+              id="inputImage"
+              onChange={handleImageUpload}
+            />
             <div className="col-md-12 mt-3">
               <button
                 type="submit"

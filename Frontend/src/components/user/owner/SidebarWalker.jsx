@@ -119,7 +119,7 @@ function SidebarWalker() {
             className="nav-link nav-link-profile"
             to="/EditWalkerProfile"
             onClick={() => handlePageClick("/EditWalkerProfile")}
-          > 
+          >
             <span className="d-flex jusitfy-content-center">
               <span className="icon fa-solid fa-pen-to-square" />
               Edit Profile
@@ -140,7 +140,7 @@ function SidebarWalker() {
               <span className="icon fa-solid fa-handshake" />
               Future Meetings
             </span>
-          </Link> 
+          </Link>
         </li>
         <li
           className={`nav-item nav-item-profile ${
@@ -153,9 +153,10 @@ function SidebarWalker() {
             onClick={() => handlePageClick("/WalkerHistory")}
           >
             <span className="d-flex jusitfy-content-center">
-              <span className="icon icon-search" />
+              <span className="icon icon-calendar" />
               History
-            </span> <i class=""></i>
+            </span>{" "}
+            <i class=""></i>
           </Link>
         </li>
       </ul>

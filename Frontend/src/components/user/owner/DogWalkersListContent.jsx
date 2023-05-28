@@ -1,13 +1,18 @@
-import React, { useState , useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import ResultList from "./ResultList";
 import { IoPawSharp } from "react-icons/io5";
 import Rating from "react-rating-stars-component";
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { format } from 'date-fns';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { format } from "date-fns";
+import { useLocation } from "react-router-dom";
 
 function EditProfileContent() {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const responseData = JSON.parse(searchParams.get("data"));
+  console.log(responseData);
 
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -30,15 +35,12 @@ function EditProfileContent() {
     // if (startDate && endDate) {
     //   const startTime = format(startDate, 'yyyy-MM-dd HH:mm:ss');
     //   const endTime = format(endDate, 'yyyy-MM-dd HH:mm:ss');
-
     //   console.log('Start Time:', startTime);
     //   console.log('End Time:', endTime);
     // }
   };
-  
+
   const handleSearch = () => {
-
-
     /*axios
       .post(
         "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/search",
@@ -58,16 +60,12 @@ function EditProfileContent() {
   };
 
   const isEmpty = () => {
-    return rating && distance && startDate  && price
-      ? handleSearch
-      : null;
+    return rating && distance && startDate && price ? handleSearch : null;
   };
 
   const handleChange = (newRating) => {
     setRating(newRating);
   };
-
-
 
   // rows.forEach((row) => {
   //   const name = row.cells[1].textContent;
@@ -79,8 +77,8 @@ function EditProfileContent() {
   //     row.style.display = "none";
   //   }
   // });
-  
- // const message = rowCount === 0 ? "No records found." : "";
+
+  // const message = rowCount === 0 ? "No records found." : "";
 
   const [distance, setDistance] = useState(0);
   const [rating, setRating] = useState(null);
@@ -140,69 +138,68 @@ function EditProfileContent() {
         <div className="container">
           <div className="row">
             <div className="col-lg-12 card-margin">
-            <div>
-      <div className="input-group mb-3">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="From"
-          value={startDate ? startDate.toString() : ''}
-          readOnly
-        />
-        <div className="input-group-append">
-          <button
-            className="btn btn-outline-secondary"
-            type="button"
-            onClick={openStartDatePicker}
-          >
-            From
-          </button>
-        </div>
-      </div>
-      <div className="input-group mb-3">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="To"
-          value={endDate ? endDate.toString() : ''}
-          readOnly
-        />
-        <div className="input-group-append">
-          <button
-            className="btn btn-outline-secondary"
-            type="button"
-            onClick={openEndDatePicker}
-          >
-            To
-          </button>
-        </div>
-      </div>
-      <div>
-        <DatePicker
-          selected={startDate}
-          onChange={(date) => setStartDate(date)}
-          showTimeSelect
-          dateFormat="Pp"
-          className="d-none"
-          ref={startDatePickerRef}
-        />
-        <DatePicker
-          selected={endDate}
-          onChange={(date) => setEndDate(date)}
-          showTimeSelect
-          dateFormat="Pp"
-          className="d-none"
-          ref={endDatePickerRef}
-        />
-      </div>
-    </div>
+              <div>
+                <div className="input-group mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="From"
+                    value={startDate ? startDate.toString() : ""}
+                    readOnly
+                  />
+                  <div className="input-group-append">
+                    <button
+                      className="btn btn-outline-secondary"
+                      type="button"
+                      onClick={openStartDatePicker}
+                    >
+                      From
+                    </button>
+                  </div>
+                </div>
+                <div className="input-group mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="To"
+                    value={endDate ? endDate.toString() : ""}
+                    readOnly
+                  />
+                  <div className="input-group-append">
+                    <button
+                      className="btn btn-outline-secondary"
+                      type="button"
+                      onClick={openEndDatePicker}
+                    >
+                      To
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <DatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    showTimeSelect
+                    dateFormat="Pp"
+                    className="d-none"
+                    ref={startDatePickerRef}
+                  />
+                  <DatePicker
+                    selected={endDate}
+                    onChange={(date) => setEndDate(date)}
+                    showTimeSelect
+                    dateFormat="Pp"
+                    className="d-none"
+                    ref={endDatePickerRef}
+                  />
+                </div>
+              </div>
               <div className="card search-form">
                 <div className="card-body p-0">
                   <form id="search-form">
                     <div className="row">
                       <div className="col-12">
                         <div className="row no-gutters">
-
                           {/* Rating  Section*/}
 
                           <div className="col-4 p-4" style={{ left: "30px" }}>
@@ -279,17 +276,13 @@ function EditProfileContent() {
                                 onChange={(e) => setStartDate(e.target.value)}
                               /> */}
                             </div>
-
-
-
                           </div>
 
                           {/* Distance */}
                           <div>
                             <select
                               className="col-lg-3 col-md-3 col-sm-12 p-0"
-                              style={{ width: "90px",
-                                    left: "60px" }}
+                              style={{ width: "90px", left: "60px" }}
                               name="Distance"
                               onChange={(e) => {
                                 setDistance(e.target.value);
@@ -329,7 +322,6 @@ function EditProfileContent() {
                               </svg>
                             </button>
                           </div>
-
                         </div>
                       </div>
                     </div>
@@ -353,9 +345,7 @@ function EditProfileContent() {
                         >
                           <div className="table-responsive">
                             <table className="table widget-26">
-                              <tbody>
-                                {ResultList()}
-                              </tbody>
+                              <tbody>{ResultList()}</tbody>
                             </table>
                           </div>
                         </div>

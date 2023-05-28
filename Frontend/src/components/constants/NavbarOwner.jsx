@@ -7,8 +7,6 @@ const NavbarOwner = () => {
   const searchParams = new URLSearchParams(location.search);
   const responseData = JSON.parse(searchParams.get("data"));
 
- 
-
   return (
     <>
       <div className="site-mobile-menu site-navbar-target">
@@ -50,12 +48,15 @@ const NavbarOwner = () => {
                   </li>
                   <li className="has-children">
                     <a href="" className="nav-link">
-                    {responseData &&
-       responseData.user_full_name &&
-    responseData.user_full_name
-      .split(" ")
-      .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
-      .join(" ")}
+                      {responseData &&
+                        responseData.user_full_name &&
+                        responseData.user_full_name
+                          .split(" ")
+                          .map(
+                            (name) =>
+                              name.charAt(0).toUpperCase() + name.slice(1)
+                          )
+                          .join(" ")}
                     </a>
                     <ul className="dropdown">
                       <li>
