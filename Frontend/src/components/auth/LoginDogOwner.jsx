@@ -3,9 +3,8 @@ import "./dist/Register.css";
 import styles from "./dist/Register.module.css";
 import signin from "./dist/images/sign_in.png";
 import { Link } from "react-router-dom";
-import { useLoginMutation } from './../api';
+import { useLoginMutation } from "./../api";
 import { useNavigate } from "react-router-dom";
-
 
 const LoginDogOwner = () => {
   const navigate = useNavigate();
@@ -18,16 +17,18 @@ const LoginDogOwner = () => {
     const password = document.getElementById("password").value;
 
     try {
-      const response = await loginMutation.mutateAsync({ user_email, password });
+      const response = await loginMutation.mutateAsync({
+        user_email,
+        password,
+      });
       console.log(response); // Access the response body
       setResponseData(response);
 
       if (loginMutation.status === "success") {
-      
-        console.log(response);
-        console.log(response);
-        console.log(response);
-        console.log(response);
+        console.log(responseData);
+        //const encodedData = encodeURIComponent(JSON.stringify(responseData));
+        //console.log("encodeData: " + encodedData);
+        //navigate(`/Profile?data=${encodedData}`);
         // Route to the profile page
         navigate("/Profile?data=" + JSON.stringify(responseData));
       }
@@ -36,33 +37,30 @@ const LoginDogOwner = () => {
     }
   };
 
-// const postData = async () => {
+  // const postData = async () => {
 
-  
+  //   // const url = 'https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/login';
+  //   // const form = document.getElementById('login-form');
+  //   // const user_email = document.getElementById('user_email').value;
+  //   // const password = document.getElementById('password').value;
 
-//   // const url = 'https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/login';
-//   // const form = document.getElementById('login-form');
-//   // const user_email = document.getElementById('user_email').value;
-//   // const password = document.getElementById('password').value;
- 
+  //   // form.addEventListener('submit', (event) => {
+  //   //   event.preventDefault();
+  //   //   // Perform further actions with the captured input values
+  //   //   // ...
+  //   // });
 
-//   // form.addEventListener('submit', (event) => {
-//   //   event.preventDefault();
-//   //   // Perform further actions with the captured input values
-//   //   // ...
-//   // });
-
-//   // axios.get(url, {
-//   //   params: {"user_mail": user_email},
-//   //   headers: {
-//   //     "password": password
-//   //   },
-//   // })
-//   //   .then((res) => console.log(res))
-//   //   .catch((error) => {
-//   //     console.log("Error:", error);
-//   //   });
-// }
+  //   // axios.get(url, {
+  //   //   params: {"user_mail": user_email},
+  //   //   headers: {
+  //   //     "password": password
+  //   //   },
+  //   // })
+  //   //   .then((res) => console.log(res))
+  //   //   .catch((error) => {
+  //   //     console.log("Error:", error);
+  //   //   });
+  // }
   return (
     <div className="wrapper">
       <div className="main">
@@ -80,9 +78,14 @@ const LoginDogOwner = () => {
                       alt="sing up image"
                     />
                   </figure>
-                  <button className="signup-image-link button-54" onClick={() => { window.location.href = "/RegisterDogOwner"; }}>
-  Create an account
-</button>
+                  <button
+                    className="signup-image-link button-54"
+                    onClick={() => {
+                      window.location.href = "/RegisterDogOwner";
+                    }}
+                  >
+                    Create an account
+                  </button>
                 </div>
                 <div className="signin-form">
                   <h2 className="form-title">Sign in</h2>
