@@ -110,7 +110,7 @@ def lambda_handler(event, context):
             table = dynamo.resource.Table('users-info')
             logger.info(f"Inserting new data for user {user_mail}: {new_user_data}")
             table.put_item(Item=new_user_data)
-
+            del new_user_data['password']
             # Return success response
             return {
                 'statusCode': 200,

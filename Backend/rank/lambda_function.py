@@ -66,6 +66,7 @@ def lambda_handler(event, context):
                 reviews.append({'body': review, 'date': review_date})
                 user_data['reviews'] = reviews
                 dynamo.insert_item(item=user_data)
+                del user_data['password']
                 return responses.succeeded(message=user_data)
 
             else:

@@ -53,6 +53,7 @@ def lambda_handler(event, context):
             user_new_data['token'] = hashed_token
             logger.info(f"insert new data for user {user_mail} the data {user_new_data}")
             dynamo.insert_item(item=user_new_data)
+            del user_new_data['password']
             # return data with new cookie
             return {
                 'statusCode': 200,

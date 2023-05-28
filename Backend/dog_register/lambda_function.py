@@ -115,9 +115,8 @@ def lambda_handler(event, context):
                 user_data['dogs'] = dogs_list
                 logger.info(f"Inserting new data of dog  {dog_data} to user {user_mail}.all data : {user_data}")
                 dynamo.insert_item(item=user_data)
+                del user_data['password']
                 # Return success response
-                # if dog_image_b64:
-                #     user_data['dog_image'] = base64.b64encode(dog_image_b64).decode('utf-8')
                 return responses.succeeded(message=user_data)
             else:
                 logger.error(f"dog already exists for this user")
