@@ -17,43 +17,45 @@ import WalkerPersonalProfile from "./components/user/dogwalker/WalkerPersonalPro
 import EditWalkerProfile from "./components/user/dogwalker/EditWalkerProfile";
 import WalkerFutureMeetings from "./components/user/dogwalker/WalkerFutureMeetings";
 import WalkerHistory from "./components/user/dogwalker/WalkerHistory";
-import { QueryClient, QueryClientProvider } from 'react-query';
+import OwnerHistory from "./components/user/owner/OwnerHistory";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 function App() {
   const queryClient = new QueryClient();
   return (
     <QueryClientProvider client={queryClient}>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Register />} />
-        <Route path="/HomeOwner" element={<HomeOwner />} />
-        <Route path="/HomeWalker" element={<HomeWalker />} />
-        <Route path="/RegisterDogWalker" element={<RegisterDogWalker />} />
-        <Route path="/RegisterDogOwner" element={<RegisterDogOwner />} />
-        <Route path="/LoginDogOwner" element={<LoginDowOwner />} />
-        <Route path="/LoginDogWalker" element={<LoginDogWalker />} />
-        <Route path="/Profile" element={<Profile />} />
-        <Route path="/WalkerProfile" element={<WalkerProfile />} />
-        <Route
-          path="/WalkerProfileForUser"
-          element={<WalkerProfileForUser />}
-        />
-        <Route path="/EditWalkerProfile" element={<EditWalkerProfile />} />
-        <Route
-          path="/WalkerPersonalProfile"
-          element={<WalkerPersonalProfile />}
-        />
-        <Route
-          path="/WalkerFutureMeetings"
-          element={<WalkerFutureMeetings />}
-        />
-        <Route path="/WalkerHistory" element={<WalkerHistory />} />
-        <Route path="/EditProfile" element={<EditProfile />} />
-        <Route path="/AddDog" element={<AddDog />} />
-        <Route path="/MyDogs" element={<MyDogs />} />
-        <Route path="/DogWalkersList" element={<DogWalkersList />} />
-      </Routes>
-    </BrowserRouter>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Register />} />
+          <Route path="/HomeOwner" element={<HomeOwner />} />
+          <Route path="/HomeWalker" element={<HomeWalker />} />
+          <Route path="/RegisterDogWalker" element={<RegisterDogWalker />} />
+          <Route path="/RegisterDogOwner" element={<RegisterDogOwner />} />
+          <Route path="/LoginDogOwner" element={<LoginDowOwner />} />
+          <Route path="/LoginDogWalker" element={<LoginDogWalker />} />
+          <Route path="/Profile" element={<Profile />} />
+          <Route path="/WalkerProfile" element={<WalkerProfile />} />
+          <Route
+            path="/WalkerProfileForUser"
+            element={<WalkerProfileForUser />}
+          />
+          <Route path="/EditWalkerProfile" element={<EditWalkerProfile />} />
+          <Route
+            path="/WalkerPersonalProfile"
+            element={<WalkerPersonalProfile />}
+          />
+          <Route
+            path="/WalkerFutureMeetings"
+            element={<WalkerFutureMeetings />}
+          />
+          <Route path="/WalkerHistory" element={<WalkerHistory />} />
+          <Route path="/OwnerHistory" element={<OwnerHistory />} />
+          <Route path="/EditProfile" element={<EditProfile />} />
+          <Route path="/AddDog" element={<AddDog />} />
+          <Route path="/MyDogs" element={<MyDogs />} />
+          <Route path="/DogWalkersList" element={<DogWalkersList />} />
+        </Routes>
+      </BrowserRouter>
     </QueryClientProvider>
   );
 }

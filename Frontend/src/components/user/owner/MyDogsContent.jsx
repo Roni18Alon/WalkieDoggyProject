@@ -1,7 +1,13 @@
 import React from "react";
 import dog1 from "./images/2.jfif";
+import { useLocation } from "react-router-dom";
 
 function ProfileContent() {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const responseData = JSON.parse(searchParams.get("data"));
+
+  console.log(responseData);
   return (
     <>
       <div

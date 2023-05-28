@@ -6,7 +6,8 @@ const Navbar = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const responseData = JSON.parse(searchParams.get("data"));
-  
+  console.log("*****************");
+  console.log(responseData);
 
   return (
     <>
@@ -54,12 +55,15 @@ const Navbar = () => {
                   </li>
                   <li className="has-children">
                     <a href="/" className="nav-link">
-                       {responseData &&
-       responseData.user_full_name &&
-    responseData.user_full_name
-      .split(" ")
-      .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
-      .join(" ")}
+                      {responseData &&
+                        responseData.user_full_name &&
+                        responseData.user_full_name
+                          .split(" ")
+                          .map(
+                            (name) =>
+                              name.charAt(0).toUpperCase() + name.slice(1)
+                          )
+                          .join(" ")}
                     </a>
                     <ul className="dropdown">
                       <li>

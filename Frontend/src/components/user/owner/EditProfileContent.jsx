@@ -1,8 +1,11 @@
 import User from "./images/kindpng_248729.png";
 import { Link } from "react-router-dom";
-import React from 'react';
+import React from "react";
 
 function EditProfileContent() {
+  const handleEditProfile = () => {
+    //***TO DO - POST **
+  };
   return (
     <>
       <div
@@ -99,7 +102,11 @@ function EditProfileContent() {
 
                   <div className="row">
                     <div className="col-sm-12">
-                      <Link className="btn btn-info " to="/Profile">
+                      <Link
+                        className="btn btn-info "
+                        to="/Profile"
+                        onClick={handleEditProfile()}
+                      >
                         Save Changes
                       </Link>
                     </div>
