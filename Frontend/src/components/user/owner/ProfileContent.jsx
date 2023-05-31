@@ -1,14 +1,12 @@
 import React from "react";
 import User from "./images/roni.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Calendar from "../../Calendar/Calendar";
-import { useLocation } from "react-router-dom";
 
 function ProfileContent() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const responseData = JSON.parse(searchParams.get("data"));
-  //location("/Profile?data=" + JSON.stringify(responseData));
+  const responseData = JSON.parse(localStorage.getItem("responseData"));
   console.log(responseData);
 
   const handleDateSelection = (selectedDateTime) => {
@@ -43,7 +41,7 @@ function ProfileContent() {
                     />
                     <div className="mt-3">
                       <h4>
-                        {/*responseData &&
+                        {responseData &&
                           responseData.user_full_name &&
                           responseData.user_full_name
                             .split(" ")
@@ -51,11 +49,11 @@ function ProfileContent() {
                               (name) =>
                                 name.charAt(0).toUpperCase() + name.slice(1)
                             )
-                            .join(" ")*/}
+                            .join(" ")}
                       </h4>
                       <p className="text-secondary mb-1">Dog Owner</p>
                       <p className="text-muted font-size-sm">
-                        {/*responseData.city + ", " + responseData.country*/}
+                        {responseData.city + ", " + responseData.country}
                       </p>
                     </div>
                     <div className="rating-position">
@@ -93,7 +91,7 @@ function ProfileContent() {
                       <h6 className="mb-0">Full Name</h6>
                     </div>
                     <div className="col-sm-9 text-secondary mt-2">
-                      {/*responseData &&
+                      {responseData &&
                         responseData.user_full_name &&
                         responseData.user_full_name
                           .split(" ")
@@ -101,7 +99,7 @@ function ProfileContent() {
                             (name) =>
                               name.charAt(0).toUpperCase() + name.slice(1)
                           )
-                          .join(" ")*/}
+                          .join(" ")}
                     </div>
                   </div>
                   <hr />
@@ -110,7 +108,7 @@ function ProfileContent() {
                       <h6 className="mb-0">Email</h6>
                     </div>
                     <div className="col-sm-9 text-secondary">
-                      {/*responseData.user_email*/}
+                      {responseData.user_email}
                     </div>
                   </div>
                   <hr />
@@ -119,7 +117,7 @@ function ProfileContent() {
                       <h6 className="mb-0">Mobile</h6>
                     </div>
                     <div className="col-sm-9 text-secondary">
-                      {/*responseData.rank*/}
+                      {responseData.rank}
                     </div>
                   </div>
                   <hr />
@@ -128,11 +126,11 @@ function ProfileContent() {
                       <h6 className="mb-0">Address</h6>
                     </div>
                     <div className="col-sm-9 text-secondary">
-                      {/*responseData.address +
+                      {responseData.address +
                         ", " +
                         responseData.city +
                         ", " +
-                          responseData.country*/}
+                        responseData.country}
                     </div>
                   </div>
                   <hr />

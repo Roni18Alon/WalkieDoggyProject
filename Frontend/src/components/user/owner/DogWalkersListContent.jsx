@@ -5,67 +5,69 @@ import { IoPawSharp } from "react-icons/io5";
 import Rating from "react-rating-stars-component";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { format } from "date-fns";
-import { useLocation } from "react-router-dom";
+import axios from "axios";
 
-function EditProfileContent() {
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const responseData = JSON.parse(searchParams.get("data"));
-  console.log(responseData);
-
+function DogWalkerListContent() {
+  // State variables for search criteria
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const startDatePickerRef = useRef(null);
-  const endDatePickerRef = useRef(null);
+  const [distance, setDistance] = useState(0);
+  const [rating, setRating] = useState(null);
+  const [price, setPrice] = useState(null);
+  const user_email = "ronialon2008@gmail.com";
+  const url =
+    "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/search";
 
-  const openStartDatePicker = () => {
-    if (startDatePickerRef.current) {
-      startDatePickerRef.current.setOpen(true);
-    }
-  };
+  // Event handler for search button
+  const handleSearch = async (e) => {
+    e.preventDefault();
 
-  const openEndDatePicker = () => {
-    if (endDatePickerRef.current) {
-      endDatePickerRef.current.setOpen(true);
-    }
-  };
+    const requestData = {
+      distance: parseInt(distance),
+      start_time: "23-05-28 18:00:00",
+      end_time: "23-05-28 19:00:00",
+      max_price: parseInt(price),
+      min_rating: parseInt(rating),
+    };
 
-  const handleSubmit = () => {
-    // if (startDate && endDate) {
-    //   const startTime = format(startDate, 'yyyy-MM-dd HH:mm:ss');
-    //   const endTime = format(endDate, 'yyyy-MM-dd HH:mm:ss');
-    //   console.log('Start Time:', startTime);
-    //   console.log('End Time:', endTime);
-    // }
-  };
+    const params = new URLSearchParams({ user_mail: user_email });
 
-  const handleSearch = () => {
-    /*axios
-      .post(
-        "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/search",
+    try {
+      const response = await axios.post(
+        `${url}?${params}`,
+        JSON.stringify(requestData),
         {
-          newDog
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      )
+      );
+      console.log(response);
+    } catch (error) {
+      console.log("Error:", error.response);
+    }
 
-      .then(function (response) {
-        console.log(response);
-      })
-
-      .catch(function (error) {
-        console.log(error);
-      }); 
-    ResultList();*/
+    console.log(requestData);
   };
 
-  const isEmpty = () => {
-    return rating && distance && startDate && price ? handleSearch : null;
-  };
-
+  // Event handler for rating change
   const handleChange = (newRating) => {
     setRating(newRating);
   };
+
+  // Function to open the start date picker
+  const openStartDatePicker = () => {
+    startDatePickerRef.current.setOpen(true);
+  };
+
+  // Function to open the end date picker
+  const openEndDatePicker = () => {
+    endDatePickerRef.current.setOpen(true);
+  };
+
+  // Refs for date pickers
+  const startDatePickerRef = useRef(null);
+  const endDatePickerRef = useRef(null);
 
   // rows.forEach((row) => {
   //   const name = row.cells[1].textContent;
@@ -80,9 +82,6 @@ function EditProfileContent() {
 
   // const message = rowCount === 0 ? "No records found." : "";
 
-  const [distance, setDistance] = useState(0);
-  const [rating, setRating] = useState(null);
-  const [price, setPrice] = useState(null);
   // const [startDate, setStartDate] = useState();
   // const [endDate, setEndDate] = useState();
 
@@ -288,10 +287,10 @@ function EditProfileContent() {
                                 setDistance(e.target.value);
                               }}
                             >
-                              <option value="0">Distance</option>
-                              <option value="1">1 km</option>
-                              <option value="5">5 km</option>
-                              <option value="10">10 km</option>
+                              <option value={0}>Distance</option>
+                              <option value={1}>1 km</option>
+                              <option value={5}>5 km</option>
+                              <option value={10}>10 km</option>
                             </select>
                           </div>
 
@@ -303,7 +302,7 @@ function EditProfileContent() {
                             <button
                               type="submit"
                               className="btn btn-base"
-                              onClick={handleSubmit()}
+                              onClick={handleSearch}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -362,4 +361,4 @@ function EditProfileContent() {
   );
 }
 
-export default EditProfileContent;
+export default DogWalkerListContent;
