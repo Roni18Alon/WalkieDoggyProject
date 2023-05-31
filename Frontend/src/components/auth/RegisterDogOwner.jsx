@@ -4,10 +4,14 @@ import styles from "./dist/Register.module.css";
 import signup from "./dist/images/sign_up.png";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 const Register = () => {
-  const [emailValid, setEmailValid] = useState(true);
   // State to store the user parameters
+  const [phone, setPhone] = useState("");
+  const [isValid, setIsValid] = useState(true);
+
   const postData = async () => {
     const url =
       "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register"; // Replace with your actual API endpoint URL
@@ -54,16 +58,22 @@ const Register = () => {
       .catch((error) => {
         console.log("Error:", error);
       });
-
-    // axios({
-    //   method: 'POST',
-    //   url: `${url}?${params}`,
-    //   mode: 'no-cors',
-    //   // headers: {'Content-Type': 'application/json'},
-    //   body: JSON.stringify(requestData)
-    // })
   };
 
+  const handlePhoneChange = (e) => {
+    const inputValue = e.target.value;
+    let formattedValue = inputValue.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+
+    if (formattedValue.length > 10) {
+      formattedValue = formattedValue.slice(0, 10); // Truncate to 10 digits
+    }
+
+    if (formattedValue.length > 3) {
+      formattedValue = formattedValue.replace(/^(\d{3})(\d{0,7})/, "$1-$2");
+    }
+
+    setPhone(formattedValue);
+  };
   return (
     <div className="wrapper">
       <div className="main">
@@ -159,8 +169,10 @@ const Register = () => {
                       type="text"
                       name="phone_number"
                       id="phone_number"
-                      placeholder="Phone number"
+                      placeholder="phone"
                       required
+                      value={phone}
+                      onChange={handlePhoneChange}
                     />
                   </div>
                   {/* country */}
@@ -202,185 +214,7 @@ const Register = () => {
                       required
                     />
                   </div>
-                  {/*
-                  <div className="form-group">
-                    <label htmlFor="petName1">
-                      <i className="zmdi zmdi-favorite" />
-                    </label>
-                    <input
-                      type="text"
-                      name="petName"
-                      id="petName"
-                      placeholder="Pet's name"
-                      required
-                    />
-                  </div>
 
-                  <div className="form-group">
-                    <label htmlFor="petAge1">
-                      <i className="zmdi zmdi-favorite" />
-                    </label>
-                    <input
-                      type="text"
-                      name="petAge"
-                      id="petAge"
-                      placeholder="Pet's age"
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="petBreed1">
-                      <i className="zmdi zmdi-favorite" />
-                    </label>
-                    <input
-                      type="text"
-                      name="petBreed"
-                      id="petBreed"
-                      placeholder="Pet's breed"
-                      required
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="petWieght1">
-                      <i className="zmdi zmdi-favorite" />
-                    </label>
-                    <input
-                      type="text"
-                      name="petWieght"
-                      id="petWieght"
-                      placeholder="Pet's wieght in kg"
-                      required
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <input
-                      type="radio"
-                      value="Male"
-                      name="petGender"
-                      id="petGender"
-                      className="petGender"
-                      onChange={(e) => setGender(e.target.value)}
-                    />
-                    Male
-                    <input
-                      type="radio"
-                      value="Female"
-                      name="petGender"
-                      id="petGender"
-                      className="petGender"
-                      onChange={(e) => setGender(e.target.value)}
-                    />
-                    Female
-                  </div>
-
-                  <div className="form-group">
-                    <input name="birthday" id="birthday" />
-                    <label>Pet's Birthday</label>
-                    <select name="Day">
-                      <option value="Day"> Day</option>
-                      {days.map((item) => (
-                        <option>{item}</option>
-                      ))}
-                    </select>
-                    <select name="Month">
-                      <option value="Month"> Month</option>
-                      {months.map((item) => (
-                        <option>{item}</option>
-                      ))}
-                    </select>
-                    <select name="Year">
-                      <option value="Year"> Year</option>
-                      {years.map((item) => (
-                        <option>{item}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="freeText1">
-                      <i className="zmdi zmdi-favorite" />
-                    </label>
-                    <input
-                      className="form-control me-auto"
-                      type="text"
-                      placeholder="A little bit about my pet"
-                      aria-label="A little bit about my pet"
-                      required
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <input
-                      type="checkbox"
-                      name="spayed"
-                      id="spayed"
-                      className="agree-term"
-                    />
-                    <label htmlFor="agree-term" className="label-agree-term">
-                      <span>
-                        <span />
-                      </span>
-                      Spayed
-                      {/* <a href="#" className="term-service">
-                       
-                      </a> }
-                    </label>
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="checkbox"
-                      name="Rabies-vaccinated"
-                      id="Rabies-vaccinated"
-                      className="agree-term"
-                    />
-                    <label htmlFor="agree-term" className="label-agree-term">
-                      <span>
-                        <span />
-                      </span>
-                      Rabies vaccinated
-                      {/* <a href="#" className="term-service">
-                       
-                      </a> }
-                    </label>
-                  </div>
-             
-                  <div className="form-group">
-                    <input
-                      type="checkbox"
-                      name="Human-friendly"
-                      id="Human-friendly"
-                      className="agree-term"
-                    />
-                    <label htmlFor="agree-term" className="label-agree-term">
-                      <span>
-                        <span />
-                      </span>
-                      Human friendly
-                      {/* <a href="#" className="term-service">
-                       
-                      </a> 
-                    </label>  
-                  </div> 
-                  <div className="form-group">
-                    <input
-                      type="checkbox"
-                      name="Dog-friendly"
-                      id="Dog-friendly"
-                      className="agree-term"
-                    />
-                    <label htmlFor="agree-term" className="label-agree-term">
-                      <span>
-                        <span />
-                      </span>
-                      Dog friendly
-                      {/* <a href="#" className="term-service">
-                       
-                      </a> 
-                    </label>
-                  </div>
-                */}
                   <div className="form-group">
                     <input
                       type="checkbox"
