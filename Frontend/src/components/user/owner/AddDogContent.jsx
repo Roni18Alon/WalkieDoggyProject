@@ -1,11 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import PetsIcon from "@mui/icons-material/Pets";
+import ReportIcon from "@mui/icons-material/Report";
 
 function AddDogContent() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const responseData = JSON.parse(searchParams.get("data"));
+  const responseData = JSON.parse(localStorage.getItem("responseData"));
   console.log(responseData);
+
+  // console.log(responseData);
 
   //Birthday arrays:
   const days = [
@@ -23,16 +33,21 @@ function AddDogContent() {
   const [name, setName] = useState("");
   const [breed, setBreed] = useState("");
   const [Weight, setWeight] = useState("");
-  const [bithDay, setDay] = useState(1);
-  const [bithMonth, setMonth] = useState(1);
-  const [bithYear, setYear] = useState(2000);
+  const [bithDay, setDay] = useState(null);
+  const [bithMonth, setMonth] = useState(null);
+  const [bithYear, setYear] = useState(null);
   const [info, setInfo] = useState(0);
   const [spayed, setSpayed] = useState(false);
   const [vaccinated, setVaccinated] = useState(false);
   const [hFriendly, setHFriendly] = useState(false);
   const [DFriendly, setDFriendly] = useState(false);
   const [date, setDate] = useState("");
-
+  const [modalText, setModalText] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalCloseText, setModalCloseText] = useState("");
+  const [flag, setFlag] = useState(false);
+  const [path, setPath] = useState("#");
+  const [modalIcon, setModalIcon] = useState("</ReportIcon>");
   //fetch dog breed list
   const [data, setData] = useState([]);
 
@@ -70,12 +85,95 @@ function AddDogContent() {
     // Handle the image file here
     // You can upload the file to a server or process it further
   };
+
   //add Dog to database
-  const handleAddDog = async () => {
+  const handleAddDog = () => {
+    console.log("in HandleaddDog" + name);
+
+    if (bithDay != null && bithMonth != null && bithYear != null) {
+      setDate(bithDay + "-" + bithMonth + "-" + bithYear);
+    } else {
+      setDate(null);
+    }
+    console.log(
+      "name: " +
+        name +
+        "breed: " +
+        breed +
+        " weight: " +
+        Weight +
+        "date: " +
+        date
+    );
+    setIsModalOpen(true);
+    if (name && breed && Weight && date) {
+      setModalText("Welcome " + name + "!");
+      setPath("/MyDogs");
+      setFlag(true);
+
+      //addValidDog();
+    } else {
+      setModalText(
+        "somthing went wrong... please make sure to input all the details"
+      );
+    }
+  };
+
+  const Modal = ({ isOpen, onClose }) => {
+    return (
+      <Dialog open={isOpen} onClose={onClose}>
+        <DialogTitle align="center">{modalText}</DialogTitle>
+        <DialogContent>
+          <div
+            className="form-group"
+            style={{ display: "flex", justifyContent: "center" }}
+          ></div>
+          <br></br>
+        </DialogContent>
+        <DialogActions>
+          {flag && (
+            <Button
+              className="card-body d-flex align-items-center justify-content-between"
+              variant="contained"
+              onClick={onClose}
+              endIcon={<PetsIcon />}
+            >
+              <a href={path}></a>
+              go checkout your new dog
+            </Button>
+          )}
+          {!flag && (
+            <Button
+              className="card-body d-flex align-items-center justify-content-between"
+              variant="contained"
+              onClick={onClose}
+              endIcon={<ReportIcon />}
+            >
+              <a href={path}></a>
+              try again
+            </Button>
+          )}
+        </DialogActions>
+      </Dialog>
+    );
+  };
+
+  Modal.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    return (
+      <>
+        <a href="/myDogs"></a>
+      </>
+    );
+  };
+  const addValidDog = async () => {
     const url =
       "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register-dog";
-    setDate(bithDay + "-" + bithMonth + "-" + bithYear);
-    console.log("in HandleaddDog");
     const newDog = {
       dog_name: name,
       dog_breed: breed,
@@ -91,7 +189,7 @@ function AddDogContent() {
 
     // Replace with your actual API endpoint URL
     const params = new URLSearchParams({
-      user_mail: "ronialon2008@gmail.com",
+      user_mail: responseData.user_mail,
     });
 
     // Create query string parameters
@@ -110,7 +208,6 @@ function AddDogContent() {
         `${url}?${new URLSearchParams(params)}`,
         requestOptions
       );
-      console.log(name);
       console.log("-----------------------" + requestOptions.body);
       console.log(response.status + " hi");
       if (response.status == "400") {
@@ -143,7 +240,6 @@ function AddDogContent() {
                 required
                 onInput={(e) => setName(e.target.value)}
               />
-              {console.log(name)}
             </div>
             <div className="col-12">
               <select id="Weight"></select>
@@ -157,7 +253,6 @@ function AddDogContent() {
                 required
                 onInput={(e) => setWeight(e.target.value)}
               />
-              {console.log(Weight)}
             </div>
             <div className="col-md-12">
               <h5>Pet's Breed</h5>
@@ -324,14 +419,19 @@ function AddDogContent() {
               id="inputImage"
               onChange={handleImageUpload}
             />
-            <div className="col-md-12 mt-3">
-              <button
-                type="submit"
-                className="btn w-100 mt-2"
+            <div className="col-md-12 mt-3 d-flex justify-content-center">
+              <Button
+                variant="contained"
+                color="success"
+                size="large"
+                id={name}
+                value={name}
                 onClick={handleAddDog}
               >
-                Submit
-              </button>
+                add Dog
+              </Button>
+
+              <Modal isOpen={isModalOpen} onClose={handleCloseModal} />
             </div>
           </form>
         </div>

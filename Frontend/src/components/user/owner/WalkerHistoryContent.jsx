@@ -29,13 +29,10 @@ function WalkerHistoryContent() {
                   <div className="row">
                     <div className="">
                       <span>
-                        <strong>Order name</strong>
+                        <strong>User name</strong>
                       </span>{" "}
                       <span className="label label-info">group name</span>
                       <br />
-                      <span>
-                        <strong>Status</strong>
-                      </span>{" "}
                       <span className="label label-info">Completed</span>
                       <br />
                       cost: $323.13 <br />

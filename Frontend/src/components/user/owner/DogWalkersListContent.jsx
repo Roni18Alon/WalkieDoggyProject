@@ -15,11 +15,43 @@ function DogWalkerListContent() {
   const [rating, setRating] = useState(null);
   const [price, setPrice] = useState(null);
   const user_email = "ronialon2008@gmail.com";
-  const url = "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/search";
+
+  const url =
+    "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/search";
+
 
   // Event handler for search button
   const handleSearch = async (e) => {
     e.preventDefault();
+
+
+    const requestData = {
+      distance: parseInt(distance),
+      start_time: "23-05-28 18:00:00",
+      end_time: "23-05-28 19:00:00",
+      max_price: parseInt(price),
+      min_rating: parseInt(rating),
+    };
+
+    const params = new URLSearchParams({ user_mail: user_email });
+
+    try {
+      const response = await axios.post(
+        `${url}?${params}`,
+        JSON.stringify(requestData),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.log("Error:", error.response);
+    }
+
+    console.log(requestData);
+  };
     
     const requestData = {
       distance: parseInt(distance),
@@ -63,7 +95,6 @@ function DogWalkerListContent() {
   // Refs for date pickers
   const startDatePickerRef = useRef(null);
   const endDatePickerRef = useRef(null);
-
 
   // rows.forEach((row) => {
   //   const name = row.cells[1].textContent;
