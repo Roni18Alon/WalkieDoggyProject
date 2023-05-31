@@ -4,7 +4,6 @@ import { useMutation } from "react-query";
 import { useLoginMutation } from "./../api";
 import signin from "./dist/images/sign_in.png";
 
-
 const LoginDogOwner = () => {
   const navigate = useNavigate();
   const loginMutation = useLoginMutation();
@@ -16,7 +15,6 @@ const LoginDogOwner = () => {
     const password = document.getElementById("password").value;
 
     try {
-
       await loginMutation.mutateAsync({ user_email, password });
 
       if (loginMutation.isSuccess) {
@@ -30,7 +28,7 @@ const LoginDogOwner = () => {
       console.log(error);
     }
   };
-  
+
   return (
     <div className="wrapper">
       <div className="main">
@@ -69,10 +67,12 @@ const LoginDogOwner = () => {
                         <i className="zmdi zmdi-account material-icons-name" />
                       </label>
                       <input
-                        type="text"
+                        type="email"
                         name="user_email"
                         id="user_email"
-                        placeholder="User name"
+                        placeholder="Your Email"
+                        required
+                        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
                       />
                     </div>
                     <div className="form-group">
@@ -93,10 +93,7 @@ const LoginDogOwner = () => {
                         id="remember-me"
                         className="agree-term"
                       />
-                      <label
-                        htmlFor="remember-me"
-                        className="label-agree-term"
-                      >
+                      <label htmlFor="remember-me" className="label-agree-term">
                         <span>
                           <span />
                         </span>
