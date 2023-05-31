@@ -6,7 +6,11 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Register = () => {
-    
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    // Handle the image file here
+    // You can upload the file to a server or process it further
+  };
    // State to store the user parameters
    const postData = async () => {
 
@@ -204,6 +208,15 @@ axios
                       required
                  
                     />
+                  </div>
+                  <div>
+                  <input
+              type="file"
+              accept="image/*"
+              className="form-control-pic"
+              id="inputImage"
+              onChange={handleImageUpload}
+            />
                   </div>
                   {/*
                   <div className="form-group">

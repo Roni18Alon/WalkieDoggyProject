@@ -26,7 +26,7 @@ const NavbarOwner = () => {
             <div className="col-6 col-xl-2">
               <h1 className="mb-0 site-logo">
                 <a href="" className="h2 mb-0">
-                  DogWalker<span className="text-primary">.</span>{" "}
+                WalkieDoggy<span className="text-primary">.</span>{" "}
                 </a>
               </h1>
             </div>
