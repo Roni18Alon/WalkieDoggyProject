@@ -7,7 +7,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 
-function DogWalkerListContent() {
+ async function  DogWalkerListContent  (){
   // State variables for search criteria
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -63,19 +63,6 @@ function DogWalkerListContent() {
 
     const params = new URLSearchParams({ user_mail: user_email });
 
-    try {
-      const response = await axios.post(`${url}?${params}`, JSON.stringify(requestData), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      console.log(response);
-    } catch (error) {
-      console.log("Error:", error.response);
-    }
-
-    console.log(requestData);
-  };
 
   // Event handler for rating change
   const handleChange = (newRating) => {
@@ -96,25 +83,7 @@ function DogWalkerListContent() {
   const startDatePickerRef = useRef(null);
   const endDatePickerRef = useRef(null);
 
-  // rows.forEach((row) => {
-  //   const name = row.cells[1].textContent;
 
-  //   if (name.toLowerCase().includes(searchTerm.toLowerCase())) {
-  //     row.style.display = "";
-  //     rowCount++;
-  //   } else {
-  //     row.style.display = "none";
-  //   }
-  // });
-  
- // const message = rowCount === 0 ? "No records found." : "";
-
-
-  // const [startDate, setStartDate] = useState();
-  // const [endDate, setEndDate] = useState();
-
-  // const [startDate, setStartDate] = useState(null);
-  // const [selectedTime, setSelectedTime] = useState(null);
 
   return (
     <>
@@ -129,39 +98,6 @@ function DogWalkerListContent() {
           backgroundColor: "#e2e8f0",
         }}
       >
-        {/* <div className="card py-2 px-2">
-          <div className="card-body d-flex align-items-center justify-content-between">
-            <div className="image d-flex">
-              <img
-                src={User}
-                width="80px"
-                alt=""
-                className="mr-4"
-                onClick={() => document.getElementById("profilePic").click()}
-              />
-              <input
-                type="file"
-                className="custom-file-input"
-                id="profilePic"
-                onChange={handleFileChange}
-                style={{ display: "none" }}
-              />
-              <div className="m-auto">
-                <p className="card-text ms-3">
-                  John Smith <br />
-                  <span id="filename">Specialist</span>
-                  <span id="filename">{fileName}</span>
-                </p>
-              </div>
-            </div>
-            <div>
-              <button type="button" className="btn btn-update px-3">
-                Logout
-              </button>
-            </div>
-          </div>
-        </div> */}
-
         <div className="container">
           <div className="row">
             <div className="col-lg-12 card-margin">
@@ -395,6 +331,7 @@ function DogWalkerListContent() {
       </div>
     </>
   );
-}
-
+                            
+                            }                                                              
 export default DogWalkerListContent;
+                            

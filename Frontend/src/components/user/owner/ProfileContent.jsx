@@ -40,7 +40,6 @@ function ProfileContent() {
                       width={130}
                     />
                     <div className="mt-3">
-
                       <h4>
                         {responseData &&
                           responseData.user_full_name &&
@@ -54,20 +53,19 @@ function ProfileContent() {
                       </h4>
                       <p className="text-secondary mb-1">Dog Owner</p>
                       <p className="text-muted font-size-sm">
-                        {responseData.city + ", " + responseData.country}
-
-                    <h4>
-            {responseData &&
-       responseData.user_full_name &&
-    responseData.user_full_name
-      .split(" ")
-      .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
-      .join(" ")}
-</h4>
+                        {responseData &&
+                          responseData.user_full_name &&
+                          responseData.user_full_name
+                            .split(" ")
+                            .map(
+                              (name) =>
+                                name.charAt(0).toUpperCase() + name.slice(1)
+                            )
+                            .join(" ")}
+                      </p>
                       <p className="text-secondary mb-1">Dog Owner</p>
                       <p className="text-muted font-size-sm">
-                        {responseData.city+", "+responseData.country}
-
+                        {responseData && responseData.city}, {responseData && responseData.country}
                       </p>
                     </div>
                     <div className="rating-position">
@@ -114,14 +112,6 @@ function ProfileContent() {
                               name.charAt(0).toUpperCase() + name.slice(1)
                           )
                           .join(" ")}
-
-                    {responseData &&
-       responseData.user_full_name &&
-    responseData.user_full_name
-      .split(" ")
-      .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
-      .join(" ")}
-
                     </div>
                   </div>
                   <hr />
@@ -140,7 +130,6 @@ function ProfileContent() {
                     </div>
                     <div className="col-sm-9 text-secondary">
                       {responseData.rank}
-
                     </div>
                   </div>
                   <hr />
@@ -149,11 +138,7 @@ function ProfileContent() {
                       <h6 className="mb-0">Address</h6>
                     </div>
                     <div className="col-sm-9 text-secondary">
-                      {responseData.address +
-                        ", " +
-                        responseData.city +
-                        ", " +
-                        responseData.country}
+                      {responseData.address}, {responseData.city}, {responseData.country}
                     </div>
                   </div>
                   <hr />
