@@ -44,6 +44,7 @@ const Register = () => {
   // Perform further actions with the captured input values
   // ...
 });
+
 axios
           .post(`${url}?${params}`, JSON.stringify(requestData), {
             headers: {

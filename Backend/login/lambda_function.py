@@ -53,6 +53,7 @@ def lambda_handler(event, context):
             user_new_data['token'] = hashed_token
             logger.info(f"insert new data for user {user_mail} the data {user_new_data}")
             dynamo.insert_item(item=user_new_data)
+            del user_new_data['password']
             # return data with new cookie
             return {
                 'statusCode': 200,
@@ -61,7 +62,7 @@ def lambda_handler(event, context):
                     'Access-Control-Allow-Origin': '*',
                     'Set-Cookie': f"walkieDoggy={hashed_token}"
                 },
-                'body': simplejson.dumps(user_new_data, use_decimal=True)
+                'body': simplejson.dumps({"body": user_new_data}, use_decimal=True)
             }
 
         else:

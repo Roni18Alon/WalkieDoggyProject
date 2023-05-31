@@ -10,7 +10,7 @@ function ProfileContent() {
   console.log(responseData);
 
   const handleDateSelection = (selectedDateTime) => {
-    console.log("Selected date/time:", selectedDateTime);
+    console.log('Selected date/time:', selectedDateTime);
     // Perform additional actions
   };
 
@@ -40,6 +40,7 @@ function ProfileContent() {
                       width={130}
                     />
                     <div className="mt-3">
+
                       <h4>
                         {responseData &&
                           responseData.user_full_name &&
@@ -54,6 +55,19 @@ function ProfileContent() {
                       <p className="text-secondary mb-1">Dog Owner</p>
                       <p className="text-muted font-size-sm">
                         {responseData.city + ", " + responseData.country}
+
+                    <h4>
+            {responseData &&
+       responseData.user_full_name &&
+    responseData.user_full_name
+      .split(" ")
+      .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
+      .join(" ")}
+</h4>
+                      <p className="text-secondary mb-1">Dog Owner</p>
+                      <p className="text-muted font-size-sm">
+                        {responseData.city+", "+responseData.country}
+
                       </p>
                     </div>
                     <div className="rating-position">
@@ -100,6 +114,14 @@ function ProfileContent() {
                               name.charAt(0).toUpperCase() + name.slice(1)
                           )
                           .join(" ")}
+
+                    {responseData &&
+       responseData.user_full_name &&
+    responseData.user_full_name
+      .split(" ")
+      .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
+      .join(" ")}
+
                     </div>
                   </div>
                   <hr />
@@ -118,6 +140,7 @@ function ProfileContent() {
                     </div>
                     <div className="col-sm-9 text-secondary">
                       {responseData.rank}
+
                     </div>
                   </div>
                   <hr />

@@ -15,7 +15,11 @@ const LoginDogOwner = () => {
     const password = document.getElementById("password").value;
 
     try {
+
       await loginMutation.mutateAsync({ user_email, password });
+
+
+
 
       if (loginMutation.isSuccess) {
         const response = loginMutation.data;
@@ -28,7 +32,6 @@ const LoginDogOwner = () => {
       console.log(error);
     }
   };
-
   return (
     <div className="wrapper">
       <div className="main">
@@ -91,7 +94,10 @@ const LoginDogOwner = () => {
                         id="remember-me"
                         className="agree-term"
                       />
-                      <label htmlFor="remember-me" className="label-agree-term">
+                      <label
+                        htmlFor="remember-me"
+                        className="label-agree-term"
+                      >
                         <span>
                           <span />
                         </span>

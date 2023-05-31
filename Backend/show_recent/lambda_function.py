@@ -40,53 +40,40 @@ dynamo = DynamoDB('users-info')
 def lambda_handler(event, context):
     # Get event data
     logger.info(f"event: {event}")
+    query = event['queryStringParameters']
+    # get user mail from params
+    user_mail = query.get('user_mail').lower()
+    # get user password from headers
+    logger.info(f"user mail :{user_mail}")
+
+    # check from DB the relevant data
+    # check if user exists - if not return 403
+    user = dynamo.get_item(key_name="user_email", key_value=user_mail)
     try:
-        if event.get("body"):
-            body = json.loads(event["body"])
-            # get the user mail(the one that ranking),rank[1-5],ranked_user- the user we are ranking
-            ranking_user = body.get("ranking_user")  # the user fill the rank
-            rank = int(body.get("rank"))  # rank from 1 to 5
-            ranked_user = body.get("ranked_user")  # the user that we are ranking
-            review = body.get("review")
-            review_date = datetime.now().strftime('%Y-%m-%d')
+        if user:
+            user_data = user[0]
+            user_recent_connections = user_data['recent_connections']
 
-            # get ranked user data
-            user = dynamo.get_item(key_name="user_email", key_value=ranked_user)
-            if user:
-                user_data = user[0]
-                current_rank = user_data['rank']
-                num_of_ranks = int(user_data['num_of_ranks'])
-                new_rank = calculate_new_rank(current_rank=current_rank, num_people_ranked=num_of_ranks, new_rank=rank)
-                # update the data of user in dynamo
-                num_of_ranks += 1
-                user_data['num_of_ranks'] = num_of_ranks
-                user_data['rank'] = new_rank
-                logger.info(f"update rank to user {ranked_user} with {new_rank} rank")
-                reviews = user_data.get('reviews', [])
-                reviews.append({'body': review, 'date': review_date})
-                user_data['reviews'] = reviews
-                dynamo.insert_item(item=user_data)
-                del user_data['password']
-                return responses.succeeded(message=user_data)
+            recent_connection = list()
+            # get data for only 10 recent connections
+            for connection in user_recent_connections[:10]:
+                connection_mail = connection.get('connected_user')
+                data = dynamo.get_item(key_name="user_email", key_value=connection_mail)
+                if data:
+                    rank = data[0].get('rank', 0)
+                    connection['rank'] = rank
+                    recent_connection.append(connection)
 
-            else:
-                # Handle the case when any of the required variables are missing
-                logger.error(f"can't find user {ranked_user} in system")
-                return responses.failed(error=f"can't find user {ranked_user} in system", status_code=404)
+            logger.info(f"send recent connection {recent_connection}")
+            return responses.succeeded(message=recent_connection)
+
+        else:
+            # Handle the case when any of the required variables are missing
+            logger.error(f"can't find user {user_mail} in system")
+            return responses.failed(error=f"can't find user {user_mail} in system", status_code=404)
     except Exception as e:
         return responses.failed(error=f"exception {e}", status_code=404)
 
 
-def calculate_new_rank(current_rank, num_people_ranked, new_rank):
-    # Calculate the weighted sum of the current rank and the new rank
-    weighted_sum = (current_rank * num_people_ranked) + new_rank
-
-    # Calculate the new average rank
-    new_average_rank = weighted_sum / (num_people_ranked + 1)
-
-    return new_average_rank
-
-
 if __name__ == '__main__':
     lambda_handler(event, "")
-
