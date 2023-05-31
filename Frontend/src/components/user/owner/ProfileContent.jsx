@@ -41,9 +41,9 @@ function ProfileContent() {
                     />
                     <div className="mt-3">
                       <h4>
-                        {responseData &&
-                          responseData.user_full_name &&
-                          responseData.user_full_name
+                      {responseData &&
+                          responseData.body[0].user_full_name &&
+                          responseData.body[0].user_full_name
                             .split(" ")
                             .map(
                               (name) =>
@@ -53,19 +53,10 @@ function ProfileContent() {
                       </h4>
                       <p className="text-secondary mb-1">Dog Owner</p>
                       <p className="text-muted font-size-sm">
-                        {responseData &&
-                          responseData.user_full_name &&
-                          responseData.user_full_name
-                            .split(" ")
-                            .map(
-                              (name) =>
-                                name.charAt(0).toUpperCase() + name.slice(1)
-                            )
-                            .join(" ")}
+                      
                       </p>
-                      <p className="text-secondary mb-1">Dog Owner</p>
                       <p className="text-muted font-size-sm">
-                        {responseData && responseData.city}, {responseData && responseData.country}
+                        {responseData && responseData.body[0].city}, {responseData && responseData.body[0].country}
                       </p>
                     </div>
                     <div className="rating-position">
@@ -104,8 +95,8 @@ function ProfileContent() {
                     </div>
                     <div className="col-sm-9 text-secondary mt-2">
                       {responseData &&
-                        responseData.user_full_name &&
-                        responseData.user_full_name
+                        responseData.body[0].user_full_name &&
+                        responseData.body[0].user_full_name
                           .split(" ")
                           .map(
                             (name) =>
@@ -120,7 +111,7 @@ function ProfileContent() {
                       <h6 className="mb-0">Email</h6>
                     </div>
                     <div className="col-sm-9 text-secondary">
-                      {responseData.user_email}
+                      {responseData.body[0].user_email}
                     </div>
                   </div>
                   <hr />
@@ -129,7 +120,7 @@ function ProfileContent() {
                       <h6 className="mb-0">Mobile</h6>
                     </div>
                     <div className="col-sm-9 text-secondary">
-                      {responseData.rank}
+                      {responseData.body[0].rank}
                     </div>
                   </div>
                   <hr />
@@ -138,7 +129,7 @@ function ProfileContent() {
                       <h6 className="mb-0">Address</h6>
                     </div>
                     <div className="col-sm-9 text-secondary">
-                      {responseData.address}, {responseData.city}, {responseData.country}
+                      {responseData.body[0].address}, {responseData.body[0].city}, {responseData.body[0].country}
                     </div>
                   </div>
                   <hr />
