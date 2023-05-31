@@ -47,10 +47,10 @@ const NavbarOwner = () => {
                     </Link>
                   </li>
                   <li className="has-children">
-                    <a href="" className="nav-link">
+                  <a href="/" className="nav-link">
                       {responseData &&
-                        responseData.user_full_name &&
-                        responseData.user_full_name
+                        responseData.body[0].user_full_name &&
+                        responseData.body[0].user_full_name
                           .split(" ")
                           .map(
                             (name) =>
@@ -60,7 +60,7 @@ const NavbarOwner = () => {
                     </a>
                     <ul className="dropdown">
                       <li>
-                        <Link class="dropdown-item" to="/Profile">
+                        <Link class="dropdown-item" to="/WalkerPersonalProfile">
                           Profile
                         </Link>
                         <div class="dropdown-divider"></div>

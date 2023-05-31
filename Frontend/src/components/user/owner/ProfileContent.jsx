@@ -56,8 +56,9 @@ function ProfileContent() {
                       
                       </p>
                       <p className="text-muted font-size-sm">
-                        {responseData && responseData.body[0].city}, {responseData && responseData.body[0].country}
-                      </p>
+  {responseData && responseData.body[0].city.charAt(0).toUpperCase() + responseData.body[0].city.slice(1)}, {responseData && responseData.body[0].country.charAt(0).toUpperCase() + responseData.body[0].country.slice(1)}
+</p>
+
                     </div>
                     <div className="rating-position">
                       <button className="rating-button">
@@ -120,7 +121,7 @@ function ProfileContent() {
                       <h6 className="mb-0">Mobile</h6>
                     </div>
                     <div className="col-sm-9 text-secondary">
-                      {responseData.body[0].rank}
+                      {responseData.body[0].phone_number}
                     </div>
                   </div>
                   <hr />
@@ -129,8 +130,9 @@ function ProfileContent() {
                       <h6 className="mb-0">Address</h6>
                     </div>
                     <div className="col-sm-9 text-secondary">
-                      {responseData.body[0].address}, {responseData.body[0].city}, {responseData.body[0].country}
-                    </div>
+  {responseData.body[0].address}, {responseData.body[0].city.charAt(0).toUpperCase() + responseData.body[0].city.slice(1)}, {responseData.body[0].country.charAt(0).toUpperCase() + responseData.body[0].country.slice(1)}
+</div>
+
                   </div>
                   <hr />
                   <div className="row">

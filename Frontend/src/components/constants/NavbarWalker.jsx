@@ -1,7 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const NavbarWalker = () => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const responseData = JSON.parse(searchParams.get("data"));
   return (
     <>
       <div className="site-mobile-menu site-navbar-target">
@@ -42,8 +46,16 @@ const NavbarWalker = () => {
                     </Link>
                   </li>
                   <li className="has-children">
-                    <a href="" className="nav-link">
-                      John Smith
+                  <a href="/" className="nav-link">
+                      {responseData &&
+                        responseData.body[0].user_full_name &&
+                        responseData.body[0].user_full_name
+                          .split(" ")
+                          .map(
+                            (name) =>
+                              name.charAt(0).toUpperCase() + name.slice(1)
+                          )
+                          .join(" ")}
                     </a>
                     <ul className="dropdown">
                       <li>
