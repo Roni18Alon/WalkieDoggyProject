@@ -393,7 +393,7 @@ const RegisterDogWalker = () => {
                     </label>
                   </div>
                   <div className="form-group form-button">
-                    <Link to="/Profile">
+                    <Link to="/WalkerProfile">
                       <input
                         type="submit"
                         name="signup"

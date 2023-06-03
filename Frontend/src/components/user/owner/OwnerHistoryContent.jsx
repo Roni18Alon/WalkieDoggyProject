@@ -14,7 +14,7 @@ function OwnerHistoryContent() {
           overflowX: "hidden",
           height: "100vh",
           marginTop: "80px",
-          backgroundColor: "#e2e8f0",
+          backgroundColor: "#f8f8f8",
         }}
       >
         <div className="container bootdey">

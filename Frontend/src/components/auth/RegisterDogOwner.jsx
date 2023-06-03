@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./dist/Register.css";
 import styles from "./dist/Register.module.css";
 import signup from "./dist/images/sign_up.png";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
 
 const Register = () => {
   // State to store the user parameters

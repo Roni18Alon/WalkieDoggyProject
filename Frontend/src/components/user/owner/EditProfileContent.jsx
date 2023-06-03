@@ -1,124 +1,125 @@
 import User from "./images/kindpng_248729.png";
 import { Link } from "react-router-dom";
-import React from "react";
 
 function EditProfileContent() {
-  const handleEditProfile = () => {
-    //***TO DO - POST **
-  };
-  return (
-    <>
-      <div
-        className="col-12 col-md-9 col-md-9-profile p-0"
-        style={{
-          overflowY: "auto",
-          position: "relative",
-          overflowX: "hidden",
-          height: "100vh",
-          marginTop: "80px",
-          backgroundColor: "#e2e8f0",
-        }}
-      >
-        <div className="main-body px-4">
-          <div className="row gutters-sm">
-            <div className="col-lg-4 h-auto">
-              <div className="card">
-                <div className="card-body ">
-                  <div className="d-flex flex-column align-items-center text-center">
-                    <img
-                      src={User}
-                      alt="Admin"
-                      className="rounded-circle p-1"
-                      width={130}
-                    />
-                    <div className="mt-3">
-                      <h4>John Smith</h4>
-                      <p className="text-secondary mb-1">Dog Owner</p>
-                      <p className="text-muted font-size-sm">
-                        Tel Aviv, Israel
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+    const handleEditProfile = () => {
+        //***TO DO - POST **
+    };
+    return (
+        <>
+            <div
+                style={{
+                    minHeight: "100vh",
+                    backgroundColor: "#f8f8f8",
+                }}
+            >
+                <div className="md:p-4 !py-[100px] md:!py-4 m-3">
+                    <div className="p-4 max-w-[900px] mx-auto_ mb-10 gap-6  bg-white rounded-lg box-shadow">
+                        <div className="">
+                            <img
+                                src={User}
+                                alt="Admin"
+                                className="p-1 -translate-y-1/2 rounded-circle "
+                                width={130}
+                            />
 
-            <div className="col-lg-8">
-              <div className="card mb-3">
-                <div className="card-body" style={{ padding: "20px 10px" }}>
-                  <p className="card-text ">Profile Details</p>
-                  <hr />
-                  <>
-                    <div className="row mb-3">
-                      <div className="col-sm-3">
-                        <h6 className="mb-0">Full Name</h6>
-                      </div>
-                      <div className="col-sm-9 text-secondary">
-                        <input
-                          type="text"
-                          className="form-control"
-                          defaultValue="John Doe"
-                        />
-                      </div>
-                    </div>
-                    <div className="row mb-3">
-                      <div className="col-sm-3">
-                        <h6 className="mb-0">Email</h6>
-                      </div>
-                      <div className="col-sm-9 text-secondary">
-                        <input
-                          type="text"
-                          className="form-control"
-                          defaultValue="john@gmail.com"
-                        />
-                      </div>
-                    </div>
-                    <div className="row mb-3"></div>
-                    <div className="row mb-3">
-                      <div className="col-sm-3">
-                        <h6 className="mb-0">Mobile</h6>
-                      </div>
-                      <div className="col-sm-9 text-secondary">
-                        <input
-                          type="text"
-                          className="form-control"
-                          defaultValue="(054) 123456789"
-                        />
-                      </div>
-                    </div>
-                    <div className="row mb-3">
-                      <div className="col-sm-3">
-                        <h6 className="mb-0">Address</h6>
-                      </div>
-                      <div className="col-sm-9 text-secondary">
-                        <input
-                          type="text"
-                          className="form-control"
-                          defaultValue="Tel Aviv, Israel"
-                        />
-                      </div>
-                    </div>
-                  </>
+                            <h3 className="text-lg font-bold -mt-[40px]">
+                                James Maina
+                            </h3>
 
-                  <div className="row">
-                    <div className="col-sm-12">
-                      <Link
-                        className="btn btn-info "
-                        to="/Profile"
-                        onClick={handleEditProfile()}
-                      >
-                        Save Changes
-                      </Link>
+                            <div className="flex gap-4 my-2">
+                                <p className="mb-1">Dog Owner</p>-
+                                <p className="flex items-center gap-2 text-muted font-size-sm">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={1.5}
+                                        stroke="currentColor"
+                                        className="w-4 h-4"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+                                        />
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
+                                        />
+                                    </svg>
+                                    John Doe
+                                </p>
+                            </div>
+                        </div>
+
+                        <hr className="my-6 opacity-40" />
+
+                        <>
+                            <div className="mb-3 ">
+                                <div className="mb-2 opacity-75">
+                                    <h6 className="mb-0">Full Name:</h6>
+                                </div>
+                                <div className="text-secondary">
+                                    <input
+                                        type="text"
+                                        className="border form-control"
+                                        defaultValue="John Doe"
+                                    />
+                                </div>
+                            </div>
+                            <div className="mb-3 ">
+                                <div className="mb-2 opacity-75">
+                                    <h6 className="mb-0">Email:</h6>
+                                </div>
+                                <div className="text-secondary">
+                                    <input
+                                        type="text"
+                                        className="border form-control"
+                                        defaultValue="john@gmail.com"
+                                    />
+                                </div>
+                            </div>
+                            <div className="mb-3 "></div>
+                            <div className="mb-3 ">
+                                <div className="mb-2 opacity-75">
+                                    <h6 className="mb-0">Mobile:</h6>
+                                </div>
+                                <div className="text-secondary">
+                                    <input
+                                        type="text"
+                                        className="border form-control"
+                                        defaultValue="(054) 123456789"
+                                    />
+                                </div>
+                            </div>
+                            <div className="">
+                                <div className="mb-2 opacity-75">
+                                    <h6 className="mb-0">Address:</h6>
+                                </div>
+                                <div className="text-secondary">
+                                    <input
+                                        type="text"
+                                        className="border form-control"
+                                        defaultValue="Tel Aviv, Israel"
+                                    />
+                                </div>
+                            </div>
+                        </>
+
+                        <Link
+                            className="bg-[#03C9D7] mt-4 inline-block px-6 py-2 text-white rounded-md"
+                            to="/Profile"
+                            onClick={handleEditProfile()}
+                        >
+                            Save Changes
+                        </Link>
                     </div>
-                  </div>
                 </div>
-              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+        </>
+    );
 }
 
 export default EditProfileContent;
