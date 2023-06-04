@@ -22,7 +22,7 @@ event = {'resource': '/connect', 'path': '/connect', 'httpMethod': 'POST', 'head
                                          'sourceIp': 'test-invoke-source-ip', 'accessKey': 'ASIAU536GZIJOPPXE6NY',
                                          'cognitoAuthenticationProvider': None, 'user': '339030231570'},
                             'domainName': 'testPrefix.testDomainName', 'apiId': 'aej45saso5'},
-         'body': '{\n"user_to_connect":"matan.neyman@gmail.com"\n}\n', 'isBase64Encoded': False}
+         'body': '{\n"user_to_connect":"dorhazan@gmail.com"\n}\n', 'isBase64Encoded': False}
 
 # Set up logging
 logger = logging.getLogger('root')
@@ -56,10 +56,10 @@ def lambda_handler(event, context):
                 user_to_connect = user_to_connect[0]
                 logger.info(f"found user {user_to_connect['user_email']}")
 
-                update_connection(logged_user_data, user_to_connect['user_email'])
+                update_connection(logged_user_data, user_to_connect)
                 logger.info(
                     f"update connection from user {logged_user_data['user_email']} to {user_to_connect['user_email']}")
-                update_connection(user_to_connect, logged_user_data['user_email'])
+                update_connection(user_to_connect, logged_user_data)
                 logger.info(
                     f"update connection from user {user_to_connect['user_email']} to {logged_user_data['user_email']}")
                 return responses.succeeded(message="successful updated connection for both users")
@@ -78,13 +78,13 @@ def update_connection(user_data, user_to_connect):
 
     # check for duplication
     for connection in recent_connections:
-        if connection['connected_user'] == user_to_connect:
+        if connection['connected_user'] == user_to_connect['user_email']:
             logger.info(f"user exists")
         else:
             new_connection_list.append(connection)
 
     connect_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    connection_data = {'connection_time': connect_time, 'connected_user': user_to_connect}
+    connection_data = {'connection_time': connect_time, 'connected_user': user_to_connect['user_email'],'user_full_name':user_to_connect['user_full_name']}
     new_connection_list.append(connection_data)
     sorted_connection_list = sorted(new_connection_list,
                                     key=lambda x: datetime.strptime(x['connection_time'], '%Y-%m-%d %H:%M:%S'),
