@@ -1,84 +1,110 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { AiOutlineMenu } from "react-icons/ai";
+import { MdKeyboardArrowDown } from "react-icons/md";
+import { useStateContext } from "../../contexts/ContextProvider";
+import { Link, useLocation } from "react-router-dom";
+
+
+
+
+const NavButton = ({ customFunc, icon, color, dotColor }) => (
+    <button
+        type="button"
+        onClick={() => customFunc()}
+        style={{ color }}
+        className="relative p-3 text-xl rounded-full hover:bg-light-gray"
+    >
+        <span
+            style={{ background: dotColor }}
+            className="absolute inline-flex w-2 h-2 rounded-full right-2 top-2"
+        />
+        {icon}
+    </button>
+);
 
 const NavbarWalker = () => {
-  return (
-    <>
-      <div className="site-mobile-menu site-navbar-target">
-        <div className="site-mobile-menu-header">
-          <div className="site-mobile-menu-close mt-3">
-            <span className="icon-close2 js-menu-toggle" />
-          </div>
-        </div>
-        <div className="site-mobile-menu-body" />
-      </div>
-      <header
-        className="site-navbar js-sticky-header site-navbar-target"
-        role="banner"
-      >
-        <div className="container">
-          <div className="row align-items-center">
-            <div className="col-6 col-xl-2">
-              <h1 className="mb-0 site-logo">
-                <a href="" className="h2 mb-0">
-                  WalkieDoggy<span className="text-primary">.</span>{" "}
-                </a>
-              </h1>
+    
+    const {
+        currentColor,
+        activeMenu,
+        setActiveMenu,
+        setScreenSize,
+        screenSize,
+    } = useStateContext();
+
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const responseData = JSON.parse(localStorage.getItem("responseData"));
+
+    useEffect(() => {
+        const handleResize = () => setScreenSize(window.innerWidth);
+
+        window.addEventListener("resize", handleResize);
+
+        handleResize();
+
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    const handleActiveMenu = () => setActiveMenu(!activeMenu);
+
+    useEffect(() => {
+        if (screenSize <= 900) {
+            setActiveMenu(false);
+        } else {
+            setActiveMenu(true);
+        }
+    }, [screenSize, setActiveMenu]);
+
+    return (
+        <div className="relative flex justify-between w-full p-2 ">
+            <div className="flex items-center gap-4">
+                <NavButton
+                    title="Menu"
+                    customFunc={handleActiveMenu}
+                    color={currentColor}
+                    icon={<AiOutlineMenu />}
+                />
+                <Link className="text-3xl font-bold" to="/">WalkieDoggy<span className=" text-primary">.</span>{" "}</Link>
             </div>
-            <div className="col-12 col-md-10 d-none d-xl-block">
-              <nav
-                className="site-navigation position-relative text-right"
-                role="navigation"
-              >
-                <ul className="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
-                  <li>
-                    <Link to="/HomeWalker" className="nav-link">
-                      Home
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/WalkerPersonalProfile" className="nav-link">
-                      Dog Walker
-                    </Link>
-                  </li>
-                  <li className="has-children">
-                    <a href="" className="nav-link">
-                      John Smith
-                    </a>
-                    <ul className="dropdown">
-                      <li>
-                        <Link
-                          className="dropdown-item"
-                          to="/WalkerPersonalProfile"
-                        >
-                          Profile
-                        </Link>
-                        <div className="dropdown-divider"></div>
-                        <Link className="dropdown-item" to="/">
-                          Logout
-                        </Link>
-                      </li>
+
+            <div className="flex">
+                <div className="relative flex items-center gap-2 p-1 rounded-lg cursor-pointer group hover:bg-light-gray">
+                    <img
+                        className="w-8 h-8 rounded-full"
+                        src={
+                            "http://localhost:3001/static/media/roni.9b135d7a803b49120cfc.png"
+                        }
+                        alt="user-profile"
+                    />
+                    <p>
+                        <span className="text-gray-400 text-14">Hi,</span>{" "}
+                        <span className="ml-1 font-bold text-gray-400 text-14">    
+                            {responseData.body[0].user_full_name.split(" ")
+                                    .map(
+                                        (name) =>
+                                            name.charAt(0).toUpperCase() +
+                                            name.slice(1)
+                                    )
+                                    .join(" ")}
+                        </span>
+                    </p>
+                    <MdKeyboardArrowDown className="text-gray-400 text-14" />
+                    <ul className="absolute top-[100%] box-shadow hidden bg-white group-hover:block">
+                        <li>
+                            <Link class="dropdown-item" to="/WalkerProfile">
+                                Profile
+                            </Link>
+                            <div class="dropdown-divider"></div>
+                            <Link class="dropdown-item" to="/">
+                                Logout
+                            </Link>
+                        </li>
                     </ul>
-                  </li>
-                </ul>
-              </nav>
+                </div>
             </div>
-            <div
-              className="col-6 d-inline-block d-xl-none ml-md-0 py-3"
-              style={{ position: "relative", top: 3 }}
-            >
-              <a
-                href="/"
-                className="site-menu-toggle js-menu-toggle float-right"
-              >
-                <span className="icon-menu h3" />
-              </a>
-            </div>
-          </div>
         </div>
-      </header>
-    </>
-  );
+    );
 };
 
 export default NavbarWalker;

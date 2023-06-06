@@ -7,13 +7,12 @@ import OurDogWalkerSection from "./OurDogWalkerSection";
 import GallerySection from "./GallerySection";
 import NavbarOwner from "../../constants/NavbarOwner";
 import { useQuery } from '@tanstack/react-query'
-import videoBg from '../../../assets/video1.mp4'
+
 
 const HomeOwner = () => {
   return (
     <>
       <div class="site-wrap">
-        <video src={videoBg}></video>
         <NavbarOwner />
         <HeroSection />
         <AboutSection />

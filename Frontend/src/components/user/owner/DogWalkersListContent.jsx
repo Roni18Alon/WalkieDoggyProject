@@ -79,24 +79,39 @@ function DogWalkerListContent() {
   const startDatePickerRef = useRef(null);
   const endDatePickerRef = useRef(null);
 
+  // rows.forEach((row) => {
+  //   const name = row.cells[1].textContent;
+
+  //   if (name.toLowerCase().includes(searchTerm.toLowerCase())) {
+  //     row.style.display = "";
+  //     rowCount++;
+  //   } else {
+  //     row.style.display = "none";
+  //   }
+  // });
+
+  // const message = rowCount === 0 ? "No records found." : "";
+
+  // const [startDate, setStartDate] = useState();
+  // const [endDate, setEndDate] = useState();
+
+  // const [startDate, setStartDate] = useState(null);
+  // const [selectedTime, setSelectedTime] = useState(null);
+
   return (
     <>
       <div
-        className="col-12 col-md-9 col-md-9-profile p-0"
         style={{
-          overflowY: "auto",
-          position: "relative",
-          overflowX: "hidden",
-          height: "100vh",
-          marginTop: "80px",
-          backgroundColor: "#e2e8f0",
+          minHeight: "100vh",
+          backgroundColor: "#f8f8f8",
         }}
+        className="p-2 py-8 md:px-0"
       >
-        <div className="container">
+        <div className="m-2 md:p-4 !py-[100px] md:!py-8 m-3 mx-auto bg-white px-4 rounded-lg box-shadow max-w-[800px] ">
           <div className="row">
             <div className="col-lg-12 card-margin">
               <div>
-                <div className="input-group mb-3">
+                <div className="mb-3 input-group">
                   <input
                     type="text"
                     className="form-control"
@@ -106,7 +121,7 @@ function DogWalkerListContent() {
                   />
                   <div className="input-group-append">
                     <button
-                      className="btn btn-outline-secondary"
+                      className="btn w-[100px] btn-outline-secondary"
                       type="button"
                       onClick={openStartDatePicker}
                     >
@@ -114,7 +129,7 @@ function DogWalkerListContent() {
                     </button>
                   </div>
                 </div>
-                <div className="input-group mb-3">
+                <div className="mb-3 input-group">
                   <input
                     type="text"
                     className="form-control"
@@ -122,9 +137,9 @@ function DogWalkerListContent() {
                     value={endDate ? endDate.toString() : ""}
                     readOnly
                   />
-                  <div className="input-group-append">
+                  <div className="input-group-append ">
                     <button
-                      className="btn btn-outline-secondary"
+                      className="btn btn-outline-secondary w-[100px]"
                       type="button"
                       onClick={openEndDatePicker}
                     >
@@ -158,128 +173,89 @@ function DogWalkerListContent() {
                   />
                 </div>
               </div>
-              <div className="card search-form">
-                <div className="card-body p-0">
-                  <form id="search-form">
-                    <div className="row">
-                      <div className="col-12">
-                        <div className="row no-gutters">
-                          {/* Rating  Section*/}
+              <form id="search-form">
+                <div className="grid grid-cols-1 sm:grid-te !p-3">
+                  {/* Rating  Section*/}
 
-                          <div className="col-4 p-4" style={{ left: "30px" }}>
-                            {[...Array(5)].map((_, index) => {
-                              const currentRating = index + 1;
-                              return (
-                                <label key={currentRating}>
-                                  <Rating
-                                    count={5}
-                                    onChange={handleChange}
-                                    size={35}
-                                    activeColor="#ffc107"
-                                    filledIcon={
-                                      <div className="custom-icon">
-                                        <IoPawSharp />
-                                      </div>
-                                    }
-                                    emptyIcon={
-                                      <div className="custom-icon">
-                                        <IoPawSharp />
-                                      </div>
-                                    }
-                                    value={rating}
-                                  />
-                                </label>
-                              );
-                            })}
-                          </div>
-
-                          {/* Price-Range */}
-                          <div
-                            className="col-lg-3 col-md-3 col-sm-12 p-0"
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              right: "80px",
-                            }}
-                          >
-                            <div>
-                              <label
-                                htmlFor="Price-range"
-                                className="form-label"
-                              ></label>
-                              <input
-                                type="range"
-                                min="0"
-                                max="100"
-                                step="1"
-                                value={price}
-                                onChange={(e) => setPrice(e.target.value)}
-                                className="form-range"
-                                id={"Price-range" + price} // save for back
-                              />
-                              <h7
-                                className="col-lg-12"
-                                style={{ left: "30px", opacity: "0.75" }}
-                              >
-                                Price range
-                              </h7>
-                              <h4 className="col-12" style={{ left: "50px" }}>
-                                {price}
-                              </h4>
-                            </div>
-                          </div>
-
-                          {/* Distance */}
-                          <div>
-                            <select
-                              className="col-lg-3 col-md-3 col-sm-12 p-0"
-                              style={{ width: "90px", left: "60px" }}
-                              name="Distance"
-                              onChange={(e) => {
-                                setDistance(e.target.value);
-                              }}
-                            >
-                              <option value={0}>Distance</option>
-                              <option value={1}>1 km</option>
-                              <option value={5}>5 km</option>
-                              <option value={10}>10 km</option>
-                              <option value={30}>30 km</option>
-                            </select>
-                          </div>
-
-                          {/* Search btn */}
-                          <div
-                            className="col-lg-3 col-md-3 col-sm-12 p-0"
-                            style={{ left: "80px" }}
-                          >
-                            <button
-                              type="submit"
-                              className="btn btn-base"
-                              onClick={handleSearch}
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width={24}
-                                height={24}
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth={2}
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="feather feather-search"
-                              >
-                                <circle cx={11} cy={11} r={8} />
-                                <line x1={21} y1={21} x2="16.65" y2="16.65" />
-                              </svg>
-                            </button>
-                          </div>
+                  <label className="!static !p-0 !my-0">
+                    <Rating
+                      count={5}
+                      onChange={handleChange}
+                      size={35}
+                      activeColor="#ffc107"
+                      filledIcon={
+                        <div className="custom-icon">
+                          <IoPawSharp />
                         </div>
-                      </div>
-                    </div>
-                  </form>
+                      }
+                      emptyIcon={
+                        <div className="custom-icon">
+                          <IoPawSharp />
+                        </div>
+                      }
+                      value={rating}
+                    />
+                  </label>
+
+                  {/* Price-Range */}
+                  <div className="mb-3">
+                    <label htmlFor="Price-range" className="form-label"></label>
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      step="1"
+                      value={price}
+                      onChange={(e) => setPrice(e.target.value)}
+                      // class="form-control"
+                      className="h-2 p-0 bg-gray-300 border-none outline-none focus:border-none focus:outline-none"
+                      id={"Price-range" + price} // save for back
+                    />
+                    <h4 className="mt-2">Price range ({price})</h4>
+                  </div>
+
+                  {/* Distance */}
+                  <div>
+                    <select
+                      name="Distance"
+                      className="w-full my-3"
+                      onChange={(e) => {
+                        setDistance(e.target.value);
+                      }}
+                    >
+                      <option value={0}>Distance</option>
+                      <option value={1}>1 km</option>
+                      <option value={5}>5 km</option>
+                      <option value={10}>10 km</option>
+                    </select>
+                  </div>
+
+                  {/* Search btn */}
+                  <div>
+                    <button
+                      type="submit"
+                      className="bg-[#03C9D7] px-8 text-white py-2.5 rounded-lg"
+                      onClick={handleSearch}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width={24}
+                        height={24}
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="feather feather-search"
+                      >
+                        <circle cx={11} cy={11} r={8} />
+                        <line x1={21} y1={21} x2="16.65" y2="16.65" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </form>
             </div>
 
             {/*Result Section------ */}

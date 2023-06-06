@@ -1,9 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/alt-text */
-// import User from "./images/kindpng_248729.png";
-// import { Link } from "react-router-dom";
-
-import Rating from "react-rating-stars-component";
 import React, { useState, useEffect } from "react";
 import { IoPawSharp } from "react-icons/io5";
 import AddReactionIcon from "@mui/icons-material/AddReaction";
@@ -18,6 +12,7 @@ import TextField from "@mui/material/TextField";
 import SendIcon from "@material-ui/icons/Send";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import Rating from "react-rating-stars-component";
 
 import {
   TableContainer,
@@ -69,10 +64,7 @@ function OwnerHistoryContent() {
       <Dialog open={isOpen} onClose={onClose}>
         <DialogTitle align="center">Rate {reviewName}</DialogTitle>
         <DialogContent>
-          <div
-            className="form-group"
-            style={{ display: "flex", justifyContent: "center" }}
-          >
+          <div className="form-group" style={{ display: "flex", justifyContent: "center" }}>
             <Rating
               id="review-rate"
               count={5}
@@ -81,16 +73,8 @@ function OwnerHistoryContent() {
               onChange={(event, newValue) => {
                 setReviewRating(newValue);
               }}
-              filledIcon={
-                <div className="custom-icon">
-                  <IoPawSharp />
-                </div>
-              }
-              emptyIcon={
-                <div className="custom-icon">
-                  <IoPawSharp />
-                </div>
-              }
+              filledIcon={<div className="custom-icon"><IoPawSharp /></div>}
+              emptyIcon={<div className="custom-icon"><IoPawSharp /></div>}
             />
           </div>
           <div className="form-group">
@@ -133,8 +117,7 @@ function OwnerHistoryContent() {
 
     setReviewText(document.getElementById("review-text").value);
     // setReviewRating(document.getElementById("review-rate").value);
-    const urlRank =
-      "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/rank";
+    const urlRank = "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/rank";
 
     const requestData = {
       ranking_user: responseData.body[0].user_email,
@@ -146,7 +129,6 @@ function OwnerHistoryContent() {
     try {
       const response = await axios.post(
         `${urlRank}?${params}`,
-
         JSON.stringify(requestData),
         {
           headers: {
@@ -169,7 +151,6 @@ function OwnerHistoryContent() {
     setIsModalOpen(true);
     setReviewName(e.target.value);
   };
-  //end of model
 
   //add whatsapp icon
   const handleLiveChat = async (e) => {
@@ -177,8 +158,7 @@ function OwnerHistoryContent() {
     e.preventDefault();
 
     //post-requset for new contact(whatapp)
-    const urlConnect =
-      "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/connect";
+    const urlConnect = "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/connect";
 
     const requestData = {
       user_to_connect: e.target.value,
@@ -214,7 +194,7 @@ function OwnerHistoryContent() {
           overflowX: "hidden",
           height: "100vh",
           marginTop: "80px",
-          backgroundColor: "#e2e8f0",
+          backgroundColor: "#f8f8f8",
         }}
       >
         <TableContainer>
@@ -249,20 +229,22 @@ function OwnerHistoryContent() {
                     </div>
                   </TableCell>
                   <TableCell>
-                    {" "}
-                    <div className="">
+                    <div className="col-md-10">
                       <div className="row">
                         <div className="">
-                          <span>
-                            <strong>
-                              {" "}
-                              <a href="/WalkerProfileForUser">
-                                {row.user_full_name}
-                              </a>{" "}
-                              {/*localStorage.setItem("walkerProfile", JSON.stringify(row.user_email)) */}
-                            </strong>
-                          </span>{" "}
-                          <br />
+                          <div className="row">
+                            <div className="">
+                              <span>
+                                <strong>
+                                  <a href="/WalkerProfileForUser">
+                                    {row.user_full_name}
+                                  </a>{" "}
+                                  {/*localStorage.setItem("walkerProfile", JSON.stringify(row.user_email)) */}
+                                </strong>
+                              </span>{" "}
+                              <br />
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -290,7 +272,6 @@ function OwnerHistoryContent() {
                       </span>
                     </div>
                   </TableCell>
-
                   <TableCell>
                     <div className="col-md-12">
                       last spoke at: {row.connection_time}
@@ -302,7 +283,6 @@ function OwnerHistoryContent() {
                     </Button>
                   </TableCell>
                   <TableCell>
-                    {" "}
                     <div className="col-12">
                       <Button
                         variant="contained"

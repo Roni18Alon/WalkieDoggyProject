@@ -20,8 +20,9 @@ import WalkerHistory from "./components/user/dogwalker/WalkerHistory";
 import OwnerHistory from "./components/user/owner/OwnerHistory";
 import { QueryClient, QueryClientProvider } from "react-query";
 
+const queryClient = new QueryClient();
+
 function App() {
-  const queryClient = new QueryClient();
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>

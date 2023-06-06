@@ -1,6 +1,5 @@
-import React from "react";
 import dog1 from "./images/2.jfif";
-import { useLocation } from "react-router-dom";
+import { useGetUserQuery } from "../../authApi";
 
 import {
   TableContainer,
@@ -11,71 +10,69 @@ import {
   TableCell,
 } from "@mui/material";
 
-function ProfileContent() {
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const responseData = JSON.parse(localStorage.getItem("responseData"));
-  const dogsArr = JSON.parse(JSON.stringify(responseData.body[0].dogs));
-  console.log(dogsArr);
+function MyDogsContent() {
+  const { data } = useGetUserQuery();
+  console.log(data.body[0]);
 
-  const handleMoreDetails = () => {};
   return (
     <>
       <div
-        className="col-12 col-md-9 col-md-9-profile p-0"
+        className=""
         style={{
-          overflowY: "auto",
-          position: "relative",
-          overflowX: "hidden",
-          height: "100vh",
-          marginTop: "80px",
-          backgroundColor: "#e2e8f0",
+          backgroundColor: "#f8f8f8",
+          minHeight: "100vh",
         }}
       >
-        <TableContainer>
-          <Table>
-            <TableBody>
-              {dogsArr.map((row) => (
-                <TableCell key={row.id}>
-                  <div className="container">
-                    <div className="">
-                      <div className="row">
-                        {/* Single Advisor*/}
-                        <div className="col-12 col-sm-8">
+        <div className="container p-0 md:p-4 !py-[100px] md:!py-4">
+          <div className="">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              {/* Single Advisor*/}
+              <TableContainer>
+                <Table>
+                  <TableBody>
+                    {(data.body[0].dogs|| []).map((dog, i) => (
+                      <TableRow key={dog.id}>
+                        <TableCell>
                           <div
-                            className="single_advisor_profile wow fadeInUp"
+                            className="transition border border-opacity-25 rounded-lg cursor-pointer box-shadow_ wow fadeInUp hover:shadow hover:scale-105 group"
                             data-wow-delay="0.5s"
                             style={{
                               visibility: "visible",
                               animationDelay: "0.5s",
                               animationName: "fadeInUp",
                             }}
-                            onClick={handleMoreDetails}
                           >
                             {/* Team Thumb*/}
-                            <div className="advisor_thumb">
-                              <img src={dog1} alt="" />
+                            <div className="advisor_thumb h-[220px] rounded-t-lg overflow-hidden">
+                              <img
+                                src={dog1}
+                                alt=""
+                                className="object-cover w-full h-full"
+                              />
                               {/* Social Info*/}
                             </div>
                             {/* Team Details*/}
-                            <div className="single_advisor_details_info">
-                              <h6>{row.dog_name}</h6>
-                              <p className="designation">{row.dog_gender}</p>
-                              <p className="designation">{row.dog_age} old</p>
+                            <div className="p-2 ">
+                              <h6 className="mt-3 font-semibold text-black text-md">
+                                {dog.dog_name}
+                              </h6>
+                              <p className="mt-1 text-sm line-clamp-2">
+                                Age: {dog.dog_age}
+                              </p>
                             </div>
                           </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </TableCell>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
 }
 
-export default ProfileContent;
+export default MyDogsContent;

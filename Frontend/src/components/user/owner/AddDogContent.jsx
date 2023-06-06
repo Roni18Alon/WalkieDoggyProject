@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -8,27 +7,25 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import PetsIcon from "@mui/icons-material/Pets";
 import ReportIcon from "@mui/icons-material/Report";
-import axios from "axios";
-import dog1 from "./images/2.jfif";
+import { useGetUserQuery } from "../../authApi";
+import { useAddDogMutation, useGetDogBreedsQuery } from "../../dogApi";
+import { useNavigate } from "react-router-dom";
 
 function AddDogContent() {
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const responseData = JSON.parse(localStorage.getItem("responseData"));
-  console.log(responseData);
 
-  // console.log(responseData);
+    const { data: responseData } = useGetUserQuery();
+    console.log(responseData);
 
-  //Birthday arrays:
-  const days = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-    22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
-  ];
-  const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-  const years = [
-    2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,
-    2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023,
-  ];
+    //Birthday arrays:
+    const days = [
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+        21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+    ];
+    const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    const years = [
+        2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,
+        2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023,
+    ];
 
   //regitration parameters
   const [gender, setGender] = useState("Male");
@@ -38,7 +35,7 @@ function AddDogContent() {
   const [bithDay, setDay] = useState(null);
   const [bithMonth, setMonth] = useState(null);
   const [bithYear, setYear] = useState(null);
-  const [info, setInfo] = useState("");
+  const [info, setInfo] = useState(0);
   const [spayed, setSpayed] = useState(false);
   const [vaccinated, setVaccinated] = useState(false);
   const [hFriendly, setHFriendly] = useState(false);
@@ -50,402 +47,295 @@ function AddDogContent() {
   const [flag, setFlag] = useState(false);
   const [path, setPath] = useState("#");
   const [modalIcon, setModalIcon] = useState("</ReportIcon>");
+  const [base64Image, setBase64Image] = useState("");
   //fetch dog breed list
-  const [data, setData] = useState([]);
+  const { mutate: addDog } = useAddDogMutation(() => console.log("hi"));
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("https://dog.ceo/api/breeds/list/all");
-        const jsonData = await response.json();
-        const breedList = Object.keys(jsonData.message);
-        setData(breedList);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+  const { data } = useGetDogBreedsQuery();
+
+    //handle checkBox
+    const handleSpayedChange = (event) => {
+        setSpayed(event.target.checked);
+    };
+    const handleVaccinatedChange = (event) => {
+        setVaccinated(event.target.checked);
+    };
+    const handleHFriendlyChange = (event) => {
+        setHFriendly(event.target.checked);
+    };
+    const handleDFriendlyChange = (event) => {
+        setDFriendly(event.target.checked);
+    };
+    const handleImageUpload = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = (e) => {
+              const base64String = e.target.result;
+              setBase64Image(base64String);
+            };
+            reader.readAsDataURL(file);
+          }
+    };
+    //add Dog to database
+    const handleAddDog = async () => {
+        console.log("in HandleaddDog");
+
+        const newDog = {
+            dog_name: name,
+            dog_breed: breed,
+            dog_weight: Weight,
+            dog_gender: gender,
+            dog_birthday: bithDay + "-" + bithMonth + "-" + bithYear,
+            dog_birthday: date,
+            free_text: info,
+            spayed: spayed,
+            rabies_vaccinated: vaccinated,
+            human_friendly: hFriendly,
+            dog_friendly: DFriendly,
+        };
+
+        addDog({ ...newDog, user_email: responseData.body[0].user_email});
     };
 
-    fetchData();
-  }, []);
-
-  //handle checkBox
-  const handleSpayedChange = (event) => {
-    setSpayed(event.target.checked);
-  };
-  const handleVaccinatedChange = (event) => {
-    setVaccinated(event.target.checked);
-  };
-  const handleHFriendlyChange = (event) => {
-    setHFriendly(event.target.checked);
-  };
-  const handleDFriendlyChange = (event) => {
-    setDFriendly(event.target.checked);
-  };
-
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    // Handle the image file here
-    // You can upload the file to a server or process it further
-  };
-
-  //add Dog to database
-  const handleAddDog = () => {
-    console.log("in HandleaddDog" + name);
-
-    if (bithDay != null && bithMonth != null && bithYear != null) {
-      setDate(bithDay + "-" + bithMonth + "-" + bithYear);
-    } else {
-      setDate(null);
-    }
-    console.log(
-      "name: " +
-        name +
-        "breed: " +
-        breed +
-        " weight: " +
-        Weight +
-        "date: " +
-        date
-    );
-    setIsModalOpen(true);
-    if (name && breed && Weight && date) {
-      setModalText("Welcome " + name + "!");
-      setPath("/MyDogs");
-      setFlag(true);
-
-      addValidDog();
-    } else {
-      setModalText(
-        "somthing went wrong... please make sure to input all the details"
-      );
-    }
-  };
-
-  const Modal = ({ isOpen, onClose }) => {
     return (
-      <Dialog open={isOpen} onClose={onClose}>
-        <DialogTitle align="center">{modalText}</DialogTitle>
-        <DialogContent>
-          <div
-            className="form-group"
-            style={{ display: "flex", justifyContent: "center" }}
-          ></div>
-          <br></br>
-        </DialogContent>
-        <DialogActions>
-          {flag && (
-            <Button
-              className="card-body d-flex align-items-center justify-content-between"
-              variant="contained"
-              onClick={onClose}
-              endIcon={<PetsIcon />}
-            >
-              <a href={path}></a>
-              go checkout your new dog
-            </Button>
-          )}
-          {!flag && (
-            <Button
-              className="card-body d-flex align-items-center justify-content-between"
-              variant="contained"
-              onClick={onClose}
-              endIcon={<ReportIcon />}
-            >
-              <a href={path}></a>
-              try again
-            </Button>
-          )}
-        </DialogActions>
-      </Dialog>
-    );
-  };
+        <div
+            className=""
+            style={{
+                backgroundColor: "#f8f8f8",
+            }}
+        >
+            <div className="md:p-4 !py-[100px] md:!py-4 m-3">
+                <div className="d-flex align-items-center justify-content-between">
+                    <form className="g-3 p-4 lg:p-5 w-full md:w-[800px] max-w-[800px] bg-white mx-auto rounded-lg box-shadow">
+                        <h2 className="">Add a new pet</h2>
 
-  Modal.propTypes = {
-    isOpen: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
-  };
+                        <div className="flex flex-col gap-3 my-3 md:flex-row">
+                            <div className="flex-1">
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="inputEmail4"
+                                    placeholder="Name"
+                                    required
+                                    onInput={(e) => setName(e.target.value)}
+                                />   
+                            </div>
+                            {/* <div className=" col-12">
+                            <select id="Weight"></select>
+                        </div> */}
+                            <div className="flex-1">
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="inputCity"
+                                    placeholder="Weight"
+                                    required
+                                    onInput={(e) => setWeight(e.target.value)}
+                                />
+                            </div>
+                        </div>
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    return (
-      <>
-        <a href="/myDogs"></a>
-      </>
-    );
-  };
-  function convertImageToBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        resolve(reader.result);
-      };
-      reader.onerror = (error) => {
-        reject(error);
-      };
-      reader.readAsDataURL(file);
-    });
-  }
+                        <div className="flex flex-col gap-3 my-3 md:items-center md:flex-row">
+                            {/* <h5>Pet's Breed</h5> */}
+                            <select
+                                className="w-full rounded"
+                                name="breed"
+                                onChange={(e) => setBreed(e.target.value)}
+                                required
+                            >
+                                <option value="">Select Pet Breed</option>
+                                {data &&
+                                    Array.isArray(data) &&
+                                    data.length > 0 &&
+                                    data.map((item) => (
+                                        <option key={item} value={item}>
+                                            {item}
+                                        </option>
+                                    ))}
+                            </select>
+                            <div className="flex flex-1 gap-3 mt-8 md:items-center">
+                                <label className="!static flex items-center gap-2">
+                                    <input
+                                        type="radio"
+                                        value="Male"
+                                        name="petGender"
+                                        id="petGender"
+                                        onChange={(e) =>
+                                            setGender(e.target.value)
+                                        }
+                                    />
+                                    Male
+                                </label>
+                                <label className="!static flex items-center gap-2">
+                                    <input
+                                        type="radio"
+                                        value="Female"
+                                        name="petGender"
+                                        id="petGender"
+                                        onChange={(e) =>
+                                            setGender(e.target.value)
+                                        }
+                                    />
+                                    Female
+                                </label>
+                            </div>
+                        </div>
+                        <div
+                            className=""
+                            style={{ marginTop: "10px", marginRight: "10px" }}
+                        >
+                            <h5>Pet's Birthday</h5>
+                            <div className="flex flex-col gap-2 mt-1 md:flex-row">
+                                <select
+                                    className="flex-1 rounded"
+                                    name="Day"
+                                    onChange={(e) => setDay(e.target.value)}
+                                >
+                                    <option value="Day"> Day</option>
+                                    {days.map((item) => (
+                                        <option key={item} value={item}>
+                                            {item}
+                                        </option>
+                                    ))}
+                                </select>
+                                <select
+                                    className="flex-1 rounded"
+                                    name="Month"
+                                    onChange={(e) => setMonth(e.target.value)}
+                                >
+                                    <option value="Month"> Month</option>
+                                    {months.map((item) => (
+                                        <option key={item} value={item}>
+                                            {item}
+                                        </option>
+                                    ))}
+                                </select>
+                                <select
+                                    className="flex-1 rounded"
+                                    name="Year"
+                                    onChange={(e) => setYear(e.target.value)}
+                                >
+                                    <option value="Year"> Year</option>
+                                    {years.map((item) => (
+                                        <option key={item} value={item}>
+                                            {item}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
 
-  const addValidDog = async () => {
-    /*try {
-      const base64Image = await convertImageToBase64(dog1);
-    } catch {
-      console.log("fuck it");
-    }*/
+                        <div
+                            className="my-3 mt-4 md:mt-3"
+                            style={{ marginTop: "10px", marginRight: "10px" }}
+                        >
+                            <input
+                                className="form-control me-auto"
+                                type="text"
+                                placeholder="A little bit about my pet"
+                                aria-label="A little bit about my pet"
+                                onInput={(e) => setInfo(e.target.value)}
+                            />
+                        </div>
 
-    const url =
-      "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register-dog";
-    const requestData = {
-      dog_name: name,
-      dog_breed: breed,
-      dog_weight: parseInt(Weight),
-      dog_gender: gender,
-      dog_birthday: date,
-      free_text: info,
-      spayed: spayed,
-      rabies_vaccinated: vaccinated,
-      human_friendly: hFriendly,
-      dog_friendly: DFriendly,
-      dog_image: dog1,
-    };
-    // Replace with your actual API endpoint URL
-    const params = new URLSearchParams({
-      user_mail: responseData.body[0].user_email,
-    });
+                        <div className="">
+                            <input
+                                type="checkbox"
+                                name="spayed"
+                                id="spayed"
+                                checked={spayed}
+                                onChange={handleSpayedChange}
+                            />
 
-    try {
-      const response = await axios.post(
-        `${url}?${params}`,
-        JSON.stringify(requestData),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      console.log(requestData);
-      console.log(response);
-    } catch (error) {
-      console.log("Error:", error.response);
-    }
-
-    console.log(requestData);
-  };
-
-  return (
-    <div className="col-12 col-md-9 p-4 " style={{ marginTop: "58px" }}>
-      <div className="card p-4 m-3">
-        <div className="card-body d-flex align-items-center justify-content-between">
-          <form className="row g-3">
-            <h2 className="ml-3">Add a new pet</h2>
-            <div className="col-md-12 mt-4">
-              <input
-                type="text"
-                className="form-control"
-                id="inputEmail4"
-                placeholder="Name"
-                required
-                onInput={(e) => setName(e.target.value)}
-              />
+                            <label
+                                htmlFor="spayed"
+                                className="label-agree-term"
+                            >
+                                <span>
+                                    <span />
+                                </span>
+                                Spayed
+                            </label>
+                        </div>
+                        <div className="">
+                            <input
+                                className="w-8 h-8"
+                                type="checkbox"
+                                name="vaccinated"
+                                id="vaccinated"
+                                checked={vaccinated}
+                                onChange={handleVaccinatedChange}
+                            />
+                            <label
+                                htmlFor="vaccinated"
+                                className="label-agree-term"
+                            >
+                                <span>
+                                    <span />
+                                </span>
+                                Rabies vaccinated
+                            </label>
+                        </div>
+                        <div className="">
+                            <input
+                                className="w-8 h-8"
+                                type="checkbox"
+                                name="hFriendly"
+                                id="hFriendly"
+                                checked={hFriendly}
+                                onChange={handleHFriendlyChange}
+                            />
+                            <label
+                                htmlFor="hFriendly"
+                                className="label-agree-term"
+                            >
+                                <span>
+                                    <span />
+                                </span>
+                                Human friendly
+                            </label>
+                        </div>
+                        <div className="">
+                            <input
+                                className="w-8 h-8"
+                                type="checkbox"
+                                name="DFriendly"
+                                id="DFriendly"
+                                checked={DFriendly}
+                                onChange={handleDFriendlyChange}
+                            />
+                            <label
+                                htmlFor="DFriendly"
+                                className="label-agree-term"
+                            >
+                                <span>
+                                    <span />
+                                </span>
+                                Dog friendly
+                            </label>
+                        </div>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            className="px-2 py-2 pb-3 mt-3 border form-control"
+                            id="inputImage"
+                            onChange={handleImageUpload}
+                        />
+                        <div className="mt-3">
+                            <button
+                                type="submit"
+                                className="mt-2 bg-[#03C9D7] text-white py-2  rounded  w-100"
+                                onClick={handleAddDog}
+                            >
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div className="col-12">
-              <select id="Weight"></select>
-            </div>
-            <div className="col-md-12 my-4">
-              <input
-                type="text"
-                className="form-control"
-                id="inputCity"
-                placeholder="Weight"
-                required
-                onInput={(e) => setWeight(e.target.value)}
-              />
-            </div>
-            <div className="col-md-12">
-              <h5>Pet's Breed</h5>
-              <select
-                className="row-12"
-                name="breed"
-                onChange={(e) => setBreed(e.target.value)}
-                required
-              >
-                <option value="breed"> </option>
-                {data &&
-                  Array.isArray(data) &&
-                  data.length > 0 &&
-                  data.map((item) => (
-                    <option key={item} value={item}>
-                      {item}
-                    </option>
-                  ))}
-              </select>
-            </div>
-            <div
-              className="col-2"
-              style={{ marginTop: "20px", marginRight: "30px" }}
-            >
-              <input
-                type="radio"
-                value="Male"
-                name="petGender"
-                id="petGender"
-                onChange={(e) => setGender(e.target.value)}
-              />
-              Male
-              <input
-                type="radio"
-                value="Female"
-                name="petGender"
-                id="petGender"
-                className="col-12"
-                onChange={(e) => setGender(e.target.value)}
-              />
-              Female
-            </div>
-            <div
-              className="col-12"
-              style={{ marginTop: "10px", marginRight: "10px" }}
-            >
-              <h5>Pet's Birthday</h5>
-              <select
-                className="row-12"
-                name="Day"
-                onChange={(e) => setDay(e.target.value)}
-              >
-                <option value="Day"> Day</option>
-                {days.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
-              <select
-                className="row-12"
-                name="Month"
-                onChange={(e) => setMonth(e.target.value)}
-              >
-                <option value="Month"> Month</option>
-                {months.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
-              <select
-                className="row-12"
-                name="Year"
-                onChange={(e) => setYear(e.target.value)}
-              >
-                <option value="Year"> Year</option>
-                {years.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div
-              className="col-12"
-              style={{ marginTop: "10px", marginRight: "10px" }}
-            >
-              <input
-                className="form-control me-auto"
-                type="text"
-                placeholder="A little bit about my pet"
-                aria-label="A little bit about my pet"
-                onInput={(e) => setInfo(e.target.value)}
-              />
-            </div>
-
-            <div className="col-md-12">
-              <input
-                type="checkbox"
-                name="spayed"
-                id="spayed"
-                checked={spayed}
-                onChange={handleSpayedChange}
-              />
-
-              <label htmlFor="spayed" className="label-agree-term">
-                <span>
-                  <span />
-                </span>
-                Spayed
-              </label>
-            </div>
-            <div className="col-md-12">
-              <input
-                type="checkbox"
-                name="vaccinated"
-                id="vaccinated"
-                checked={vaccinated}
-                onChange={handleVaccinatedChange}
-              />
-              <label htmlFor="vaccinated" className="label-agree-term">
-                <span>
-                  <span />
-                </span>
-                Rabies vaccinated
-              </label>
-            </div>
-            <div className="col-md-12">
-              <input
-                type="checkbox"
-                name="hFriendly"
-                id="hFriendly"
-                checked={hFriendly}
-                onChange={handleHFriendlyChange}
-              />
-              <label htmlFor="hFriendly" className="label-agree-term">
-                <span>
-                  <span />
-                </span>
-                Human friendly
-              </label>
-            </div>
-            <div className="col-md-12">
-              <input
-                type="checkbox"
-                name="DFriendly"
-                id="DFriendly"
-                checked={DFriendly}
-                onChange={handleDFriendlyChange}
-              />
-              <label htmlFor="DFriendly" className="label-agree-term">
-                <span>
-                  <span />
-                </span>
-                Dog friendly
-              </label>
-            </div>
-            <input
-              type="file"
-              accept="image/*"
-              className="form-control"
-              id="inputImage"
-              onChange={handleImageUpload}
-            />
-            <div className="col-md-12 mt-3 d-flex justify-content-center">
-              <Button
-                variant="contained"
-                color="success"
-                size="large"
-                id={name}
-                value={name}
-                onClick={handleAddDog}
-              >
-                add Dog
-              </Button>
-
-              <Modal isOpen={isModalOpen} onClose={handleCloseModal} />
-            </div>
-          </form>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default AddDogContent;
