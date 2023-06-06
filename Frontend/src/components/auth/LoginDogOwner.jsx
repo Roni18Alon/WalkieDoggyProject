@@ -1,37 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
-import { useLoginMutation } from "./../api";
+import { useLoginMutation } from "../authApi";
 import signin from "./dist/images/sign_in.png";
 
 const LoginDogOwner = () => {
   const navigate = useNavigate();
-  const loginMutation = useLoginMutation();
+  const loginMutation = useLoginMutation(response => {
+    console.log(response);
+    // Route to the profile page
+    navigate("/Profile");
+  });
 
-  const handleSubmit = async (event) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (event) => {
     event.preventDefault();
 
-    const user_email = document.getElementById("user_email").value;
-    const password = document.getElementById("password").value;
+    loginMutation.mutate({ user_email: email, password });
 
-    try {
-
-      await loginMutation.mutateAsync({ user_email, password });
-
-
-
-
-      if (loginMutation.isSuccess) {
-        const response = loginMutation.data;
-        console.log(response);
-        localStorage.setItem("responseData", JSON.stringify(response));
-        // Route to the profile page
-        navigate("/Profile?data=" + JSON.stringify(response));
-      }
-    } catch (error) {
-      console.log(error);
-    }
   };
+
   return (
     <div className="wrapper">
       <div className="main">
@@ -70,10 +60,13 @@ const LoginDogOwner = () => {
                         <i className="zmdi zmdi-account material-icons-name" />
                       </label>
                       <input
-                        type="text"
+                        type="email"
                         name="user_email"
-                        id="user_email"
-                        placeholder="User name"
+                        placeholder="Your Email"
+                        required
+                        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
                       />
                     </div>
                     <div className="form-group">
@@ -83,7 +76,8 @@ const LoginDogOwner = () => {
                       <input
                         type="password"
                         name="password"
-                        id="password"
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
                         placeholder="Password"
                       />
                     </div>
@@ -94,10 +88,7 @@ const LoginDogOwner = () => {
                         id="remember-me"
                         className="agree-term"
                       />
-                      <label
-                        htmlFor="remember-me"
-                        className="label-agree-term"
-                      >
+                      <label htmlFor="remember-me" className="label-agree-term">
                         <span>
                           <span />
                         </span>

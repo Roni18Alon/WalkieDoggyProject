@@ -1,49 +1,50 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "./dist/Register.css";
 import styles from "./dist/Register.module.css";
 import signin from "./dist/images/sign_in.png";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-
 const LoginDogWalker = () => {
-
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleFormSubmit = (e) => {
-    console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
-    console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
-    console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
-    console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
-    
+    console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+    console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+    console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+    console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+
     e.preventDefault();
 
     // Make a POST request using Axios
-    axios.post(' https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/login', {
-      username: username,
-      password: password
-    })
-      .then(response => {
+    axios
+      .post(
+        " https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/login",
+        {
+          username: username,
+          password: password,
+        }
+      )
+      .then((response) => {
         // Handle the response data
-        console.log('Response:', response.data);
-        console.log('Response:', response.data);
-        console.log('Response:', response.data);
-        console.log('Response:', response.data);
+        console.log("Response:", response.data);
+        console.log("Response:", response.data);
+        console.log("Response:", response.data);
+        console.log("Response:", response.data);
 
-        console.log('Response:', response.data);
-        console.log('Response:', response.data);
-        console.log('Response:', response.data);
-        console.log('Response:', response.data);
-        console.log('Response:', response.data);
-        console.log('Response:', response.data);
-        console.log('Response:', response.data);
-        console.log('Response:', response.data);
-
+        console.log("Response:", response.data);
+        console.log("Response:", response.data);
+        console.log("Response:", response.data);
+        console.log("Response:", response.data);
+        console.log("Response:", response.data);
+        console.log("Response:", response.data);
+        console.log("Response:", response.data);
+        console.log("Response:", response.data);
       })
-      .catch(error => {
+      .catch((error) => {
         // Handle the error
-        console.error('Error:', error);
+        console.error("Error:", error);
       });
   };
   return (
@@ -63,9 +64,14 @@ const LoginDogWalker = () => {
                       alt="sing up image"
                     />
                   </figure>
-                  <button className="signup-image-link button-54" onClick={() => { window.location.href = "/RegisterDogOwner"; }}>
-  Create an account
-</button>
+                  <button
+                    className="signup-image-link button-54"
+                    onClick={() => {
+                      window.location.href = "/RegisterDogOwner";
+                    }}
+                  >
+                    Create an account
+                  </button>
                 </div>
                 <div className="signin-form">
                   <h2 className="form-title">Sign in</h2>
@@ -79,7 +85,9 @@ const LoginDogWalker = () => {
                         name="your_name"
                         id="your_name"
                         placeholder="Your Name"
-                        onChange={e => setUsername(e.target.value)}
+                        required
+                        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                        onChange={(e) => setUsername(e.target.value)}
                       />
                     </div>
                     <div className="form-group">
@@ -91,7 +99,7 @@ const LoginDogWalker = () => {
                         name="your_pass"
                         id="your_pass"
                         placeholder="Password"
-                        onChange={e => setPassword(e.target.value)}
+                        onChange={(e) => setPassword(e.target.value)}
                       />
                     </div>
                     <div className="form-group">
@@ -116,8 +124,7 @@ const LoginDogWalker = () => {
                           id="signin"
                           className="form-submit"
                           defaultValue="Log in"
-                          onClick={handleFormSubmit
-                          }
+                          onClick={handleFormSubmit}
                         />
                       </Link>
                     </div>

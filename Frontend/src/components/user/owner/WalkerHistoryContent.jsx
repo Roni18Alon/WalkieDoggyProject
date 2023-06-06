@@ -12,7 +12,7 @@ function WalkerHistoryContent() {
           overflowX: "hidden",
           height: "100vh",
           marginTop: "80px",
-          backgroundColor: "#e2e8f0",
+          backgroundColor: "#f8f8f8",
         }}
       >
         <div className="container bootdey">
@@ -29,10 +29,13 @@ function WalkerHistoryContent() {
                   <div className="row">
                     <div className="">
                       <span>
-                        <strong>User name</strong>
+                        <strong>Order name</strong>
                       </span>{" "}
                       <span className="label label-info">group name</span>
                       <br />
+                      <span>
+                        <strong>Status</strong>
+                      </span>{" "}
                       <span className="label label-info">Completed</span>
                       <br />
                       cost: $323.13 <br />

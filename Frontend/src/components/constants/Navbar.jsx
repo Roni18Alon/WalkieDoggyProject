@@ -54,12 +54,10 @@ const Navbar = () => {
                     </Link>
                   </li>
                   <li className="has-children">
-
-                    <ul className="dropdown">
                     <a href="/" className="nav-link">
                       {responseData &&
-                        responseData.body[0].user_full_name &&
-                        responseData.body[0].user_full_name
+                        responseData.user_full_name &&
+                        responseData.user_full_name
                           .split(" ")
                           .map(
                             (name) =>
@@ -67,6 +65,7 @@ const Navbar = () => {
                           )
                           .join(" ")}
                     </a>
+                    <ul className="dropdown">
                       <li>
                         <Link class="dropdown-item" to="/Profile">
                           Profile

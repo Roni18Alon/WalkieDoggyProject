@@ -1,4 +1,4 @@
-// import React,{ useState } from "react";
+import { useState } from "react";
 import "./dist/Register.css";
 import styles from "./dist/Register.module.css";
 import signup from "./dist/images/sign_up.png";
@@ -6,26 +6,23 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Register = () => {
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    // Handle the image file here
-    // You can upload the file to a server or process it further
-  };
-   // State to store the user parameters
-   const postData = async () => {
+  // State to store the user parameters
+  const [phone, setPhone] = useState("");
+  const [isValid, setIsValid] = useState(true);
 
-    const url = 'https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register'; // Replace with your actual API endpoint URL
-    const form = document.getElementById('register-form');
-    const user_name = document.getElementById('user_name').value;
-    const user_last_name = document.getElementById('user_last_name').value;
-    const user_email = document.getElementById('user_email').value;
-    const password = document.getElementById('pass').value;
-    const phone_number = document.getElementById('phone_number').value;
-    const country = document.getElementById('Country').value;
-    const city = document.getElementById('City').value;
-    const zip = document.getElementById('zip').value;
-    const address = document.getElementById('Address').value;
-
+  const postData = async () => {
+    const url =
+      "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register"; // Replace with your actual API endpoint URL
+    const form = document.getElementById("register-form");
+    const user_name = document.getElementById("user_name").value;
+    const user_last_name = document.getElementById("user_last_name").value;
+    const user_email = document.getElementById("user_email").value;
+    const password = document.getElementById("pass").value;
+    const phone_number = document.getElementById("phone_number").value;
+    const country = document.getElementById("Country").value;
+    const city = document.getElementById("City").value;
+    const zip = document.getElementById("zip").value;
+    const address = document.getElementById("Address").value;
 
     // Use the captured input values as needed
     const requestData = {
@@ -35,41 +32,47 @@ const Register = () => {
       country: country,
       password: password,
       phone_number: phone_number,
-      user_last_name: user_last_name,  
-      user_name: user_name,     
-      zip: zip
+      user_last_name: user_last_name,
+      user_name: user_name,
+      zip: zip,
     };
 
-    const userRole = 'owner'; 
+    const userRole = "owner";
     const params = new URLSearchParams({ user_role: userRole });
 
-    form.addEventListener('submit', (event) => {
-    event.preventDefault();
-  // Perform further actions with the captured input values
-  // ...
-});
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      // Perform further actions with the captured input values
+      // ...
+    });
 
-axios
-          .post(`${url}?${params}`, JSON.stringify(requestData), {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-         .then((res) => console.log(res))
-         .catch((error) => {
-           console.log("Error:", error);
-         });
+    axios
+      .post(`${url}?${params}`, JSON.stringify(requestData), {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => console.log(res))
+      .catch((error) => {
+        console.log("Error:", error);
+      });
+  };
 
-// axios({
-//   method: 'POST',
-//   url: `${url}?${params}`,
-//   mode: 'no-cors',
-//   // headers: {'Content-Type': 'application/json'},
-//   body: JSON.stringify(requestData)
-// })
-}
+  const handlePhoneChange = (e) => {
+    const inputValue = e.target.value;
+    let formattedValue = inputValue.replace(/[^0-9]/g, ""); // Remove non-numeric characters
 
-   return (
+    if (formattedValue.length > 10) {
+      formattedValue = formattedValue.slice(0, 10); // Truncate to 10 digits
+    }
+
+    if (formattedValue.length > 3) {
+      formattedValue = formattedValue.replace(/^(\d{3})(\d{0,7})/, "$1-$2");
+    }
+
+    setPhone(formattedValue);
+  };
+  return (
     <div className="wrapper">
       <div className="main">
         {/* Sign up form */}
@@ -77,7 +80,11 @@ axios
           <div className={styles.container}>
             <div className="signup-content">
               <div className="signup-form">
-              <h2 className="form-title"> Sign Up <br/>as a Dog Owner</h2>
+                <h2 className="form-title">
+                  {" "}
+                  Sign Up <br />
+                  as a Dog Owner
+                </h2>
                 <form
                   method="POST"
                   className="register-form"
@@ -94,10 +101,9 @@ axios
                       id="user_name"
                       placeholder="User name"
                       required
-                      
                     />
                   </div>
-                   {/* Last name */}
+                  {/* Last name */}
                   <div className="form-group">
                     <label htmlFor="name">
                       <i className="zmdi zmdi-account material-icons-name" />
@@ -108,24 +114,25 @@ axios
                       id="user_last_name"
                       placeholder="Your last name"
                       required
-                      
                     />
                   </div>
-                   {/* user_email */}
+                  {/* user_email */}
                   <div className="form-group">
                     <label htmlFor="user_email">
                       <i className="zmdi zmdi-email" />
                     </label>
                     <input
-                      type="user_email"
+                      type="email"
                       name="user_email"
                       id="user_email"
                       placeholder="Your Email"
                       required
-                     
+                      pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                      // className={emailValid ? "" : "invalid-input"}
+                      // onChange={(e) => setEmailValid(e.target.validity.valid)}
                     />
                   </div>
-                   {/* password */}
+                  {/* password */}
                   <div className="form-group">
                     <label htmlFor="pass">
                       <i className="zmdi zmdi-lock" />
@@ -136,10 +143,9 @@ axios
                       id="pass"
                       placeholder="Password"
                       required
-                   
                     />
                   </div>
-                    {/* Address */}
+                  {/* Address */}
                   <div className="form-group">
                     <label htmlFor="Address">
                       <i className="zmdi zmdi-home" />
@@ -150,10 +156,9 @@ axios
                       id="Address"
                       placeholder="Address"
                       required
-                    
                     />
                   </div>
-                   {/* phone number*/}
+                  {/* phone number*/}
                   <div className="form-group">
                     <label htmlFor="phone_number">
                       <i className="zmdi zmdi-phone" />
@@ -162,12 +167,13 @@ axios
                       type="text"
                       name="phone_number"
                       id="phone_number"
-                      placeholder="Phone number"
+                      placeholder="phone"
                       required
-                  
+                      value={phone}
+                      onChange={handlePhoneChange}
                     />
                   </div>
-                   {/* country */}
+                  {/* country */}
                   <div className="form-group">
                     <label htmlFor="Country">
                       <i className="zmdi zmdi-home" />
@@ -178,10 +184,9 @@ axios
                       id="Country"
                       placeholder="Country"
                       required
-                    
                     />
                   </div>
-                   {/* City */}
+                  {/* City */}
                   <div className="form-group">
                     <label htmlFor="City">
                       <i className="zmdi zmdi-home" />
@@ -192,10 +197,9 @@ axios
                       id="City"
                       placeholder="City"
                       required
-                  
                     />
                   </div>
-                   {/* Zip*/}
+                  {/* Zip*/}
                   <div className="form-group">
                     <label htmlFor="zip">
                       <i className="zmdi zmdi-home" />
@@ -206,197 +210,9 @@ axios
                       id="zip"
                       placeholder="Zip code"
                       required
-                 
-                    />
-                  </div>
-                  <div>
-                  <input
-              type="file"
-              accept="image/*"
-              className="form-control-pic"
-              id="inputImage"
-              onChange={handleImageUpload}
-            />
-                  </div>
-                  {/*
-                  <div className="form-group">
-                    <label htmlFor="petName1">
-                      <i className="zmdi zmdi-favorite" />
-                    </label>
-                    <input
-                      type="text"
-                      name="petName"
-                      id="petName"
-                      placeholder="Pet's name"
-                      required
                     />
                   </div>
 
-                  <div className="form-group">
-                    <label htmlFor="petAge1">
-                      <i className="zmdi zmdi-favorite" />
-                    </label>
-                    <input
-                      type="text"
-                      name="petAge"
-                      id="petAge"
-                      placeholder="Pet's age"
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="petBreed1">
-                      <i className="zmdi zmdi-favorite" />
-                    </label>
-                    <input
-                      type="text"
-                      name="petBreed"
-                      id="petBreed"
-                      placeholder="Pet's breed"
-                      required
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="petWieght1">
-                      <i className="zmdi zmdi-favorite" />
-                    </label>
-                    <input
-                      type="text"
-                      name="petWieght"
-                      id="petWieght"
-                      placeholder="Pet's wieght in kg"
-                      required
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <input
-                      type="radio"
-                      value="Male"
-                      name="petGender"
-                      id="petGender"
-                      className="petGender"
-                      onChange={(e) => setGender(e.target.value)}
-                    />
-                    Male
-                    <input
-                      type="radio"
-                      value="Female"
-                      name="petGender"
-                      id="petGender"
-                      className="petGender"
-                      onChange={(e) => setGender(e.target.value)}
-                    />
-                    Female
-                  </div>
-
-                  <div className="form-group">
-                    <input name="birthday" id="birthday" />
-                    <label>Pet's Birthday</label>
-                    <select name="Day">
-                      <option value="Day"> Day</option>
-                      {days.map((item) => (
-                        <option>{item}</option>
-                      ))}
-                    </select>
-                    <select name="Month">
-                      <option value="Month"> Month</option>
-                      {months.map((item) => (
-                        <option>{item}</option>
-                      ))}
-                    </select>
-                    <select name="Year">
-                      <option value="Year"> Year</option>
-                      {years.map((item) => (
-                        <option>{item}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="freeText1">
-                      <i className="zmdi zmdi-favorite" />
-                    </label>
-                    <input
-                      className="form-control me-auto"
-                      type="text"
-                      placeholder="A little bit about my pet"
-                      aria-label="A little bit about my pet"
-                      required
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <input
-                      type="checkbox"
-                      name="spayed"
-                      id="spayed"
-                      className="agree-term"
-                    />
-                    <label htmlFor="agree-term" className="label-agree-term">
-                      <span>
-                        <span />
-                      </span>
-                      Spayed
-                      {/* <a href="#" className="term-service">
-                       
-                      </a> }
-                    </label>
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="checkbox"
-                      name="Rabies-vaccinated"
-                      id="Rabies-vaccinated"
-                      className="agree-term"
-                    />
-                    <label htmlFor="agree-term" className="label-agree-term">
-                      <span>
-                        <span />
-                      </span>
-                      Rabies vaccinated
-                      {/* <a href="#" className="term-service">
-                       
-                      </a> }
-                    </label>
-                  </div>
-             
-                  <div className="form-group">
-                    <input
-                      type="checkbox"
-                      name="Human-friendly"
-                      id="Human-friendly"
-                      className="agree-term"
-                    />
-                    <label htmlFor="agree-term" className="label-agree-term">
-                      <span>
-                        <span />
-                      </span>
-                      Human friendly
-                      {/* <a href="#" className="term-service">
-                       
-                      </a> 
-                    </label>  
-                  </div> 
-                  <div className="form-group">
-                    <input
-                      type="checkbox"
-                      name="Dog-friendly"
-                      id="Dog-friendly"
-                      className="agree-term"
-                    />
-                    <label htmlFor="agree-term" className="label-agree-term">
-                      <span>
-                        <span />
-                      </span>
-                      Dog friendly
-                      {/* <a href="#" className="term-service">
-                       
-                      </a> 
-                    </label>
-                  </div>
-                */}
                   <div className="form-group">
                     <input
                       type="checkbox"
@@ -433,11 +249,13 @@ axios
                   <img src={signup} alt="sing up image" />
                 </figure>
                 <button
-  className="signup-image-link button-54"
-  onClick={() => { window.location.href = "/LoginDogOwner"; }}
->
-  I am already a member
-</button>
+                  className="signup-image-link button-54"
+                  onClick={() => {
+                    window.location.href = "/LoginDogOwner";
+                  }}
+                >
+                  I am already a member
+                </button>
               </div>
             </div>
           </div>
@@ -446,6 +264,6 @@ axios
       </div>
     </div>
   );
-};  
+};
 
 export default Register;

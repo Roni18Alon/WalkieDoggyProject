@@ -52,16 +52,17 @@ const Calendar: React.FC = () => {
   };
 
   return (
-    <div>
-      <div>
-        <label>Select Duration:</label>
-        <select value={selectedDuration} onChange={handleDurationChange}>
+    <div className="min-w-[900px] overflow-x-auto" style={{ background: "", width: "100%", padding: "20px", display: "flex", flexDirection: "column" }}>
+      <div className="flex flex-col mb-4">
+        <label style={{position: "static"}} className="text-gray-500 text-md" >Select Duration:</label>
+        <select className="inline-block -mt-4 w-[150px]" value={selectedDuration} onChange={handleDurationChange}>
           <option value={10}>10 minutes</option>
           <option value={20}>20 minutes</option>
           <option value={50}>50 minutes</option>
           <option value={1440}>Full day</option>
         </select>
       </div>
+
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="timeGridWeek"

@@ -2,198 +2,73 @@ import User from "./images/kindpng_248729.png";
 import { Link } from "react-router-dom";
 
 function WalkerHistoryContent() {
-  return (
-    <>
-      <div
-        className="col-12 col-md-9 col-md-9-profile p-4"
-        style={{
-          overflowY: "auto",
-          position: "relative",
-          overflowX: "hidden",
-          height: "100vh",
-          marginTop: "80px",
-          backgroundColor: "#e2e8f0",
-        }}
-      >
-        <div className="container bootdey">
-          <div className="panel panel-default panel-order">
-            <div className="panel-body">
-              <div className="row">
-                <div className="col-md-2">
-                  <img
-                    src="https://bootdey.com/img/Content/user_3.jpg"
-                    className="media-object img-thumbnail"
-                  />
-                </div>
-                <div className="col-md-10">
-                  <div className="row">
-                    <div className="">
-                      <span>
-                        <strong>Order name</strong>
-                      </span>{" "}
-                      <span className="label label-info">group name</span>
-                      <br />
-                      <span>
-                        <strong>Status</strong>
-                      </span>{" "}
-                      <span className="label label-info">Completed</span>
-                      <br />
-                      cost: $323.13 <br />
+    return (
+        <>
+            <div
+                style={{
+                    backgroundColor: "#f8f8f8",
+                }}
+            >
+                <div className="md:p-4 !py-[100px] md:!py-4 m-3">
+                    <div className="p-4 max-w-[900px] mx-auto mb-10 gap-6 rounded-lg">
+                        <h2 className="">History</h2>
+
+                        <hr className="my-6 mt-3 opacity-40" />
+
+                        <div className="flex flex-col gap-3">
+                            {[1, 2, 3, 6, 1, 2, 3, 6]?.map((history, i) => (
+                                <div
+                                    key={i}
+                                    className="flex flex-col gap-4 p-3 bg-white rounded-lg box-shadow md:flex-row"
+                                >
+                                    <div className="col-md-2">
+                                        <img
+                                            src="https://bootdey.com/img/Content/user_3.jpg"
+                                            className="media-object img-thumbnail"
+                                        />
+                                    </div>
+                                    <div className="col-md-10">
+                                        <div className="">
+                                            <div className="">
+                                                <span>
+                                                    <strong>Order Name:</strong>
+                                                </span>{" "}
+                                                <span className="label label-info">
+                                                    group name
+                                                </span>
+                                                <br />
+                                                <span>
+                                                    <strong>Status:</strong>
+                                                </span>{" "}
+                                                <span className="label label-info">
+                                                    Completed
+                                                </span>
+                                                <br />
+                                                <span>
+                                                    <strong>cost:</strong>
+                                                </span>{" "}
+                                                <span className="label label-info">
+                                                    $323.13
+                                                </span>
+                                                <br />
+                                                <span>
+                                                    <strong>order made on:</strong>
+                                                </span>{" "}
+                                                <span className="label label-info">
+                                                    05/31/2014 by{" "}  <a href="#">Jane Doe </a>
+                                                </span>
+                                                <br />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                    <div className="col-md-12">
-                      order made on: 05/31/2014 by <a href="#">Jane Doe </a>
-                    </div>
-                  </div>
                 </div>
-              </div>
-              <div className="row mt-4">
-                <div className="col-md-2">
-                  <img
-                    src="https://bootdey.com/img/Content/user_1.jpg"
-                    className="media-object img-thumbnail"
-                  />
-                </div>
-                <div className="col-md-10">
-                  <div className="row">
-                    <div className="col-md-12">
-                      <span>
-                        <strong>Order name</strong>
-                      </span>{" "}
-                      <span className="label label-info">group name</span>
-                      <br />
-                      <span>
-                        <strong>Status</strong>
-                      </span>{" "}
-                      <span className="label label-info">Pending</span>
-                      <br />
-                      Cost: $12623.13
-                      <br />
-                    </div>
-                    <div className="col-md-12">
-                      order made on: 06/12/2014 by <a href="#">Jane Doe </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row mt-4">
-                <div className="col-md-2">
-                  <img
-                    src="https://bootdey.com/img/Content/user_3.jpg"
-                    className="media-object img-thumbnail"
-                  />
-                </div>
-                <div className="col-md-10">
-                  <div className="row">
-                    <div className="">
-                      <span>
-                        <strong>Order name</strong>
-                      </span>{" "}
-                      <span className="label label-info">group name</span>
-                      <br />
-                      <span>
-                        <strong>Status</strong>
-                      </span>{" "}
-                      <span className="label label-info">Completed</span>
-                      <br />
-                      cost: $323.13 <br />
-                    </div>
-                    <div className="col-md-12">
-                      order made on: 05/31/2014 by <a href="#">Jane Doe </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row mt-4">
-                <div className="col-md-2">
-                  <img
-                    src="https://bootdey.com/img/Content/user_1.jpg"
-                    className="media-object img-thumbnail"
-                  />
-                </div>
-                <div className="col-md-10">
-                  <div className="row">
-                    <div className="col-md-12">
-                      <span>
-                        <strong>Order name</strong>
-                      </span>{" "}
-                      <span className="label label-info">group name</span>
-                      <br />
-                      <span>
-                        <strong>Status</strong>
-                      </span>{" "}
-                      <span className="label label-info">Pending</span>
-                      <br />
-                      Cost: $12623.13
-                      <br />
-                    </div>
-                    <div className="col-md-12">
-                      order made on: 06/12/2014 by <a href="#">Jane Doe </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row mt-4">
-                <div className="col-md-2">
-                  <img
-                    src="https://bootdey.com/img/Content/user_3.jpg"
-                    className="media-object img-thumbnail"
-                  />
-                </div>
-                <div className="col-md-10">
-                  <div className="row">
-                    <div className="">                
-                      <span>
-                        <strong>Order name</strong>
-                      </span>{" "}
-                      <span className="label label-info">group name</span>
-                      <br />
-                      <span>
-                        <strong>Status</strong>
-                      </span>{" "}
-                      <span className="label label-info">Completed</span>
-                      <br />
-                      cost: $323.13 <br />                     
-                    </div>
-                    <div className="col-md-12">
-                      order made on: 05/31/2014 by <a href="#">Jane Doe </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row mt-4">
-                <div className="col-md-2">
-                  <img
-                    src="https://bootdey.com/img/Content/user_3.jpg"
-                    className="media-object img-thumbnail"
-                  />
-                </div>
-                <div className="col-md-10">
-                  <div className="row">
-                    <div className="">                
-                      <span>
-                        <strong>Order name</strong>
-                      </span>{" "}
-                      <span className="label label-info">group name</span>
-                      <br />
-                      <span>
-                        <strong>Status</strong>
-                      </span>{" "}
-                      <span className="label label-info">Completed</span>
-                      <br />
-                      cost: $323.13 <br />                     
-                    </div>
-                    <div className="col-md-12">
-                      order made on: 05/31/2014 by <a href="#">Jane Doe </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+        </>
+    );
 }
 
 export default WalkerHistoryContent;
