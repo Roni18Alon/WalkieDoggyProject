@@ -1,7 +1,9 @@
 import React from "react";
 
 function WalkerPersonalProfileContent() {
-  // const [fileName, setFileName] = useState("No file chosen");
+    
+    // const [fileName, setFileName] = useState("No file chosen");
+
 
   // function handleFileChange(e) {
   //   setFileName(e.target.files[0].name);
@@ -245,16 +247,12 @@ function WalkerPersonalProfileContent() {
                         Work address
                       </h5>
                       Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+
                     </div>
-                  </div>
                 </div>
-              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+        </>
+    );
 }
 
 export default WalkerPersonalProfileContent;
