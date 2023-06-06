@@ -259,7 +259,7 @@ function OwnerHistoryContent() {
                               <a href="/WalkerProfileForUser">
                                 {row.user_full_name}
                               </a>{" "}
-                              {/*/*localStorage.setItem("walkerProfile", JSON.stringify(row.user_email)) */}
+                              {/*localStorage.setItem("walkerProfile", JSON.stringify(row.user_email)) */}
                             </strong>
                           </span>{" "}
                           <br />

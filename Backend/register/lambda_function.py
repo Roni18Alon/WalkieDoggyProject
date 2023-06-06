@@ -6,7 +6,9 @@ import hashlib
 from datetime import datetime
 from aws.dynamoDB import DynamoDB
 from passlib.hash import pbkdf2_sha256
+from aws.s3 import S3
 from responses import responses
+import base64
 
 event = {'resource': '/register', 'path': '/register', 'httpMethod': 'POST',
          'headers': {'accept': '*/*', 'accept-encoding': 'gzip, deflate, br', 'accept-language': 'en-US,en;q=0.9',
@@ -57,6 +59,7 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 
 dynamo = DynamoDB('users-info')
+s3_bucket = S3(bucket_name='walkie-doggy-users')
 
 
 def lambda_handler(event, context):
@@ -77,6 +80,13 @@ def lambda_handler(event, context):
         user_country = user_details.get('country')
         user_zip = user_details.get('zip')
         password = user_details.get('password')
+        image_b64 = user_details.get('user_image')
+        # if uploaded image save in s3-optional
+        if image_b64:
+            # dog_image = convert_to_base64(dog_image_b64)
+            key = f"{user_mail}_img.png"
+            image_bytes = base64.b64decode(image_b64)
+            s3_bucket.upload_image(img=image_bytes, key=key)
 
         # Verify if the required variables are not None or empty
         if all([user_name, user_mail, phone_number, user_address, user_city, user_country, user_zip, password]):
@@ -106,6 +116,8 @@ def lambda_handler(event, context):
                 'num_of_ranks': 0,
                 'whatsapp_link': f'https://api.whatsapp.com/send?phone={phone_number.replace("-", "")}'
             }
+            if image_b64:
+                new_user_data['user_image'] = f'http://walkie-doggy-users.s3-website-us-east-1.amazonaws.com/{key}'
 
             table = dynamo.resource.Table('users-info')
             logger.info(f"Inserting new data for user {user_mail}: {new_user_data}")
