@@ -1,16 +1,15 @@
 import React from "react";
 import User from "./images/roni.png";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Calendar from "../../Calendar/Calendar";
 
 function ProfileContent() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const responseData = JSON.parse(localStorage.getItem("responseData"));
-  console.log(responseData);
-
+  const user = JSON.parse(JSON.stringify(responseData.body[0]));
   const handleDateSelection = (selectedDateTime) => {
-    console.log('Selected date/time:', selectedDateTime);
+    console.log("Selected date/time:", selectedDateTime);
     // Perform additional actions
   };
 
@@ -40,11 +39,9 @@ function ProfileContent() {
                       width={130}
                     />
                     <div className="mt-3">
-
                       <h4>
-                        {responseData &&
-                          responseData.user_full_name &&
-                          responseData.user_full_name
+                        {user &&
+                          user.user_full_name
                             .split(" ")
                             .map(
                               (name) =>
@@ -54,20 +51,7 @@ function ProfileContent() {
                       </h4>
                       <p className="text-secondary mb-1">Dog Owner</p>
                       <p className="text-muted font-size-sm">
-                        {responseData.city + ", " + responseData.country}
-
-                    <h4>
-            {responseData &&
-       responseData.user_full_name &&
-    responseData.user_full_name
-      .split(" ")
-      .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
-      .join(" ")}
-</h4>
-                      <p className="text-secondary mb-1">Dog Owner</p>
-                      <p className="text-muted font-size-sm">
-                        {responseData.city+", "+responseData.country}
-
+                        {user.city + ", " + user.country}
                       </p>
                     </div>
                     <div className="rating-position">
@@ -105,23 +89,15 @@ function ProfileContent() {
                       <h6 className="mb-0">Full Name</h6>
                     </div>
                     <div className="col-sm-9 text-secondary mt-2">
-                      {responseData &&
-                        responseData.user_full_name &&
-                        responseData.user_full_name
+                      {user &&
+                        user.user_full_name
+
                           .split(" ")
                           .map(
                             (name) =>
                               name.charAt(0).toUpperCase() + name.slice(1)
                           )
                           .join(" ")}
-
-                    {responseData &&
-       responseData.user_full_name &&
-    responseData.user_full_name
-      .split(" ")
-      .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
-      .join(" ")}
-
                     </div>
                   </div>
                   <hr />
@@ -130,7 +106,7 @@ function ProfileContent() {
                       <h6 className="mb-0">Email</h6>
                     </div>
                     <div className="col-sm-9 text-secondary">
-                      {responseData.user_email}
+                      {user.user_email}
                     </div>
                   </div>
                   <hr />
@@ -139,8 +115,7 @@ function ProfileContent() {
                       <h6 className="mb-0">Mobile</h6>
                     </div>
                     <div className="col-sm-9 text-secondary">
-                      {responseData.rank}
-
+                      {user.phone_number}
                     </div>
                   </div>
                   <hr />
@@ -149,12 +124,16 @@ function ProfileContent() {
                       <h6 className="mb-0">Address</h6>
                     </div>
                     <div className="col-sm-9 text-secondary">
-                      {responseData.address +
-                        ", " +
-                        responseData.city +
-                        ", " +
-                        responseData.country}
+                      {user.address + ", " + user.city + ", " + user.country}
                     </div>
+                  </div>
+                  <hr />
+
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <h6 className="mb-0">Zip</h6>
+                    </div>
+                    <div className="col-sm-9 text-secondary">{user.zip}</div>
                   </div>
                   <hr />
                   <div className="row">

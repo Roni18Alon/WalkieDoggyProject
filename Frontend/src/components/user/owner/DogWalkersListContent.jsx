@@ -6,34 +6,40 @@ import Rating from "react-rating-stars-component";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
+import { format } from "date-fns";
 
 function DogWalkerListContent() {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const responseData = JSON.parse(localStorage.getItem("responseData"));
+  const user = JSON.parse(JSON.stringify(responseData.body[0]));
+
   // State variables for search criteria
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
   const [distance, setDistance] = useState(0);
   const [rating, setRating] = useState(null);
   const [price, setPrice] = useState(null);
-  const user_email = "ronialon2008@gmail.com";
+  const [isSearch, setIsSearch] = useState(false);
 
   const url =
     "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/search";
 
-
   // Event handler for search button
   const handleSearch = async (e) => {
     e.preventDefault();
-
+    setIsSearch(false);
 
     const requestData = {
-      distance: parseInt(distance),
-      start_time: "23-05-28 18:00:00",
-      end_time: "23-05-28 19:00:00",
+      distance_km: parseInt(distance),
+      start_time: startDate ? format(startDate, "yyyy-MM-dd HH:mm:ss") : "",
+      end_time: endDate ? format(endDate, "yyyy-MM-dd HH:mm:ss") : "",
       max_price: parseInt(price),
-      min_rating: parseInt(rating),
+      min_rating: parseFloat(rating),
     };
-
-    const params = new URLSearchParams({ user_mail: user_email });
+    console.log("requestData: " + JSON.stringify(requestData));
+    const params = new URLSearchParams({ user_mail: user.user_email });
 
     try {
       const response = await axios.post(
@@ -45,36 +51,13 @@ function DogWalkerListContent() {
           },
         }
       );
-      console.log(response);
+      console.log("respone:" + JSON.stringify(response.data));
+      localStorage.setItem("SearchResult", JSON.stringify(response.data));
     } catch (error) {
-      console.log("Error:", error.response);
+      console.log("Error message:", error.message);
     }
 
-    console.log(requestData);
-  };
-    
-    const requestData = {
-      distance: parseInt(distance),
-      start_time: "23-05-28 18:00:00",
-      end_time: "23-05-28 19:00:00",
-      max_price: parseInt(price),
-      min_rating: parseInt(rating),   
-    };
-
-    const params = new URLSearchParams({ user_mail: user_email });
-
-    try {
-      const response = await axios.post(`${url}?${params}`, JSON.stringify(requestData), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      console.log(response);
-    } catch (error) {
-      console.log("Error:", error.response);
-    }
-
-    console.log(requestData);
+    setIsSearch(true);
   };
 
   // Event handler for rating change
@@ -96,26 +79,6 @@ function DogWalkerListContent() {
   const startDatePickerRef = useRef(null);
   const endDatePickerRef = useRef(null);
 
-  // rows.forEach((row) => {
-  //   const name = row.cells[1].textContent;
-
-  //   if (name.toLowerCase().includes(searchTerm.toLowerCase())) {
-  //     row.style.display = "";
-  //     rowCount++;
-  //   } else {
-  //     row.style.display = "none";
-  //   }
-  // });
-  
- // const message = rowCount === 0 ? "No records found." : "";
-
-
-  // const [startDate, setStartDate] = useState();
-  // const [endDate, setEndDate] = useState();
-
-  // const [startDate, setStartDate] = useState(null);
-  // const [selectedTime, setSelectedTime] = useState(null);
-
   return (
     <>
       <div
@@ -129,105 +92,78 @@ function DogWalkerListContent() {
           backgroundColor: "#e2e8f0",
         }}
       >
-        {/* <div className="card py-2 px-2">
-          <div className="card-body d-flex align-items-center justify-content-between">
-            <div className="image d-flex">
-              <img
-                src={User}
-                width="80px"
-                alt=""
-                className="mr-4"
-                onClick={() => document.getElementById("profilePic").click()}
-              />
-              <input
-                type="file"
-                className="custom-file-input"
-                id="profilePic"
-                onChange={handleFileChange}
-                style={{ display: "none" }}
-              />
-              <div className="m-auto">
-                <p className="card-text ms-3">
-                  John Smith <br />
-                  <span id="filename">Specialist</span>
-                  <span id="filename">{fileName}</span>
-                </p>
-              </div>
-            </div>
-            <div>
-              <button type="button" className="btn btn-update px-3">
-                Logout
-              </button>
-            </div>
-          </div>
-        </div> */}
-
         <div className="container">
           <div className="row">
             <div className="col-lg-12 card-margin">
-            <div>
-      <div className="input-group mb-3">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="From"
-          value={startDate ? startDate.toString() : ''}
-          readOnly
-        />
-        <div className="input-group-append">
-          <button
-            className="btn btn-outline-secondary"
-            type="button"
-            onClick={openStartDatePicker}
-          >
-            From
-          </button>
-        </div>
-      </div>
-      <div className="input-group mb-3">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="To"
-          value={endDate ? endDate.toString() : ''}
-          readOnly
-        />
-        <div className="input-group-append">
-          <button
-            className="btn btn-outline-secondary"
-            type="button"
-            onClick={openEndDatePicker}
-          >
-            To
-          </button>
-        </div>
-      </div>
-      <div>
-        <DatePicker
-          selected={startDate}
-          onChange={(date) => setStartDate(date)}
-          showTimeSelect
-          dateFormat="Pp"
-          className="d-none"
-          ref={startDatePickerRef}
-        />
-        <DatePicker
-          selected={endDate}
-          onChange={(date) => setEndDate(date)}
-          showTimeSelect
-          dateFormat="Pp"
-          className="d-none"
-          ref={endDatePickerRef}
-        />
-      </div>
-    </div>
+              <div>
+                <div className="input-group mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="From"
+                    value={startDate ? startDate.toString() : ""}
+                    readOnly
+                  />
+                  <div className="input-group-append">
+                    <button
+                      className="btn btn-outline-secondary"
+                      type="button"
+                      onClick={openStartDatePicker}
+                    >
+                      From
+                    </button>
+                  </div>
+                </div>
+                <div className="input-group mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="To"
+                    value={endDate ? endDate.toString() : ""}
+                    readOnly
+                  />
+                  <div className="input-group-append">
+                    <button
+                      className="btn btn-outline-secondary"
+                      type="button"
+                      onClick={openEndDatePicker}
+                    >
+                      To
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <DatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    showTimeSelect
+                    dateFormat="yy-MM-dd HH:mm:ss"
+                    timeFormat="HH:mm:ss"
+                    timeIntervals={1}
+                    timeCaption="Time"
+                    className="d-none"
+                    ref={startDatePickerRef}
+                  />
+
+                  <DatePicker
+                    selected={endDate}
+                    onChange={(date) => setEndDate(date)}
+                    showTimeSelect
+                    dateFormat="yy-MM-dd HH:mm:ss"
+                    timeFormat="HH:mm:ss"
+                    timeIntervals={1}
+                    timeCaption="Time"
+                    className="d-none"
+                    ref={endDatePickerRef}
+                  />
+                </div>
+              </div>
               <div className="card search-form">
                 <div className="card-body p-0">
                   <form id="search-form">
                     <div className="row">
                       <div className="col-12">
                         <div className="row no-gutters">
-
                           {/* Rating  Section*/}
 
                           <div className="col-4 p-4" style={{ left: "30px" }}>
@@ -278,7 +214,7 @@ function DogWalkerListContent() {
                                 step="1"
                                 value={price}
                                 onChange={(e) => setPrice(e.target.value)}
-                                class="form-range"
+                                className="form-range"
                                 id={"Price-range" + price} // save for back
                               />
                               <h7
@@ -291,30 +227,13 @@ function DogWalkerListContent() {
                                 {price}
                               </h4>
                             </div>
-                            <div
-                              className="col-lg-3 col-md-3 col-sm-12 p-0"
-                              style={{ left: "100px" }}
-                            >
-                              {/* <input
-                                type="text"
-                                placeholder="from:"
-                                className="form-control"
-                                style={{width: "100px"}}
-                                value={startDate}
-                                onChange={(e) => setStartDate(e.target.value)}
-                              /> */}
-                            </div>
-
-
-
                           </div>
 
                           {/* Distance */}
                           <div>
                             <select
                               className="col-lg-3 col-md-3 col-sm-12 p-0"
-                              style={{ width: "90px",
-                                    left: "60px" }}
+                              style={{ width: "90px", left: "60px" }}
                               name="Distance"
                               onChange={(e) => {
                                 setDistance(e.target.value);
@@ -324,6 +243,7 @@ function DogWalkerListContent() {
                               <option value={1}>1 km</option>
                               <option value={5}>5 km</option>
                               <option value={10}>10 km</option>
+                              <option value={30}>30 km</option>
                             </select>
                           </div>
 
@@ -332,7 +252,7 @@ function DogWalkerListContent() {
                             className="col-lg-3 col-md-3 col-sm-12 p-0"
                             style={{ left: "80px" }}
                           >
-                            <button 
+                            <button
                               type="submit"
                               className="btn btn-base"
                               onClick={handleSearch}
@@ -352,9 +272,8 @@ function DogWalkerListContent() {
                                 <circle cx={11} cy={11} r={8} />
                                 <line x1={21} y1={21} x2="16.65" y2="16.65" />
                               </svg>
-                            </button >
+                            </button>
                           </div>
-
                         </div>
                       </div>
                     </div>
@@ -378,9 +297,7 @@ function DogWalkerListContent() {
                         >
                           <div className="table-responsive">
                             <table className="table widget-26">
-                              <tbody>
-                                {ResultList()}
-                              </tbody>
+                              <tbody>{isSearch && ResultList()}</tbody>
                             </table>
                           </div>
                         </div>

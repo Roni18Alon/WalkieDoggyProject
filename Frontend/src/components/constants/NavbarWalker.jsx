@@ -47,11 +47,14 @@ const NavbarWalker = () => {
                     </a>
                     <ul className="dropdown">
                       <li>
-                        <Link class="dropdown-item" to="/WalkerPersonalProfile">
+                        <Link
+                          className="dropdown-item"
+                          to="/WalkerPersonalProfile"
+                        >
                           Profile
                         </Link>
-                        <div class="dropdown-divider"></div>
-                        <Link class="dropdown-item" to="/">
+                        <div className="dropdown-divider"></div>
+                        <Link className="dropdown-item" to="/">
                           Logout
                         </Link>
                       </li>

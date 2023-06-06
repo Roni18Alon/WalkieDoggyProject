@@ -1,11 +1,31 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 function WalkerProfileContent() {
-  // const [fileName, setFileName] = useState("No file chosen");
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const responseData = JSON.parse(localStorage.getItem("responseData"));
+  //const walkerProfile = JSON.parse(localStorage.getItem("walkerProfile"));
+  /*useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/walkerProfile",
+          {
+            params: { user_mail: walkerProfile },
+          }
+        );
+        const fetchedUserList = JSON.parse(JSON.stringify(response.data.body));
+        setUserList(fetchedUserList);
+        console.log(fetchedUserList);
+      } catch (error) {
+        console.log("Error:", error.response);
+      }
+    };
 
-  // function handleFileChange(e) {
-  //   setFileName(e.target.files[0].name);
-  //}
+    fetchData();
+  }, []);*/
+
   return (
     <>
       <div
@@ -124,12 +144,12 @@ function WalkerProfileContent() {
                             Good job done by James Smith <br />
                             Recommended!
                           </div>
-                          <div class="rating">
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw low"></i>{" "}
+                          <div className="rating">
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw low"></i>{" "}
                           </div>
                         </div>
                       </div>
@@ -148,12 +168,12 @@ function WalkerProfileContent() {
                             Not satisfied with his job <br />
                             Not Recommended
                           </div>
-                          <div class="rating">
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw low"></i>{" "}
-                            <i class="fa-solid fa-paw low"></i>{" "}
-                            <i class="fa-solid fa-paw low"></i>{" "}
+                          <div className="rating">
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw low"></i>{" "}
+                            <i className="fa-solid fa-paw low"></i>{" "}
+                            <i className="fa-solid fa-paw low"></i>{" "}
                           </div>
                         </div>
                       </div>
@@ -173,15 +193,15 @@ function WalkerProfileContent() {
                             very well. <br />
                             Recommended!
                           </div>
-                          <div class="rating">
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw"></i>{" "}
+                          <div className="rating">
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw"></i>{" "}
                           </div>
                         </div>
-                        <p class="mt-3" style={{ cursor: "pointer" }}>
+                        <p className="mt-3" style={{ cursor: "pointer" }}>
                           Show More
                         </p>
                       </div>

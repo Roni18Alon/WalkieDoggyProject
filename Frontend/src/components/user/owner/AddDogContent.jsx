@@ -8,6 +8,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import PetsIcon from "@mui/icons-material/Pets";
 import ReportIcon from "@mui/icons-material/Report";
+import axios from "axios";
+import dog1 from "./images/2.jfif";
 
 function AddDogContent() {
   const location = useLocation();
@@ -36,7 +38,7 @@ function AddDogContent() {
   const [bithDay, setDay] = useState(null);
   const [bithMonth, setMonth] = useState(null);
   const [bithYear, setYear] = useState(null);
-  const [info, setInfo] = useState(0);
+  const [info, setInfo] = useState("");
   const [spayed, setSpayed] = useState(false);
   const [vaccinated, setVaccinated] = useState(false);
   const [hFriendly, setHFriendly] = useState(false);
@@ -111,7 +113,7 @@ function AddDogContent() {
       setPath("/MyDogs");
       setFlag(true);
 
-      //addValidDog();
+      addValidDog();
     } else {
       setModalText(
         "somthing went wrong... please make sure to input all the details"
@@ -171,13 +173,32 @@ function AddDogContent() {
       </>
     );
   };
+  function convertImageToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        resolve(reader.result);
+      };
+      reader.onerror = (error) => {
+        reject(error);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
   const addValidDog = async () => {
+    /*try {
+      const base64Image = await convertImageToBase64(dog1);
+    } catch {
+      console.log("fuck it");
+    }*/
+
     const url =
       "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register-dog";
-    const newDog = {
+    const requestData = {
       dog_name: name,
       dog_breed: breed,
-      dog_weight: Weight,
+      dog_weight: parseInt(Weight),
       dog_gender: gender,
       dog_birthday: date,
       free_text: info,
@@ -185,44 +206,31 @@ function AddDogContent() {
       rabies_vaccinated: vaccinated,
       human_friendly: hFriendly,
       dog_friendly: DFriendly,
+      dog_image: dog1,
     };
-
     // Replace with your actual API endpoint URL
     const params = new URLSearchParams({
-      user_mail: responseData.user_mail,
+      user_mail: responseData.body[0].user_email,
     });
 
-    // Create query string parameters
-    // const params = new URLSearchParams({ user_email: user_email });
-    const requestOptions = {
-      method: "POST",
-      mode: "no-cors",
-      Headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newDog),
-    };
-
     try {
-      const response = await fetch(
-        `${url}?${new URLSearchParams(params)}`,
-        requestOptions
+      const response = await axios.post(
+        `${url}?${params}`,
+        JSON.stringify(requestData),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
-      console.log("-----------------------" + requestOptions.body);
-      console.log(response.status + " hi");
-      if (response.status == "400") {
-        alert("Bad Request: Please check your request data.");
-      }
-      if (response.ok) {
-        // POST request was successful
-        console.log("Request sent successfully!" + response.status);
-        // Do something with the response if needed
-      } else {
-        prompt("Error:", response.error);
-      }
+
+      console.log(requestData);
+      console.log(response);
     } catch (error) {
-      console.log("Error:", error.message);
+      console.log("Error:", error.response);
     }
+
+    console.log(requestData);
   };
 
   return (

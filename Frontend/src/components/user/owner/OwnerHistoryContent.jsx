@@ -12,10 +12,12 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
 import SendIcon from "@material-ui/icons/Send";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 import {
   TableContainer,
@@ -27,49 +29,39 @@ import {
 } from "@mui/material";
 
 function OwnerHistoryContent() {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const responseData = JSON.parse(localStorage.getItem("responseData"));
+
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [reviewRating, setReviewRating] = useState();
+  const [reviewRating, setReviewRating] = useState(0);
   const [reviewName, setReviewName] = useState("");
   const [reviewText, setReviewText] = useState("");
+  const [userList, setUserList] = useState([]);
+  const params = new URLSearchParams({
+    user_mail: responseData.body[0].user_email,
+  });
 
-  //hard-coded veriabels update
-  const usersList = [
-    {
-      id: 1,
-      img: "img",
-      name: "Gali Kovachev",
-      rate: 5,
-      price: 60,
-      date: "29/05/2023 13:37",
-    },
-    {
-      id: 2,
-      img: "img",
-      name: "roni Alon",
-      rate: 4,
-      price: 50,
-      date: "28/05/2023 17:47",
-    },
-    {
-      id: 3,
-      img: "img",
-      name: "sahar hazan",
-      rate: 3,
-      price: 10,
-      date: "19/05/2023 12:34",
-    },
-  ];
-
+  //get-request for recent people contact.
   useEffect(() => {
-    console.log("rate2:", reviewRating);
-  }, [reviewRating]);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/recent",
+          {
+            params: { user_mail: responseData.body[0].user_email },
+          }
+        );
+        const fetchedUserList = JSON.parse(JSON.stringify(response.data.body));
+        setUserList(fetchedUserList);
+        console.log(fetchedUserList);
+      } catch (error) {
+        console.log("Error:", error.response);
+      }
+    };
 
-  //Modal-Rate (need to fix)
-  const handleModalRate = (newRating) => {
-    setReviewRating(newRating);
-  };
-
-  //get modal review by document.id
+    fetchData();
+  }, []);
 
   //Modal:
   const Modal = ({ isOpen, onClose, onSend }) => {
@@ -82,10 +74,13 @@ function OwnerHistoryContent() {
             style={{ display: "flex", justifyContent: "center" }}
           >
             <Rating
-              id="rate"
+              id="review-rate"
               count={5}
               size={40}
-              onChange={handleModalRate}
+              value={reviewRating}
+              onChange={(event, newValue) => {
+                setReviewRating(newValue);
+              }}
               filledIcon={
                 <div className="custom-icon">
                   <IoPawSharp />
@@ -96,24 +91,15 @@ function OwnerHistoryContent() {
                   <IoPawSharp />
                 </div>
               }
-              value={reviewRating}
             />
           </div>
           <div className="form-group">
-            <label>write your review here:</label>
+            <DialogContentText>write your review here:</DialogContentText>
 
             <br></br>
             <br></br>
             <form>
-              <input
-                type="text"
-                name="review"
-                id="review"
-                value={reviewText}
-                onChange={(e) => setReviewText(e.target.value)}
-                rows={4}
-                cols={40}
-              />
+              <textarea className="form-control" id="review-text"></textarea>
               {console.log(reviewText)}
             </form>
           </div>
@@ -139,16 +125,19 @@ function OwnerHistoryContent() {
     setIsModalOpen(false);
   };
 
+  //post-request for new review.
   const handleSend = async (e) => {
     console.log("Sending...");
     // add post request- sending out reviws
     e.preventDefault();
-    const user_email = "ronialon2008@gmail.com";
-    const url =
+
+    setReviewText(document.getElementById("review-text").value);
+    // setReviewRating(document.getElementById("review-rate").value);
+    const urlRank =
       "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/rank";
 
     const requestData = {
-      ranking_user: user_email, //need to change
+      ranking_user: responseData.body[0].user_email,
       rank: reviewRating,
       ranked_user: reviewName,
       review: reviewText,
@@ -156,7 +145,8 @@ function OwnerHistoryContent() {
 
     try {
       const response = await axios.post(
-        `${url}?`,
+        `${urlRank}?${params}`,
+
         JSON.stringify(requestData),
         {
           headers: {
@@ -182,7 +172,37 @@ function OwnerHistoryContent() {
   //end of model
 
   //add whatsapp icon
-  const handleLiveChat = () => {};
+  const handleLiveChat = async (e) => {
+    console.log("in live chat" + e.target.value);
+    e.preventDefault();
+
+    //post-requset for new contact(whatapp)
+    const urlConnect =
+      "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/connect";
+
+    const requestData = {
+      user_to_connect: e.target.value,
+    };
+
+    try {
+      const response = await axios.post(
+        `${urlConnect}?${params}`,
+        JSON.stringify(requestData),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log(requestData);
+      console.log(response);
+    } catch (error) {
+      console.log("Error:", error.response);
+    }
+
+    console.log(requestData);
+  };
 
   return (
     <>
@@ -209,7 +229,7 @@ function OwnerHistoryContent() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {usersList.map((row) => (
+              {userList.map((row) => (
                 <TableRow key={row.id}>
                   <TableCell>
                     <div className="container bootdey">
@@ -236,8 +256,10 @@ function OwnerHistoryContent() {
                           <span>
                             <strong>
                               {" "}
-                              <a href="/Profile">{row.name}</a>{" "}
-                              {/*add profile address */}
+                              <a href="/WalkerProfileForUser">
+                                {row.user_full_name}
+                              </a>{" "}
+                              {/*/*localStorage.setItem("walkerProfile", JSON.stringify(row.user_email)) */}
                             </strong>
                           </span>{" "}
                           <br />
@@ -249,7 +271,7 @@ function OwnerHistoryContent() {
                     <div style={{ pointerEvents: "none" }}>
                       <span className="label label-info">
                         <Rating
-                          id={row.name}
+                          id={row.user_full_name}
                           count={5}
                           size={25}
                           filledIcon={
@@ -263,18 +285,21 @@ function OwnerHistoryContent() {
                             </div>
                           }
                           readOnly
-                          value={row.rate}
+                          value={row.rank}
                         />
                       </span>
                     </div>
                   </TableCell>
 
                   <TableCell>
-                    {" "}
-                    <div className="col-md-10">cost: $ {row.price}</div>
+                    <div className="col-md-12">
+                      last spoke at: {row.connection_time}
+                    </div>
                   </TableCell>
                   <TableCell>
-                    <div className="col-md-12">last spoke at: {row.date}</div>
+                    <Button onClick={handleLiveChat} value={row.connected_user}>
+                      place whatapp icon here
+                    </Button>
                   </TableCell>
                   <TableCell>
                     {" "}
@@ -283,8 +308,8 @@ function OwnerHistoryContent() {
                         variant="contained"
                         color="success"
                         size="large"
-                        id={row.name}
-                        value={row.name}
+                        id={row.user_full_name}
+                        value={row.connected_user}
                         onClick={handleRateBtn}
                       >
                         <AddReactionIcon></AddReactionIcon>

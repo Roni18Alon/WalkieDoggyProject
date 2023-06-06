@@ -124,12 +124,12 @@ function WalkerPersonalProfileContent() {
                             Good job done by James Smith <br />
                             Recommended!
                           </div>
-                          <div class="rating">
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw low"></i>{" "}
+                          <div className="rating">
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw low"></i>{" "}
                           </div>
                         </div>
                       </div>
@@ -148,12 +148,12 @@ function WalkerPersonalProfileContent() {
                             Not satisfied with his job <br />
                             Not Recommended
                           </div>
-                          <div class="rating">
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw low"></i>{" "}
-                            <i class="fa-solid fa-paw low"></i>{" "}
-                            <i class="fa-solid fa-paw low"></i>{" "}
+                          <div className="rating">
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw low"></i>{" "}
+                            <i className="fa-solid fa-paw low"></i>{" "}
+                            <i className="fa-solid fa-paw low"></i>{" "}
                           </div>
                         </div>
                       </div>
@@ -173,15 +173,15 @@ function WalkerPersonalProfileContent() {
                             very well. <br />
                             Recommended!
                           </div>
-                          <div class="rating">
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw"></i>{" "}
+                          <div className="rating">
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw"></i>{" "}
                           </div>
                         </div>
-                        <p class="mt-3" style={{ cursor: "pointer" }}>
+                        <p className="mt-3" style={{ cursor: "pointer" }}>
                           Show More
                         </p>
                       </div>

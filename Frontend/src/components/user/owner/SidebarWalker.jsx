@@ -156,7 +156,7 @@ function SidebarWalker() {
               <span className="icon icon-calendar" />
               History
             </span>{" "}
-            <i class=""></i>
+            <i className=""></i>
           </Link>
         </li>
       </ul>
