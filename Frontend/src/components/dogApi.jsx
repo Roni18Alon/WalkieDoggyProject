@@ -50,17 +50,4 @@ export const useGetDogBreedsQuery = () =>
     }
   });
 
-export const useGetDogsQuery = () =>
-  useQuery({
-    queryKey: [ROUTE],
-    queryFn: async () => {
-        try {
-            const response = await fetch(
-                "https://dog.ceo/api/breeds/list/all"
-            );
-            return await response.json();
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        }
-    }
-  });
+  

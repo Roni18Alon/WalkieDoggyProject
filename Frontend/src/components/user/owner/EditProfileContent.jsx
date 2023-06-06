@@ -1,132 +1,182 @@
 import User from "./images/kindpng_248729.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 function EditProfileContent() {
-    const responseData = JSON.parse(localStorage.getItem("responseData"));
-    const handleEditProfile = () => {
-        //***TO DO - POST **
+  const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const responseData = JSON.parse(localStorage.getItem("responseData"));
+  const user = JSON.parse(JSON.stringify(responseData.body[0]));
+  console.log(user.user_email);
+
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [zip, setZip] = useState("");
+
+  const handleEditProfile = async (e) => {
+    e.preventDefault();
+    const url = "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/edit";
+
+    const requestData = {
+      address: address,
+      city: city,
+      country: country,
+      phone_number: phoneNumber,
+      user_last_name: lastName,
+      user_name: firstName,
+      zip: zip,
     };
-    return (
-        <>
-            <div
-                style={{
-                    minHeight: "100vh",
-                    backgroundColor: "#f8f8f8",
-                }}
-            >
-                <div className="md:p-4 !py-[100px] md:!py-4 m-3">
-                    <div className="p-4 max-w-[900px] mx-auto_ mb-10 gap-6  bg-white rounded-lg box-shadow">
-                        <div className="">
-                            <img
-                                src={User}
-                                alt="Admin"
-                                className="p-1 -translate-y-1/2 rounded-circle "
-                                width={130}
-                            />
 
-                            <h3 className="text-lg font-bold -mt-[40px]">
-                            {responseData.body[0].user_full_name.split(" ")
-                                    .map(
-                                        (name) =>
-                                            name.charAt(0).toUpperCase() +
-                                            name.slice(1)
-                                    )
-                                    .join(" ")}
-                            </h3>
+    const params = new URLSearchParams({ user_mail: user.user_email });
 
-                            <div className="flex gap-4 my-2">
-                                <p className="mb-1">Dog Owner</p>-
-                                <p className="flex items-center gap-2 text-muted font-size-sm">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth={1.5}
-                                        stroke="currentColor"
-                                        className="w-4 h-4"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-                                        />
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-                                        />
-                                    </svg>
-                                    John Doe
-                                </p>
-                            </div>
-                        </div>
+    try {
+      const response = await axios.post(`${url}?${params}`, JSON.stringify(requestData), {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-                        <hr className="my-6 opacity-40" />
+      localStorage.setItem("responseData", JSON.stringify(response.data));
+      navigate("/Profile?data=" + JSON.stringify(response));
+    } catch (error) {
+      console.log("Error:", error.response);
+    }
 
-                        <>
-                            <div className="mb-3 ">
-                                <div className="mb-2 opacity-75">
-                                    <h6 className="mb-0">Full Name:</h6>
-                                </div>
-                                <div className="text-secondary">
-                                    <input
-                                        type="text"
-                                        className="border form-control"
-                                        defaultValue="John Doe"
-                                    />
-                                </div>
-                            </div>
-                            <div className="mb-3 ">
-                                <div className="mb-2 opacity-75">
-                                    <h6 className="mb-0">Email:</h6>
-                                </div>
-                                <div className="text-secondary">
-                                    <input
-                                        type="text"
-                                        className="border form-control"
-                                        defaultValue="john@gmail.com"
-                                    />
-                                </div>
-                            </div>
-                            <div className="mb-3 "></div>
-                            <div className="mb-3 ">
-                                <div className="mb-2 opacity-75">
-                                    <h6 className="mb-0">Mobile:</h6>
-                                </div>
-                                <div className="text-secondary">
-                                    <input
-                                        type="text"
-                                        className="border form-control"
-                                        defaultValue="(054) 123456789"
-                                    />
-                                </div>
-                            </div>
-                            <div className="">
-                                <div className="mb-2 opacity-75">
-                                    <h6 className="mb-0">Address:</h6>
-                                </div>
-                                <div className="text-secondary">
-                                    <input
-                                        type="text"
-                                        className="border form-control"
-                                        defaultValue="Tel Aviv, Israel"
-                                    />
-                                </div>
-                            </div>
-                        </>
+    console.log(requestData);
+  };
 
-                        <Link
-                            className="bg-[#03C9D7] mt-4 inline-block px-6 py-2 text-white rounded-md"
-                            to="/Profile"
-                            onClick={handleEditProfile()}
-                        >
-                            Save Changes
-                        </Link>
-                    </div>
+  return (
+    <div
+      className="col-12 col-md-9 col-md-9-profile p-0"
+      style={{
+        overflowY: "auto",
+        position: "relative",
+        overflowX: "hidden",
+        height: "100vh",
+        marginTop: "80px",
+        backgroundColor: "#e2e8f0",
+      }}
+    >
+      <div className="main-body px-4">
+        <div className="row gutters-sm">
+          <div className="col-lg-4 h-auto">
+            <div className="card">
+              <div className="card-body">
+                <div className="d-flex flex-column align-items-center text-center">
+                  <img src={User} alt="Admin" className="rounded-circle p-1" width={130} />
+                  <div className="mt-3">
+                    <h4>{user.user_name}</h4>
+                    <p className="text-secondary mb-1">Dog Owner</p>
+                    <p className="text-muted font-size-sm">
+                      {user.city}, {user.country}
+                    </p>
+                  </div>
                 </div>
+              </div>
             </div>
-        </>
-    );
+          </div>
+          <div className="mb-3">
+            <div className="mb-2 opacity-75">
+              <h6 className="mb-0">First Name:</h6>
+            </div>
+            <div className="text-secondary">
+              <input
+                type="text"
+                defaultValue={user.user_name}
+                onInput={(e) => setFirstName(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="mb-3">
+            <div className="mb-2 opacity-75">
+              <h6 className="mb-0">Last name:</h6>
+            </div>
+            <div className="text-secondary">
+              <input
+                type="text"
+                defaultValue={user.user_last_name}
+                onInput={(e) => setLastName(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="mb-3">
+            <div className="mb-2 opacity-75">
+              <h6 className="mb-0">Mobile:</h6>
+            </div>
+            <div className="text-secondary">
+              <input
+                type="text"
+                defaultValue={user.phone_number}
+                onInput={(e) => setPhoneNumber(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="mb-3">
+            <div className="mb-2 opacity-75">
+              <h6 className="mb-0">County:</h6>
+            </div>
+            <div className="text-secondary">
+              <input
+                type="text"
+                defaultValue={user.county}
+                onInput={(e) => setCountry(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="mb-3">
+            <div className="mb-2 opacity-75">
+              <h6 className="mb-0">City:</h6>
+            </div>
+            <div className="text-secondary">
+              <input
+                type="text"
+                defaultValue={user.city}
+                onInput={(e) => setCity(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="mb-3">
+            <div className="mb-2 opacity-75">
+              <h6 className="mb-0">Address:</h6>
+            </div>
+            <div className="text-secondary">
+              <input
+                type="text"
+                defaultValue={user.address}
+                onInput={(e) => setAddress(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="mb-3">
+            <div className="mb-2 opacity-75">
+              <h6 className="mb-0">Zip:</h6>
+            </div>
+            <div className="text-secondary">
+              <input
+                type="text"
+                className="border form-control"
+                defaultValue={user.zip}
+                onInput={(e) => setZip(e.target.value)}
+              />
+            </div>
+          </div>
+          <Link
+            className="bg-[#03C9D7] mt-4 inline-block px-6 py-2 text-white rounded-md"
+            to="/Profile"
+            onClick={handleEditProfile}
+          >
+            Save Changes
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default EditProfileContent;

@@ -8,10 +8,8 @@ import DialogActions from "@mui/material/DialogActions";
 import PetsIcon from "@mui/icons-material/Pets";
 import ReportIcon from "@mui/icons-material/Report";
 import { useGetUserQuery } from "../../authApi";
-import axios from "axios";
 import { useAddDogMutation, useGetDogBreedsQuery } from "../../dogApi";
 import { useNavigate } from "react-router-dom";
-
 
 function AddDogContent() {
 
@@ -43,17 +41,14 @@ function AddDogContent() {
   const [hFriendly, setHFriendly] = useState(false);
   const [DFriendly, setDFriendly] = useState(false);
   const [date, setDate] = useState("");
-  const [base64Image, setBase64Image] = useState("");
   const [modalText, setModalText] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalCloseText, setModalCloseText] = useState("");
   const [flag, setFlag] = useState(false);
   const [path, setPath] = useState("#");
   const [modalIcon, setModalIcon] = useState("</ReportIcon>");
+  const [base64Image, setBase64Image] = useState("");
   //fetch dog breed list
-
-  const navigate = useNavigate();
-
   const { mutate: addDog } = useAddDogMutation(() => console.log("hi"));
 
   const { data } = useGetDogBreedsQuery();
@@ -71,7 +66,6 @@ function AddDogContent() {
     const handleDFriendlyChange = (event) => {
         setDFriendly(event.target.checked);
     };
-
     const handleImageUpload = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -84,15 +78,16 @@ function AddDogContent() {
           }
     };
     //add Dog to database
-    const handleAddDog = () => {
+    const handleAddDog = async () => {
         console.log("in HandleaddDog");
-        
+
         const newDog = {
             dog_name: name,
             dog_breed: breed,
             dog_weight: Weight,
             dog_gender: gender,
             dog_birthday: bithDay + "-" + bithMonth + "-" + bithYear,
+            dog_birthday: date,
             free_text: info,
             spayed: spayed,
             rabies_vaccinated: vaccinated,
@@ -112,7 +107,7 @@ function AddDogContent() {
         >
             <div className="md:p-4 !py-[100px] md:!py-4 m-3">
                 <div className="d-flex align-items-center justify-content-between">
-                    <div className="g-3 p-4 lg:p-5 w-full md:w-[800px] max-w-[800px] bg-white mx-auto rounded-lg box-shadow">
+                    <form className="g-3 p-4 lg:p-5 w-full md:w-[800px] max-w-[800px] bg-white mx-auto rounded-lg box-shadow">
                         <h2 className="">Add a new pet</h2>
 
                         <div className="flex flex-col gap-3 my-3 md:flex-row">
@@ -124,7 +119,7 @@ function AddDogContent() {
                                     placeholder="Name"
                                     required
                                     onInput={(e) => setName(e.target.value)}
-                                />
+                                />   
                             </div>
                             {/* <div className=" col-12">
                             <select id="Weight"></select>
@@ -329,13 +324,14 @@ function AddDogContent() {
                         />
                         <div className="mt-3">
                             <button
+                                type="submit"
                                 className="mt-2 bg-[#03C9D7] text-white py-2  rounded  w-100"
                                 onClick={handleAddDog}
                             >
                                 Submit
                             </button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

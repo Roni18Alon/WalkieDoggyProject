@@ -156,7 +156,7 @@ function SidebarOwner() {
               <span className="icon icon-search" />
               History
             </span>{" "}
-            <i class=""></i>
+            <i className=""></i>
           </Link>
         </li>
         <li
@@ -173,7 +173,7 @@ function SidebarOwner() {
               <span className="icon icon-calendar" />
               History
             </span>{" "}
-            <i class=""></i>
+            <i className=""></i>
           </Link>
         </li>
       </ul>

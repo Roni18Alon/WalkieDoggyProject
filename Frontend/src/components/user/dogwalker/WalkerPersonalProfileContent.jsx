@@ -1,6 +1,7 @@
 import React from "react";
 
 function WalkerPersonalProfileContent() {
+    
     // const [fileName, setFileName] = useState("No file chosen");
 
     // function handleFileChange(e) {
@@ -28,7 +29,13 @@ function WalkerPersonalProfileContent() {
                                             />
                                         </div>
                                         <div className="profile__header">
-                                            <h4>James Smith</h4>
+                                            <h4>{responseData.body[0].user_full_name.split(" ")
+                                    .map(
+                                        (name) =>
+                                            name.charAt(0).toUpperCase() +
+                                            name.slice(1)
+                                    )
+                                    .join(" ")}</h4>
                                             <p className="text-muted">
                                                 Lorem ipsum dolor sit amet,
                                                 consectetur adipisicing elit.

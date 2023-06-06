@@ -79,17 +79,7 @@ const NavbarWalker = () => {
                     />
                     <p>
                         <span className="text-gray-400 text-14">Hi,</span>{" "}
-                        <span className="ml-1 font-bold text-gray-400 text-14">
-                            {/* {responseData &&
-                                responseData.user_full_name &&
-                                responseData.user_full_name
-                                    .split(" ")
-                                    .map(
-                                        (name) =>
-                                            name.charAt(0).toUpperCase() +
-                                            name.slice(1)
-                                    )
-                                    .join(" ")} */}
+                        <span className="ml-1 font-bold text-gray-400 text-14">    
                             {responseData.body[0].user_full_name.split(" ")
                                     .map(
                                         (name) =>

@@ -67,14 +67,14 @@ const Navbar = () => {
                     </a>
                     <ul className="dropdown">
                       <li>
-                        <Link class="dropdown-item" to="/Profile">
+                        <Link className="dropdown-item" to="/Profile">
                           Profile
                         </Link>
-                        <a class="dropdown-item" href="#">
+                        <a className="dropdown-item" href="#">
                           Settings
                         </a>
-                        <div class="dropdown-divider"></div>
-                        <Link class="dropdown-item" to="/">
+                        <div className="dropdown-divider"></div>
+                        <Link className="dropdown-item" to="/">
                           Logout
                         </Link>
                       </li>

@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useMutation } from "react-query";
 import { useLoginMutation } from "../authApi";
 import signin from "./dist/images/sign_in.png";
 
 const LoginDogOwner = () => {
   const navigate = useNavigate();
-  const loginMutation = useLoginMutation(response => {
+  const loginMutation = useLoginMutation((response) => {
     console.log(response);
     // Route to the profile page
     navigate("/Profile");
+    navigate("/AddDog");
   });
 
   const [email, setEmail] = useState("");
@@ -19,7 +19,6 @@ const LoginDogOwner = () => {
     event.preventDefault();
 
     loginMutation.mutate({ user_email: email, password });
-
   };
 
   return (
@@ -66,7 +65,7 @@ const LoginDogOwner = () => {
                         required
                         pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
                         value={email}
-                        onChange={e => setEmail(e.target.value)}
+                        onChange={(e) => setEmail(e.target.value)}
                       />
                     </div>
                     <div className="form-group">
@@ -77,7 +76,7 @@ const LoginDogOwner = () => {
                         type="password"
                         name="password"
                         value={password}
-                        onChange={e => setPassword(e.target.value)}
+                        onChange={(e) => setPassword(e.target.value)}
                         placeholder="Password"
                       />
                     </div>
