@@ -19,9 +19,12 @@ function WalkerPersonalProfileContent() {
                     </div>
                     <div className="profile__header">
                       <h4>user Name</h4>
+<<<<<<< HEAD
                       <p className="text-muted">
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non nostrum odio cum repellat veniam eligendi rem cumque magnam autem delectus qui.
                       </p>
+=======
+>>>>>>> 63a2aec8... fix EditProfile + add hours
                     </div>
                   </div>
                 </div>
@@ -186,54 +189,6 @@ function WalkerPersonalProfileContent() {
                     Edit
                   </a>
                 </p>
-                <hr />
-                {/* Contact info */}
-                <div className="profile__contact-info">
-                  <div className="profile__contact-info-item">
-                    <div className="profile__contact-info-icon">
-                      <i className="fa fa-phone" />
-                    </div>
-                    <div className="profile__contact-info-body">
-                      <h5 className="profile__contact-info-heading">
-                        Work number
-                      </h5>
-                      (000)987-65-43
-                    </div>
-                  </div>
-                  <div className="profile__contact-info-item">
-                    <div className="profile__contact-info-icon">
-                      <i className="fa fa-phone" />
-                    </div>
-                    <div className="profile__contact-info-body">
-                      <h5 className="profile__contact-info-heading">
-                        Mobile number
-                      </h5>
-                      (000)987-65-43
-                    </div>
-                  </div>
-                  <div className="profile__contact-info-item">
-                    <div className="profile__contact-info-icon">
-                      <i className="fa fa-envelope-square" />
-                    </div>
-                    <div className="profile__contact-info-body">
-                      <h5 className="profile__contact-info-heading">
-                        E-mail address
-                      </h5>
-                      <a href="mailto:admin@domain.com">admin@domain.com</a>
-                    </div>
-                  </div>
-                  <div className="profile__contact-info-item">
-                    <div className="profile__contact-info-icon">
-                      <i className="fa fa-map-marker" />
-                    </div>
-                    <div className="profile__contact-info-body">
-                      <h5 className="profile__contact-info-heading">
-                        Work address
-                      </h5>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>

@@ -1,16 +1,56 @@
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+
 import User from "./images/roni.png";
 import { Link } from "react-router-dom";
 import Calendar from "../../Calendar/Calendar";
 import { useGetUserQuery } from "../../authApi";
 
+const useStyles = makeStyles((theme) => ({
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+}));
+
 function ProfileContent() {
   const { data } = useGetUserQuery();
+  localStorage.setItem(
+    "userEmailForCalander",
+    JSON.stringify(data.body[0].user_email)
+  );
   console.log(data);
   console.log(data.body[0]);
 
   const handleDateSelection = (selectedDateTime) => {
     console.log("Selected date/time:", selectedDateTime);
+    setOpen(true);
     // Perform additional actions
+  };
+
+  const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleInputChange = (event) => {
+    const numericValue = event.target.value.replace(/[^0-9]/g, "");
+    setInputValue(numericValue);
+  };
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    console.log("Submitted value:", inputValue);
+    handleClose();
   };
 
   return (
@@ -123,7 +163,11 @@ function ProfileContent() {
               <div className="overflow-hidden bg-white rounded-lg box-shadow">
                 <div className="card-body">
                   <div className="calendar-container">
-                    <Calendar onSelectDateTime={handleDateSelection} />
+                    <Calendar
+                      value={data.body[0].user_email}
+                      onClick={handleDateSelection}
+                      onSelectDateTime={handleDateSelection}
+                    />
                   </div>
                 </div>
               </div>
