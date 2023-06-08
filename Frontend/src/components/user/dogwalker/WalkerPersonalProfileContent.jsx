@@ -19,12 +19,9 @@ function WalkerPersonalProfileContent() {
                     </div>
                     <div className="profile__header">
                       <h4>user Name</h4>
-<<<<<<< HEAD
                       <p className="text-muted">
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non nostrum odio cum repellat veniam eligendi rem cumque magnam autem delectus qui.
                       </p>
-=======
->>>>>>> 63a2aec8... fix EditProfile + add hours
                     </div>
                   </div>
                 </div>
