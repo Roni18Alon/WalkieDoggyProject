@@ -54,19 +54,11 @@ function WalkerProfileContent() {
                     </div>
                     <div className="profile__header">
                       <h4>James Smith</h4>
-                      <p className="text-muted">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Non nostrum odio cum repellat veniam eligendi rem
-                        cumque magnam autem delectus qui.
-                      </p>
                     </div>
                   </div>
                 </div>
                 {/* User info */}
                 <div className="panel panel-default">
-                  <div className="panel-heading">
-                    <h4 className="panel-title">User info</h4>
-                  </div>
                   <div className="panel-body">
                     <table className="table profile__table">
                       <tbody>
@@ -75,18 +67,6 @@ function WalkerProfileContent() {
                             <bold>Location</bold>
                           </th>
                           <td>United States</td>
-                        </tr>
-                        <tr>
-                          <th>
-                            <bold>Experience</bold>
-                          </th>
-                          <td>3 Years</td>
-                        </tr>
-                        <tr>
-                          <th>
-                            <bold>Rank</bold>
-                          </th>
-                          <td>Level 1</td>
                         </tr>
                       </tbody>
                     </table>
@@ -221,54 +201,8 @@ function WalkerProfileContent() {
                     Contact user
                   </a>
                 </p>
-                <hr className="profile__contact-hr" />
+
                 {/* Contact info */}
-                <div className="profile__contact-info">
-                  <div className="profile__contact-info-item">
-                    <div className="profile__contact-info-icon">
-                      <i className="fa fa-phone" />
-                    </div>
-                    <div className="profile__contact-info-body">
-                      <h5 className="profile__contact-info-heading">
-                        Work number
-                      </h5>
-                      (000)987-65-43
-                    </div>
-                  </div>
-                  <div className="profile__contact-info-item">
-                    <div className="profile__contact-info-icon">
-                      <i className="fa fa-phone" />
-                    </div>
-                    <div className="profile__contact-info-body">
-                      <h5 className="profile__contact-info-heading">
-                        Mobile number
-                      </h5>
-                      (000)987-65-43
-                    </div>
-                  </div>
-                  <div className="profile__contact-info-item">
-                    <div className="profile__contact-info-icon">
-                      <i className="fa fa-envelope-square" />
-                    </div>
-                    <div className="profile__contact-info-body">
-                      <h5 className="profile__contact-info-heading">
-                        E-mail address
-                      </h5>
-                      <a href="mailto:admin@domain.com">admin@domain.com</a>
-                    </div>
-                  </div>
-                  <div className="profile__contact-info-item">
-                    <div className="profile__contact-info-icon">
-                      <i className="fa fa-map-marker" />
-                    </div>
-                    <div className="profile__contact-info-body">
-                      <h5 className="profile__contact-info-heading">
-                        Work address
-                      </h5>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
