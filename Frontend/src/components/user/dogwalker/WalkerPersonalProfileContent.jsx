@@ -1,22 +1,11 @@
 import React from "react";
 
 function WalkerPersonalProfileContent() {
-    
-    // const [fileName, setFileName] = useState("No file chosen");
-
-
-  // function handleFileChange(e) {
-  //   setFileName(e.target.files[0].name);
-  //}
   return (
     <>
-      <div
-        style={{
-          backgroundColor: "#f8f8f8",
-        }}
-      >
+      <div style={{ backgroundColor: "#f8f8f8" }}>
         <div className="md:p-4 !py-[100px] md:!py-4 m-3">
-          <div className="p-4 max-w-[900px] mx-auto mb-10 gap-6  bg-white rounded-lg box-shadow">
+          <div className="p-4 max-w-[900px] mx-auto mb-10 gap-6 bg-white rounded-lg box-shadow">
             <div className="row">
               <div className="col-xs-12 col-sm-9">
                 {/* User profile */}
@@ -31,9 +20,7 @@ function WalkerPersonalProfileContent() {
                     <div className="profile__header">
                       <h4>user Name</h4>
                       <p className="text-muted">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Non nostrum odio cum repellat veniam eligendi rem
-                        cumque magnam autem delectus qui.
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non nostrum odio cum repellat veniam eligendi rem cumque magnam autem delectus qui.
                       </p>
                     </div>
                   </div>
@@ -48,19 +35,19 @@ function WalkerPersonalProfileContent() {
                       <tbody>
                         <tr>
                           <th>
-                            <bold>Location</bold>
+                            <b>Location</b>
                           </th>
                           <td>United States</td>
                         </tr>
                         <tr>
                           <th>
-                            <bold>Experience</bold>
+                            <b>Experience</b>
                           </th>
                           <td>3 Years</td>
                         </tr>
                         <tr>
                           <th>
-                            <bold>Rank</bold>
+                            <b>Rank</b>
                           </th>
                           <td>Level 1</td>
                         </tr>
@@ -78,19 +65,19 @@ function WalkerPersonalProfileContent() {
                       <tbody>
                         <tr>
                           <th>
-                            <bold>Jobs</bold>
+                            <b>Jobs</b>
                           </th>
                           <td>84</td>
                         </tr>
                         <tr>
                           <th>
-                            <bold>Member since</bold>
+                            <b>Member since</b>
                           </th>
                           <td>Jan 01, 2016</td>
                         </tr>
                         <tr>
                           <th>
-                            <bold>Last login</bold>
+                            <b>Last login</b>
                           </th>
                           <td>1 day ago</td>
                         </tr>
@@ -120,12 +107,12 @@ function WalkerPersonalProfileContent() {
                             Good job done by James Smith <br />
                             Recommended!
                           </div>
-                          <div class="rating">
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw low"></i>{" "}
+                          <div className="rating">
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw low"></i>{" "}
                           </div>
                         </div>
                       </div>
@@ -144,12 +131,12 @@ function WalkerPersonalProfileContent() {
                             Not satisfied with his job <br />
                             Not Recommended
                           </div>
-                          <div class="rating">
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw low"></i>{" "}
-                            <i class="fa-solid fa-paw low"></i>{" "}
-                            <i class="fa-solid fa-paw low"></i>{" "}
+                          <div className="rating">
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw low"></i>{" "}
+                            <i className="fa-solid fa-paw low"></i>{" "}
+                            <i className="fa-solid fa-paw low"></i>{" "}
                           </div>
                         </div>
                       </div>
@@ -165,23 +152,20 @@ function WalkerPersonalProfileContent() {
                             Andreas Martinez <small>5 day ago</small>
                           </h5>
                           <div className="profile-comments__content">
-                            Completely satisfied with his work. He did his job
-                            very well. <br />
+                            Completely satisfied with his work. He did his job very well. <br />
                             Recommended!
                           </div>
-                          <div class="rating">
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw"></i>{" "}
-                            <i class="fa-solid fa-paw"></i>{" "}
+                          <div className="rating">
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw"></i>{" "}
+                            <i className="fa-solid fa-paw"></i>{" "}
                           </div>
                         </div>
                         <p
-                          class="mt-3"
-                          style={{
-                            cursor: "pointer",
-                          }}
+                          className="mt-3"
+                          style={{ cursor: "pointer" }}
                         >
                           Show More
                         </p>
@@ -247,12 +231,16 @@ function WalkerPersonalProfileContent() {
                         Work address
                       </h5>
                       Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-
                     </div>
+                  </div>
                 </div>
+              </div>
             </div>
-        </>
-    );
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
 
 export default WalkerPersonalProfileContent;
