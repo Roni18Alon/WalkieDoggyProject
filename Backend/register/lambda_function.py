@@ -96,6 +96,11 @@ def lambda_handler(event, context):
             hashed_password = pbkdf2_sha256.hash(password)
             token = secrets.token_hex(16)
             hashed_token = hashlib.sha256(token.encode()).hexdigest()
+
+            # edit phone number
+            phone_number = phone_number.replace("-", "")
+            new_phone_number = "972" + phone_number[1:]
+
             new_user_data = {
                 'user_email': user_mail.lower(),
                 'address': user_address.lower(),
@@ -104,7 +109,7 @@ def lambda_handler(event, context):
                 'last_visit': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
                 'first_visit': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
                 'password': hashed_password,
-                'phone_number': phone_number.replace("-", ""),
+                'phone_number': new_phone_number,
                 'registration_date': datetime.now().strftime('%Y-%m-%d'),
                 'token': hashed_token,
                 'user_full_name': f'{user_name.lower()} {user_last_name.lower()}',
@@ -114,7 +119,7 @@ def lambda_handler(event, context):
                 'user_role': role.lower(),
                 'rank': 0,
                 'num_of_ranks': 0,
-                'whatsapp_link': f'https://api.whatsapp.com/send?phone={phone_number.replace("-", "")}'
+                'whatsapp_link': f'https://api.whatsapp.com/send?phone={new_phone_number}'
             }
             if image_b64:
                 new_user_data['user_image'] = f'http://walkie-doggy-users.s3-website-us-east-1.amazonaws.com/{key}'

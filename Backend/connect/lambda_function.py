@@ -62,7 +62,8 @@ def lambda_handler(event, context):
                 update_connection(user_to_connect, logged_user_data)
                 logger.info(
                     f"update connection from user {user_to_connect['user_email']} to {logged_user_data['user_email']}")
-                return responses.succeeded(message="successful updated connection for both users")
+                link = {'whatsapp_link': user_to_connect.get('whatsapp_link', "")}
+                return responses.succeeded(message=link)
 
         return responses.failed(error=f"can't complete operation", status_code=400)
     except Exception as e:
@@ -84,7 +85,8 @@ def update_connection(user_data, user_to_connect):
             new_connection_list.append(connection)
 
     connect_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    connection_data = {'connection_time': connect_time, 'connected_user': user_to_connect['user_email'],'user_full_name':user_to_connect['user_full_name']}
+    connection_data = {'connection_time': connect_time, 'connected_user': user_to_connect['user_email'],
+                       'user_full_name': user_to_connect['user_full_name']}
     new_connection_list.append(connection_data)
     sorted_connection_list = sorted(new_connection_list,
                                     key=lambda x: datetime.strptime(x['connection_time'], '%Y-%m-%d %H:%M:%S'),
