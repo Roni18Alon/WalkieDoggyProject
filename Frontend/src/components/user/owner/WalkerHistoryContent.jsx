@@ -17,6 +17,7 @@ import TextField from "@mui/material/TextField";
 import SendIcon from "@material-ui/icons/Send";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import { FaWhatsapp } from "react-icons/fa";
 
 import {
   TableContainer,
@@ -305,7 +306,7 @@ function WalkerHistoryContent() {
                   </TableCell>
                   <TableCell>
                     <Button onClick={handleLiveChat} value={row.connected_user}>
-                      place whatapp icon here
+                    <MdWhatsApp size={20} />
                     </Button>
                   </TableCell>
                   <TableCell>
@@ -319,7 +320,7 @@ function WalkerHistoryContent() {
                         value={row.connected_user}
                         onClick={handleRateBtn}
                       >
-                        <AddReactionIcon></AddReactionIcon>
+                        <AddReactionIcon fontSize="small" />
                         Rate me
                       </Button>
                       <Modal
@@ -339,4 +340,4 @@ function WalkerHistoryContent() {
   );
 }
 
-export default OwnerHistoryContent;
+export default WalkerHistoryContent;

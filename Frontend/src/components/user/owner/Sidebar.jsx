@@ -1,7 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 import { MdOutlineCancel } from "react-icons/md";
 import { useStateContext } from "../../../contexts/ContextProvider";
-import { FaDog, FaPlusCircle, FaRegUserCircle, FaSearch } from "react-icons/fa";
+import { FaDog, FaPlusCircle, FaRegUserCircle, FaSearch , FaHistory } from "react-icons/fa";
 
 const Sidebar = () => {
   const { currentColor, activeMenu, setActiveMenu, screenSize } =
@@ -103,6 +103,21 @@ const Sidebar = () => {
                 <FaSearch className="text-xl" />
 
                 <span className="capitalize ">Find Dog Walkers</span>
+              </NavLink>
+              <NavLink
+                to={`/OwnerHistory`}
+                onClick={handleCloseSideBar}
+                style={({ isActive }) => ({
+                  backgroundColor: isActive ? currentColor : "",
+                })}
+                className={({ isActive }) =>
+                  isActive ? activeLink : normalLink
+                }
+              >
+                {/* Icon */}
+                <FaHistory className="text-xl" />
+
+                <span className="capitalize ">History</span>
               </NavLink>
             </div>
           </div>
