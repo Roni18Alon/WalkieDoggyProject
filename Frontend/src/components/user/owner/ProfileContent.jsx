@@ -21,15 +21,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ProfileContent() {
-  const checkData  = useGetUserQuery();
+  const checkData = useGetUserInfoQuery();
   console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
   console.log(checkData.data);
   console.log(checkData.data)
   console.log(checkData.data)
   console.log(checkData.data)
-  console.log(checkData.data)
+  console.log(data.body[0].user_email)
 
-  const data = checkData;
+
+  const data = checkData.data;
   localStorage.setItem(
     "userEmailForCalander",
     JSON.stringify(data.body[0].user_email)
