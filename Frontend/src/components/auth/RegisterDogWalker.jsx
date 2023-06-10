@@ -1,46 +1,65 @@
-import React from "react";
+import React, { useState } from "react";
 import "./dist/Register.css";
 import styles from "./dist/Register.module.css";
 import signup from "./dist/images/sign_up.png";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import GoogleAutocomplete from "react-google-autocomplete";
+
+
 
 const RegisterDogWalker = () => {
+   // State to store the user parameters
+   const [phone, setPhone] = useState("");
+   const [isValid, setIsValid] = useState(true);
+   const [userEmail, setUserEmail] = useState("");
+   const [userName, setUserName] = useState("");
+   const [userLastName, setUserLastName] = useState("");
+   const [password, setPassword] = useState("");
+   const [address, setAddress] = useState("");
+   const [country, setCountry] = useState("");
+   const [city, setCity] = useState("");
+   const [zip, setZip] = useState("");
+ 
+
+  const handleAddressSelect = (address) => {
+    setAddress(address);
+  };
+  const handlePhoneChange = (e) => {
+    const inputValue = e.target.value;
+    let formattedValue = inputValue.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+
+    if (formattedValue.length > 10) {
+      formattedValue = formattedValue.slice(0, 10); // Truncate to 10 digits
+    }
+
+    if (formattedValue.length > 3) {
+      formattedValue = formattedValue.replace(/^(\d{3})(\d{0,7})/, "$1-$2");
+    }
+
+    setPhone(formattedValue);
+  };
+
   const postData = async () => {
     const url =
       "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register"; // Replace with your actual API endpoint URL
-    const form = document.getElementById("register-form");
-    const user_name = document.getElementById("user_name").value;
-    const user_last_name = document.getElementById("user_last_name").value;
-    const user_email = document.getElementById("user_email").value;
-    const password = document.getElementById("pass").value;
-    const phone_number = document.getElementById("phone_number").value;
-    const country = document.getElementById("Country").value;
-    const city = document.getElementById("City").value;
-    const zip = document.getElementById("zip").value;
-    const address = document.getElementById("Address").value;
 
     // Use the captured input values as needed
     const requestData = {
-      user_email: user_email,
+      user_email: userEmail,
       address: address,
       city: city,
       country: country,
       password: password,
-      phone_number: phone_number,
-      user_last_name: user_last_name,
-      user_name: user_name,
+      phone_number: phone,
+      user_last_name: userLastName,
+      user_name: userName,
       zip: zip,
     };
 
     const userRole = "walker";
     const params = new URLSearchParams({ user_role: userRole });
 
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      // Perform further actions with the captured input values
-      // ...
-    });
     axios
       .post(`${url}?${params}`, JSON.stringify(requestData), {
         headers: {
@@ -51,14 +70,6 @@ const RegisterDogWalker = () => {
       .catch((error) => {
         console.log("Error:", error);
       });
-
-    // axios({
-    //   method: 'POST',
-    //   url: `${url}?${params}`,
-    //   mode: 'no-cors',
-    //   // headers: {'Content-Type': 'application/json'},
-    //   body: JSON.stringify(requestData)
-    // })
   };
   return (
     <div className="wrapper">
@@ -89,6 +100,8 @@ const RegisterDogWalker = () => {
                       id="user_name"
                       placeholder="User name"
                       required
+                      value={userName}
+                      onChange={(e) => setUserName(e.target.value)}
                     />
                   </div>
                   {/* Last name */}
@@ -102,6 +115,8 @@ const RegisterDogWalker = () => {
                       id="user_last_name"
                       placeholder="Your last name"
                       required
+                      value={userLastName}
+                      onChange={(e) => setUserLastName(e.target.value)}
                     />
                   </div>
                   {/* user_email */}
@@ -116,6 +131,8 @@ const RegisterDogWalker = () => {
                       placeholder="Your Email"
                       required
                       pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                      value={userEmail}
+                      onChange={(e) => setUserEmail(e.target.value)}
                     />
                   </div>
                   {/* password */}
@@ -129,6 +146,8 @@ const RegisterDogWalker = () => {
                       id="pass"
                       placeholder="Password"
                       required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
                   {/* Address */}
@@ -136,12 +155,16 @@ const RegisterDogWalker = () => {
                     <label htmlFor="Address">
                       <i className="zmdi zmdi-home" />
                     </label>
-                    <input
-                      type="text"
-                      name="Address"
-                      id="Address"
-                      placeholder="Address"
-                      required
+                    <GoogleAutocomplete
+                      apiKey="AIzaSyDsq09ATa2cc1TlmbLQrqJSwaFpyblnJAI"
+                      selectProps={{
+                        value: address,
+                        onChange: handleAddressSelect,
+                        placeholder: "Address",
+                        required: true,
+                        value: {address},
+                        onChange: handleAddressSelect,
+                      }}
                     />
                   </div>
                   {/* phone number*/}
@@ -155,6 +178,8 @@ const RegisterDogWalker = () => {
                       id="phone_number"
                       placeholder="Phone number"
                       required
+                      value={phone}
+                      onChange={handlePhoneChange}
                     />
                   </div>
                   {/* country */}
@@ -168,6 +193,8 @@ const RegisterDogWalker = () => {
                       id="Country"
                       placeholder="Country"
                       required
+                      value={country}
+                      onChange={(e) => setCountry(e.target.value)}
                     />
                   </div>
                   {/* City */}
@@ -181,6 +208,8 @@ const RegisterDogWalker = () => {
                       id="City"
                       placeholder="City"
                       required
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
                     />
                   </div>
                   {/* Zip*/}
@@ -194,187 +223,10 @@ const RegisterDogWalker = () => {
                       id="zip"
                       placeholder="Zip code"
                       required
+                      value={zip}
+                      onChange={(e) => setZip(e.target.value)}
                     />
                   </div>
-                  {/*
-                <div className="form-group">
-                  <label htmlFor="petName1">
-                    <i className="zmdi zmdi-favorite" />
-                  </label>
-                  <input
-                    type="text"
-                    name="petName"
-                    id="petName"
-                    placeholder="Pet's name"
-                    required
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="petAge1">
-                    <i className="zmdi zmdi-favorite" />
-                  </label>
-                  <input
-                    type="text"
-                    name="petAge"
-                    id="petAge"
-                    placeholder="Pet's age"
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="petBreed1">
-                    <i className="zmdi zmdi-favorite" />
-                  </label>
-                  <input
-                    type="text"
-                    name="petBreed"
-                    id="petBreed"
-                    placeholder="Pet's breed"
-                    required
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="petWieght1">
-                    <i className="zmdi zmdi-favorite" />
-                  </label>
-                  <input
-                    type="text"
-                    name="petWieght"
-                    id="petWieght"
-                    placeholder="Pet's wieght in kg"
-                    required
-                  />
-                </div>
-
-                <div className="form-group">
-                  <input
-                    type="radio"
-                    value="Male"
-                    name="petGender"
-                    id="petGender"
-                    className="petGender"
-                    onChange={(e) => setGender(e.target.value)}
-                  />
-                  Male
-                  <input
-                    type="radio"
-                    value="Female"
-                    name="petGender"
-                    id="petGender"
-                    className="petGender"
-                    onChange={(e) => setGender(e.target.value)}
-                  />
-                  Female
-                </div>
-
-                <div className="form-group">
-                  <input name="birthday" id="birthday" />
-                  <label>Pet's Birthday</label>
-                  <select name="Day">
-                    <option value="Day"> Day</option>
-                    {days.map((item) => (
-                      <option>{item}</option>
-                    ))}
-                  </select>
-                  <select name="Month">
-                    <option value="Month"> Month</option>
-                    {months.map((item) => (
-                      <option>{item}</option>
-                    ))}
-                  </select>
-                  <select name="Year">
-                    <option value="Year"> Year</option>
-                    {years.map((item) => (
-                      <option>{item}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="freeText1">
-                    <i className="zmdi zmdi-favorite" />
-                  </label>
-                  <input
-                    className="form-control me-auto"
-                    type="text"
-                    placeholder="A little bit about my pet"
-                    aria-label="A little bit about my pet"
-                    required
-                  />
-                </div>
-
-                <div className="form-group">
-                  <input
-                    type="checkbox"
-                    name="spayed"
-                    id="spayed"
-                    className="agree-term"
-                  />
-                  <label htmlFor="agree-term" className="label-agree-term">
-                    <span>
-                      <span />
-                    </span>
-                    Spayed
-                    {/* <a href="#" className="term-service">
-                     
-                    </a> }
-                  </label>
-                </div>
-                <div className="form-group">
-                  <input
-                    type="checkbox"
-                    name="Rabies-vaccinated"
-                    id="Rabies-vaccinated"
-                    className="agree-term"
-                  />
-                  <label htmlFor="agree-term" className="label-agree-term">
-                    <span>
-                      <span />
-                    </span>
-                    Rabies vaccinated
-                    {/* <a href="#" className="term-service">
-                     
-                    </a> }
-                  </label>
-                </div>
-           
-                <div className="form-group">
-                  <input
-                    type="checkbox"
-                    name="Human-friendly"
-                    id="Human-friendly"
-                    className="agree-term"
-                  />
-                  <label htmlFor="agree-term" className="label-agree-term">
-                    <span>
-                      <span />
-                    </span>
-                    Human friendly
-                    {/* <a href="#" className="term-service">
-                     
-                    </a> 
-                  </label>  
-                </div> 
-                <div className="form-group">
-                  <input
-                    type="checkbox"
-                    name="Dog-friendly"
-                    id="Dog-friendly"
-                    className="agree-term"
-                  />
-                  <label htmlFor="agree-term" className="label-agree-term">
-                    <span>
-                      <span />
-                    </span>
-                    Dog friendly
-                    {/* <a href="#" className="term-service">
-                     
-                    </a> 
-                  </label>
-                </div>
-              */}
                   <div className="form-group">
                     <input
                       type="checkbox"

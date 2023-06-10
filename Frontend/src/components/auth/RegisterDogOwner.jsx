@@ -4,47 +4,43 @@ import styles from "./dist/Register.module.css";
 import signup from "./dist/images/sign_up.png";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import GoogleAutocomplete from "react-google-autocomplete";
 
-const Register = () => {
+const RegisterDogOwner = () => {
+
+  const handleAddressSelect = (address) => {
+    setAddress(address);
+  };
   // State to store the user parameters
   const [phone, setPhone] = useState("");
   const [isValid, setIsValid] = useState(true);
+  const [userEmail, setUserEmail] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userLastName, setUserLastName] = useState("");
+  const [password, setPassword] = useState("");
+  const [address, setAddress] = useState("");
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
+  const [zip, setZip] = useState("");
 
   const postData = async () => {
     const url =
       "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register"; // Replace with your actual API endpoint URL
-    const form = document.getElementById("register-form");
-    const user_name = document.getElementById("user_name").value;
-    const user_last_name = document.getElementById("user_last_name").value;
-    const user_email = document.getElementById("user_email").value;
-    const password = document.getElementById("pass").value;
-    const phone_number = document.getElementById("phone_number").value;
-    const country = document.getElementById("Country").value;
-    const city = document.getElementById("City").value;
-    const zip = document.getElementById("zip").value;
-    const address = document.getElementById("Address").value;
 
-    // Use the captured input values as needed
     const requestData = {
-      user_email: user_email,
+      user_email: userEmail,
       address: address,
       city: city,
       country: country,
       password: password,
-      phone_number: phone_number,
-      user_last_name: user_last_name,
-      user_name: user_name,
+      phone_number: phone,
+      user_last_name: userLastName,
+      user_name: userName,
       zip: zip,
     };
 
     const userRole = "owner";
     const params = new URLSearchParams({ user_role: userRole });
-
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      // Perform further actions with the captured input values
-      // ...
-    });
 
     axios
       .post(`${url}?${params}`, JSON.stringify(requestData), {
@@ -72,6 +68,7 @@ const Register = () => {
 
     setPhone(formattedValue);
   };
+
   return (
     <div className="wrapper">
       <div className="main">
@@ -101,6 +98,8 @@ const Register = () => {
                       id="user_name"
                       placeholder="User name"
                       required
+                      value={userName}
+                      onChange={(e) => setUserName(e.target.value)}
                     />
                   </div>
                   {/* Last name */}
@@ -114,6 +113,8 @@ const Register = () => {
                       id="user_last_name"
                       placeholder="Your last name"
                       required
+                      value={userLastName}
+                      onChange={(e) => setUserLastName(e.target.value)}
                     />
                   </div>
                   {/* user_email */}
@@ -128,8 +129,8 @@ const Register = () => {
                       placeholder="Your Email"
                       required
                       pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
-                      // className={emailValid ? "" : "invalid-input"}
-                      // onChange={(e) => setEmailValid(e.target.validity.valid)}
+                      value={userEmail}
+                      onChange={(e) => setUserEmail(e.target.value)}
                     />
                   </div>
                   {/* password */}
@@ -143,6 +144,8 @@ const Register = () => {
                       id="pass"
                       placeholder="Password"
                       required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
                   {/* Address */}
@@ -150,12 +153,16 @@ const Register = () => {
                     <label htmlFor="Address">
                       <i className="zmdi zmdi-home" />
                     </label>
-                    <input
-                      type="text"
-                      name="Address"
-                      id="Address"
-                      placeholder="Address"
-                      required
+                    <GoogleAutocomplete
+                      apiKey="AIzaSyDsq09ATa2cc1TlmbLQrqJSwaFpyblnJAI"
+                      selectProps={{
+                        value: address,
+                        onChange: handleAddressSelect,
+                        placeholder: "Address",
+                        required: true,
+                        value: {address},
+                        onChange: handleAddressSelect,
+                      }}
                     />
                   </div>
                   {/* phone number*/}
@@ -184,6 +191,8 @@ const Register = () => {
                       id="Country"
                       placeholder="Country"
                       required
+                      value={country}
+                      onChange={(e) => setCountry(e.target.value)}
                     />
                   </div>
                   {/* City */}
@@ -197,6 +206,8 @@ const Register = () => {
                       id="City"
                       placeholder="City"
                       required
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
                     />
                   </div>
                   {/* Zip*/}
@@ -210,6 +221,8 @@ const Register = () => {
                       id="zip"
                       placeholder="Zip code"
                       required
+                      value={zip}
+                      onChange={(e) => setZip(e.target.value)}
                     />
                   </div>
 
@@ -266,4 +279,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default RegisterDogOwner;

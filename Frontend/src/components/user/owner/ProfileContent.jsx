@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import User from "./images/roni.png";
 import { Link } from "react-router-dom";
 import Calendar from "../../Calendar/Calendar";
+import {useGetUserInfoQuery} from "../../tokenApi";
 import { useGetUserQuery } from "../../authApi";
 
 const useStyles = makeStyles((theme) => ({
@@ -20,14 +21,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ProfileContent() {
-  const { data } = useGetUserQuery();
+  const checkData  = useGetUserQuery();
+  console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+  console.log(checkData.data);
+  console.log(checkData.data)
+  console.log(checkData.data)
+  console.log(checkData.data)
+  console.log(checkData.data)
+
+  const data = checkData;
   localStorage.setItem(
     "userEmailForCalander",
     JSON.stringify(data.body[0].user_email)
   );
-  console.log(data);
-  console.log(data.body[0]);
-
   const handleDateSelection = (selectedDateTime) => {
     console.log("Selected date/time:", selectedDateTime);
     setOpen(true);

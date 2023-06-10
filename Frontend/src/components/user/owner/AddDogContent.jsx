@@ -10,9 +10,12 @@ import ReportIcon from "@mui/icons-material/Report";
 import { useGetUserQuery } from "../../authApi";
 import { useAddDogMutation, useGetDogBreedsQuery } from "../../dogApi";
 import { useNavigate } from "react-router-dom";
+import { useUserInfoMutation, useGetUserInfoQuery } from "../../tokenApi";
 
 function AddDogContent() {
-
+    const checkData  = useGetUserInfoQuery();
+    console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+    console.log(checkData.data)
     const { data: responseData } = useGetUserQuery();
     console.log(responseData);
 

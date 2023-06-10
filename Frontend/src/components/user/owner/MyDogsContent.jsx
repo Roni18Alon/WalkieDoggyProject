@@ -1,5 +1,5 @@
 import dog1 from "./images/2.jfif";
-import { useGetUserQuery } from "../../authApi";
+import { useGetUserInfoQuery } from "../../tokenApi";
 
 import {
   TableContainer,
@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 
 function MyDogsContent() {
-  const { data } = useGetUserQuery();
+  const { data } = useGetUserInfoQuery;
   console.log(data.body[0]);
 
   return (

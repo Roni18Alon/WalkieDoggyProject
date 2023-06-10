@@ -12,6 +12,8 @@ import { IoPawSharp } from "react-icons/io5";
 import SendIcon from "@material-ui/icons/Send";
 import axios from "axios";
 import Rating from "react-rating-stars-component";
+import { useGetUserInfoQuery } from "../components/tokenApi";
+
 
 export const handleCloseRateMeModal = (onClose) => {
   onClose();
@@ -25,7 +27,7 @@ export const handleSendRateMeModal = async (
 ) => {
   console.log("Sending...");
   console.log(reviewEmail);
-  const responseData = JSON.parse(localStorage.getItem("responseData"));
+  const responseData = useGetUserInfoQuery;
 
   const params = new URLSearchParams({
     user_mail: responseData.body[0].user_email,

@@ -1,30 +1,36 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../authApi";
+import {useGetUserInfoQuery} from "../tokenApi"
 import signin from "./dist/images/sign_in.png";
 
 const LoginDogOwner = () => {
   const navigate = useNavigate();
   const loginMutation = useLoginMutation((response) => {
     console.log(response);
+    console.log(response);
+    console.log(response);
+    console.log(response+ "hhhhhhhhhhhhhhhhhhhhhhhhhhh");
     // Route to the profile page
     navigate("/Profile");
-    navigate("/AddDog");
+    navigate("/AddDog");  
   });
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const checkData = useGetUserInfoQuery();
+  console.log(checkData)
   const handleSubmit = (event) => {
     event.preventDefault();
-
     loginMutation.mutate({ user_email: email, password });
+    console.log("this is ,ail: " + email);
   };
 
   return (
     <div className="wrapper">
       <div className="main">
-        {/* Sing in  Form */}
+        {/* Sign in  Form */}
         <section className="sign-in">
           <div className="container">
             <div className="inner">

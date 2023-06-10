@@ -2,17 +2,16 @@ import User from "./images/kindpng_248729.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useEditProfileMutation } from '../../editApi';
 import { useGetUserQuery } from "../../authApi";
 
-function EditProfileContent() {
-  const { data } = useGetUserQuery();
-  const navigate = useNavigate();
-  const location = useLocation();
-  //const searchParams = new URLSearchParams(location.search);
-  //const responseData = JSON.parse(localStorage.getItem("responseData"));
-  const user = JSON.parse(JSON.stringify(data.body[0]));
-  console.log(user.user_email);
 
+
+function EditProfileContent() {
+  
+  const navigate = useNavigate();
+  const { data } = useGetUserQuery();
+  const user = data.body[0];
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
@@ -21,11 +20,15 @@ function EditProfileContent() {
   const [firstName, setFirstName] = useState("");
   const [zip, setZip] = useState("");
 
+  const editProfileMutation = useEditProfileMutation((response) => {
+    // Handle success, if needed
+    console.log(response);
+    navigate('/Profile'); // Example: navigate to the profile page
+  });
+  
+
   const handleEditProfile = async (e) => {
     e.preventDefault();
-    const url =
-      "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/edit";
-
     const requestData = {
       address: address,
       city: city,
@@ -35,28 +38,9 @@ function EditProfileContent() {
       user_name: firstName,
       zip: zip,
     };
-
-    const params = new URLSearchParams({ user_mail: user.user_email });
-
-    try {
-      const response = await axios.post(
-        `${url}?${params}`,
-        JSON.stringify(requestData),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      localStorage.setItem("responseData", JSON.stringify(response.data));
-      navigate("/Profile?data=" + JSON.stringify(response));
-    } catch (error) {
-      console.log("Error:", error.response);
-    }
-
-    console.log(requestData);
+    editProfileMutation.mutate(requestData);
   };
+  
 
   return (
     <>
