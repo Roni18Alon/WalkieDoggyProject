@@ -1,30 +1,19 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { useGetUserInfoQuery } from "../../tokenApi";
 
 function WalkerProfileContent() {
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const responseData = JSON.parse(localStorage.getItem("responseData"));
-  //const walkerProfile = JSON.parse(localStorage.getItem("walkerProfile"));
-  /*useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/walkerProfile",
-          {
-            params: { user_mail: walkerProfile },
-          }
-        );
-        const fetchedUserList = JSON.parse(JSON.stringify(response.data.body));
-        setUserList(fetchedUserList);
-        console.log(fetchedUserList);
-      } catch (error) {
-        console.log("Error:", error.response);
-      }
-    };
 
-    fetchData();
-  }, []);*/
+  const { data } = useGetUserInfoQuery();
+  const userEmail = data && data.body && data.body.user_email;
+  const userImage = data && data.body && data.body.user_image;
+  const userName = data && data.body && data.body.user_full_name;
+  const userRegDate = data && data.body && data.body.registration_date;
+  const userCountry = data && data.body && data.body.country;
+  const userLastVisit= data && data.body && data.body.last_visit;
+  const userWhatsAppLink = data && data.body && data.whatsapp_link;
+
+
 
   return (
     <>
@@ -48,12 +37,20 @@ function WalkerProfileContent() {
                   <div className="panel-body">
                     <div className="profile__avatar">
                       <img
-                        src="https://bootdey.com/img/Content/avatar/avatar5.png"
+                        src={userImage}
                         alt="..."
                       />
                     </div>
                     <div className="profile__header">
-                      <h4>James Smith</h4>
+<h4>
+  {userName &&
+    userName
+      .split(" ")
+      .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
+      .join(" ")}
+</h4>
+
+
                     </div>
                   </div>
                 </div>
@@ -66,7 +63,8 @@ function WalkerProfileContent() {
                           <th>
                             <bold>Location</bold>
                           </th>
-                          <td>United States</td>
+                          <td>{userCountry && userCountry.charAt(0).toUpperCase() + userCountry.slice(1)}</td>
+
                         </tr>
                       </tbody>
                     </table>
