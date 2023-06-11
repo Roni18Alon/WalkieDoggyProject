@@ -41,7 +41,6 @@ const RegisterDogOwner = () => {
     setIsModalOpen(true);
   };
 
-
   const handleAddressSelect = (address) => {
     setAddress(address);
   };
@@ -61,7 +60,7 @@ const RegisterDogOwner = () => {
     ) {
       reportModal("Please fill in all the required fields.");
     } else {
-     await postData();
+      await postData();
     }
   };
 
@@ -80,10 +79,10 @@ const RegisterDogOwner = () => {
     reader.onerror = (error) => console.log("Error: ", error);
     reader.readAsDataURL(file);
   };
-  
 
   const postData = async () => {
-    const url = "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register"; // Replace with your actual API endpoint URL
+    const url =
+      "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register"; // Replace with your actual API endpoint URL
 
     const requestData = {
       user_email: userEmail,
@@ -102,17 +101,20 @@ const RegisterDogOwner = () => {
     await sendRequest(requestData, url);
   };
 
-
   const sendRequest = async (requestData, url) => {
-    const userRole = "walker";
+    const userRole = "owner";
     const params = new URLSearchParams({ user_role: userRole });
 
     try {
-      const res = await axios.post(`${url}?${params}`, JSON.stringify(requestData), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await axios.post(
+        `${url}?${params}`,
+        JSON.stringify(requestData),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (res.status === 200) {
         navigate("/LoginDogOwner"); // replace with your login page route
@@ -123,7 +125,6 @@ const RegisterDogOwner = () => {
       reportModal(`Error: ${error.message}`);
     }
   };
-
 
   const handlePhoneChange = (e) => {
     const inputValue = e.target.value;
@@ -221,7 +222,12 @@ const RegisterDogOwner = () => {
                       onSelect={handleAddressSelect}
                       apiKey="YOUR_GOOGLE_MAPS_API_KEY" // Replace with your actual API key
                     >
-                      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                      {({
+                        getInputProps,
+                        suggestions,
+                        getSuggestionItemProps,
+                        loading,
+                      }) => (
                         <div>
                           <input
                             {...getInputProps({
@@ -303,7 +309,7 @@ const RegisterDogOwner = () => {
                   </div>
                   <div className="form-group">
                     <label htmlFor="picture" className={styles.pictureLabel}>
-                    <PhotoCameraIcon style={{ fontSize: "1rem" }} />
+                      <PhotoCameraIcon style={{ fontSize: "1rem" }} />
                     </label>
                     <input
                       type="file"
@@ -375,6 +381,6 @@ const RegisterDogOwner = () => {
       </div>
     </div>
   );
-}
+};
 
 export default RegisterDogOwner;
