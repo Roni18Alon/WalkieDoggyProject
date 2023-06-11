@@ -42,6 +42,7 @@ function EditProfileContent() {
     // }
 
     const requestData = {
+      user_email: user.user_email,
       address: address,
       city: city,
       country: country,
@@ -52,7 +53,7 @@ function EditProfileContent() {
     };
     console.log(user.user_email);
 
-    editProfileMutation.mutate(requestData, user.user_email);
+    editProfileMutation.mutate(requestData);
   };
 
   if (isLoading) {
