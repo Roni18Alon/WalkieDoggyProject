@@ -4,6 +4,11 @@ import ReportIcon from "@mui/icons-material/Report";
 import signup from "./dist/images/sign_up.png";
 import axios from "axios";
 import GoogleAutocomplete from "react-google-autocomplete";
+import { async } from "q";
+import styles from "./dist/Register.module.css";
+import PlacesAutocomplete from "react-places-autocomplete";
+import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
+import { useNavigate } from "react-router-dom";
 
 Modal.setAppElement("#root");
 
@@ -23,6 +28,7 @@ const RegisterDogOwner = () => {
   const [modalCloseText, setModalCloseText] = useState("");
   const [modalIcon, setModalIcon] = useState(<ReportIcon />);
   const [picture, setPicture] = useState(null);
+  const navigate = useNavigate();
 
   const openModal = (text, closeText) => {
     setModalText(text);
@@ -30,11 +36,17 @@ const RegisterDogOwner = () => {
     setIsModalOpen(true);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const reportModal = (message) => {
+    setModalText(message);
+    setIsModalOpen(true);
   };
 
-  const handleSubmit = (event) => {
+
+  const handleAddressSelect = (address) => {
+    setAddress(address);
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (
@@ -47,10 +59,14 @@ const RegisterDogOwner = () => {
       !city ||
       !phone
     ) {
-      openModal("Please fill in all the required fields.", "Close");
+      reportModal("Please fill in all the required fields.");
     } else {
-      postData();
+     await postData();
     }
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   const handlePictureChange = (event) => {
@@ -64,9 +80,10 @@ const RegisterDogOwner = () => {
     reader.onerror = (error) => console.log("Error: ", error);
     reader.readAsDataURL(file);
   };
+  
 
   const postData = async () => {
-    const url = "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register";
+    const url = "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register"; // Replace with your actual API endpoint URL
 
     const requestData = {
       user_email: userEmail,
@@ -78,44 +95,35 @@ const RegisterDogOwner = () => {
       user_last_name: userLastName,
       user_name: userName,
       zip: zip,
-      user_image: picture,
+      user_image: picture, // The base64 encoded picture
     };
 
-    if (picture) {
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        requestData.picture = reader.result;
-        sendRequest(requestData, url);
-      };
-
-      reader.readAsDataURL(picture);
-    } else {
-      sendRequest(requestData, url);
-    }
+    console.log(picture);
+    await sendRequest(requestData, url);
   };
 
-  const sendRequest = (requestData, url) => {
-    const userRole = "owner";
+
+  const sendRequest = async (requestData, url) => {
+    const userRole = "walker";
     const params = new URLSearchParams({ user_role: userRole });
 
-    axios
-      .post(`${url}?${params}`, JSON.stringify(requestData), {
+    try {
+      const res = await axios.post(`${url}?${params}`, JSON.stringify(requestData), {
         headers: {
           "Content-Type": "application/json",
         },
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          console.log(res);
-        } else {
-          openModal("Error: Invalid response from server.", "Close");
-        }
-      })
-      .catch((error) => {
-        openModal(`Error: ${error.message}`, "Close");
       });
+
+      if (res.status === 200) {
+        navigate("/LoginDogOwner"); // replace with your login page route
+      } else {
+        reportModal("Error: Invalid response from server.");
+      }
+    } catch (error) {
+      reportModal(`Error: ${error.message}`);
+    }
   };
+
 
   const handlePhoneChange = (e) => {
     const inputValue = e.target.value;
@@ -136,7 +144,7 @@ const RegisterDogOwner = () => {
     <div className="wrapper">
       <div className="main">
         <section className="signup">
-          <div className="container">
+          <div className={styles.container}>
             <div className="signup-content">
               <div className="signup-form">
                 <h2 className="form-title">Sign Up as a Dog Owner</h2>
@@ -207,15 +215,35 @@ const RegisterDogOwner = () => {
                     <label htmlFor="Address">
                       <i className="zmdi zmdi-home" />
                     </label>
-                    <GoogleAutocomplete
-                      apiKey="YOUR_GOOGLE_MAPS_API_KEY"
-                      selectProps={{
-                        value: address,
-                        onChange: setAddress,
-                        placeholder: "Address",
-                        required: true,
-                      }}
-                    />
+                    <PlacesAutocomplete
+                      value={address}
+                      onChange={setAddress}
+                      onSelect={handleAddressSelect}
+                      apiKey="YOUR_GOOGLE_MAPS_API_KEY" // Replace with your actual API key
+                    >
+                      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                        <div>
+                          <input
+                            {...getInputProps({
+                              placeholder: "Address",
+                              required: true,
+                              className: "form-control",
+                            })}
+                          />
+                          <div className="suggestions">
+                            {loading && <div>Loading...</div>}
+                            {suggestions.map((suggestion) => (
+                              <div
+                                {...getSuggestionItemProps(suggestion)}
+                                key={suggestion.placeId}
+                              >
+                                {suggestion.description}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </PlacesAutocomplete>
                   </div>
                   <div className="form-group">
                     <label htmlFor="phone_number">
@@ -274,13 +302,16 @@ const RegisterDogOwner = () => {
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="picture">Upload Picture</label>
+                    <label htmlFor="picture" className={styles.pictureLabel}>
+                    <PhotoCameraIcon style={{ fontSize: "1rem" }} />
+                    </label>
                     <input
                       type="file"
                       name="picture"
                       id="picture"
                       accept="image/*"
                       onChange={handlePictureChange}
+                      className={styles.pictureInput}
                     />
                   </div>
                   <div className="form-group">
@@ -303,7 +334,7 @@ const RegisterDogOwner = () => {
                       name="signup"
                       id="signup"
                       className="form-submit"
-                      value="Register"
+                      defaultValue="Register"
                     />
                   </div>
                 </form>
@@ -327,30 +358,23 @@ const RegisterDogOwner = () => {
         <Modal
           isOpen={isModalOpen}
           onRequestClose={closeModal}
-          className="modal"
-          overlayClassName="modal-overlay"
+          className="fixed inset-0 flex items-center justify-center p-4 bg-black bg-opacity-75"
+          overlayClassName="Overlay"
         >
-          <div className="modal-content">
-            <div className="modal-header">
-              <h2 className="modal-title">Error</h2>
-              <button className="modal-close" onClick={closeModal}>
-                &times;
-              </button>
-            </div>
-            <div className="modal-body">
-              {modalIcon}
-              <p>{modalText}</p>
-            </div>
-            <div className="modal-footer">
-              <button className="modal-close-btn" onClick={closeModal}>
-                {modalCloseText}
-              </button>
-            </div>
+          <div className="w-full max-w-md p-8 bg-white rounded">
+            <h2 className="mb-4 text-xl font-semibold text-gray-900">Error</h2>
+            <p className="mb-6 text-gray-600">{modalText}</p>
+            <button
+              className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-400 focus:outline-none"
+              onClick={closeModal}
+            >
+              Close
+            </button>
           </div>
         </Modal>
       </div>
     </div>
   );
-};
+}
 
 export default RegisterDogOwner;

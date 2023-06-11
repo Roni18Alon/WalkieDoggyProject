@@ -1,17 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import HeroSection from "../pages/home/HeroSection";
 import AboutSection from "../pages/home/AboutSection";
 import OurDogWalkerSection from "../pages/home/OurDogWalkerSection";
 import GallerySection from "../pages/home/GallerySection";
+import { useGetUserInfoQuery } from "../tokenApi";
 
 const Home = () => {
   const navigate = useNavigate();
+  const { data } = useGetUserInfoQuery();
+  const userRole = data && data.body && data.body.user_role;
 
   const handleDogOwnerClick = () => {
     if (document.cookie.includes("walkieDoggy")) {
-
-      navigate("/Profile");
+      if (userRole === "owner") {
+        navigate("/Profile");
+      } else if (userRole === "walker") {
+        navigate("/WalkerProfile");
+      }
     } else {
       navigate("/RegisterDogOwner");
     }
@@ -19,7 +25,11 @@ const Home = () => {
 
   const handleDogWalkerClick = () => {
     if (document.cookie.includes("walkieDoggy")) {
-      navigate("/Profile");
+      if (userRole === "owner") {
+        navigate("/Profile");
+      } else if (userRole === "walker") {
+        navigate("/WalkerProfile");
+      }
     } else {
       navigate("/RegisterDogWalker");
     }

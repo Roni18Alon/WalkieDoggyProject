@@ -71,13 +71,11 @@ const RegisterDogWalker = () => {
   };
 
   const handlePictureChange = (event) => {
-    console.log("Triggered handlePictureChange");
     const file = event.target.files[0];
 
     const reader = new FileReader();
     reader.onload = () => {
       const base64String = reader.result.split(",")[1];
-      console.log(base64String);
       setPicture(base64String); // Store the base64 encoded picture
     };
     reader.onerror = (error) => console.log("Error: ", error);
@@ -214,7 +212,7 @@ const RegisterDogWalker = () => {
                       value={address}
                       onChange={setAddress}
                       onSelect={handleAddressSelect}
-                      apiKey="YOUR_GOOGLE_MAPS_API_KEY" // Replace with your actual API key
+                      apiKey="AIzaSyAMtdGhYZfpWVoO45JBPghp2GOK4yLuFl4" // Replace with your actual API key
                     >
                       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                         <div>
@@ -320,7 +318,7 @@ const RegisterDogWalker = () => {
                       <span>
                         <span />
                       </span>
-                      I agree all statements in Terms of service
+                      I agree to all statements in the Terms of Service
                     </label>
                   </div>
                   <div className="form-group form-button">

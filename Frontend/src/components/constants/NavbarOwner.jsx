@@ -9,7 +9,7 @@ const NavButton = ({ customFunc, icon, color, dotColor }) => (
   <button
     type="button"
     onClick={() => customFunc()}
-    style={{ color: color || "inherit" }} // Set a default value if color is not provided
+    style={{ color: color || "inherit" }}
     className="relative p-3 text-xl rounded-full hover:bg-light-gray"
   >
     <span
@@ -29,8 +29,11 @@ const Navbar = () => {
     screenSize,
   } = useStateContext();
 
-  const { data: responseData } = useGetUserInfoQuery();
-  const navigate = useNavigate(); // Use the useNavigate hook for navigation
+  const { data } = useGetUserInfoQuery();
+  const userImage = data && data.body && data.body.user_image;
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
@@ -52,22 +55,23 @@ const Navbar = () => {
     }
   }, [screenSize, setActiveMenu]);
 
-  // Check if responseData exists and contains the necessary properties
+  const handleLogout = () => {
+    document.cookie =
+      "walkieDoggy=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    navigate("/");
+  };
+
+  // Check if data exists and contains the necessary properties
   const userFullName =
-    responseData && responseData.body && responseData.body.user_full_name
-      ? responseData.body.user_full_name
+    data && data.body && data.body.user_full_name
+      ? data.body.user_full_name
           .split(" ")
           .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
           .join(" ")
       : "";
 
-  const handleLogout = () => {
-    document.cookie = "walkieDoggy=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    navigate("/"); // Navigate to the Home page using useNavigate
-  };
-
   return (
-    <div className="relative flex justify-between w-full p-2 ">
+    <div className="relative flex justify-between w-full p-2">
       <div className="flex items-center gap-4">
         <NavButton
           title="Menu"
@@ -84,7 +88,7 @@ const Navbar = () => {
         <div className="relative flex items-center gap-2 p-1 rounded-lg cursor-pointer group hover:bg-light-gray">
           <img
             className="w-8 h-8 rounded-full"
-            src="http://localhost:3000/static/media/roni.9b135d7a803b49120cfc.png"
+            src={userImage}
             alt="user-profile"
           />
           <p>
