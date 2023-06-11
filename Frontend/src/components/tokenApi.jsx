@@ -14,24 +14,7 @@ const getUserInfo = async () => {
         //`${url_token}?${new URLSearchParams(params)}`
       const response = await axios.get(`${url_token}?${new URLSearchParams(params)}`, 
      );
-  
       const {data: userInfoData} = response;
-      console.log("responseData--------------------------- " + response.status);
-      console.log(userInfoData);
-      console.log("responseData---------------------------");
-      console.log(userInfoData);
-      console.log("In getUserInfo---------------------------");
-      console.log("In getUserInfo---------------------------");
-      console.log("In getUserInfo---------------------------");
-
-      console.log("In getUserInfo---------------------------");
-      console.log(userInfoData);
-
-      console.log(userInfoData.body[0]);
-      console.log(userInfoData.body[0]);
-      console.log("In getUserInfo---------------------------");
-      console.log("In getUserInfo---------------------------");
-      console.log("In getUserInfo---------------------------");
       return userInfoData;
     } catch (error) {
       throw new Error("Error: " + error.message);

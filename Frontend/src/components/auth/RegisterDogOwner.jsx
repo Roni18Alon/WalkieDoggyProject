@@ -104,7 +104,7 @@ const RegisterDogOwner = () => {
 
 
   const sendRequest = async (requestData, url) => {
-    const userRole = "walker";
+    const userRole = "owner";
     const params = new URLSearchParams({ user_role: userRole });
 
     try {
@@ -219,7 +219,7 @@ const RegisterDogOwner = () => {
                       value={address}
                       onChange={setAddress}
                       onSelect={handleAddressSelect}
-                      apiKey="YOUR_GOOGLE_MAPS_API_KEY" // Replace with your actual API key
+                      apiKey="AIzaSyAMtdGhYZfpWVoO45JBPghp2GOK4yLuFl4" // Replace with your actual API key
                     >
                       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                         <div>
