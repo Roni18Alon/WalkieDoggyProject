@@ -1,18 +1,13 @@
 import { useState } from "react";
-import "./dist/Register.css";
-import styles from "./dist/Register.module.css";
+import Modal from "react-modal";
+import ReportIcon from "@mui/icons-material/Report";
 import signup from "./dist/images/sign_up.png";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import GoogleAutocomplete from "react-google-autocomplete";
-import ReportIcon from "@mui/icons-material/Report";
+
+Modal.setAppElement("#root");
 
 const RegisterDogOwner = () => {
-  const handleAddressSelect = (address) => {
-    setAddress(address);
-  };
-
-  // State to store the user parameters
   const [phone, setPhone] = useState("");
   const [isValid, setIsValid] = useState(true);
   const [userEmail, setUserEmail] = useState("");
@@ -26,7 +21,18 @@ const RegisterDogOwner = () => {
   const [modalText, setModalText] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalCloseText, setModalCloseText] = useState("");
-  const [modalIcon, setModalIcon] = useState("</ReportIcon>");
+  const [modalIcon, setModalIcon] = useState(<ReportIcon />);
+  const [picture, setPicture] = useState(null);
+
+  const openModal = (text, closeText) => {
+    setModalText(text);
+    setModalCloseText(closeText);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -41,18 +47,29 @@ const RegisterDogOwner = () => {
       !city ||
       !phone
     ) {
-      setModalText("Please fill in all the required fields.");
-      setIsModalOpen(true);
-      setModalCloseText("Close");
-      setModalIcon(<ReportIcon />);
+      openModal("Please fill in all the required fields.", "Close");
     } else {
       postData();
     }
   };
 
+  const handlePictureChange = (event) => {
+    console.log("Triggered handlePictureChange");
+    const file = event.target.files[0];
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64String = reader.result.split(",")[1];
+      console.log(base64String);
+      setPicture(base64String); // Store the base64 encoded picture
+    };
+    reader.onerror = (error) => console.log("Error: ", error);
+    reader.readAsDataURL(file);
+  };
+
   const postData = async () => {
     const url =
-      "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register"; // Replace with your actual API endpoint URL
+      "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register";
 
     const requestData = {
       user_email: userEmail,
@@ -64,8 +81,24 @@ const RegisterDogOwner = () => {
       user_last_name: userLastName,
       user_name: userName,
       zip: zip,
+      user_image: picture,
     };
 
+    if (picture) {
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        requestData.picture = reader.result;
+        sendRequest(requestData, url);
+      };
+
+      reader.readAsDataURL(picture);
+    } else {
+      sendRequest(requestData, url);
+    }
+  };
+
+  const sendRequest = (requestData, url) => {
     const userRole = "owner";
     const params = new URLSearchParams({ user_role: userRole });
 
@@ -75,18 +108,24 @@ const RegisterDogOwner = () => {
           "Content-Type": "application/json",
         },
       })
-      .then((res) => console.log(res))
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res);
+        } else {
+          openModal("Error: Invalid response from server.", "Close");
+        }
+      })
       .catch((error) => {
-        console.log("Error:", error);
+        openModal(`Error: ${error.message}`, "Close");
       });
   };
 
   const handlePhoneChange = (e) => {
     const inputValue = e.target.value;
-    let formattedValue = inputValue.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+    let formattedValue = inputValue.replace(/[^0-9]/g, "");
 
     if (formattedValue.length > 10) {
-      formattedValue = formattedValue.slice(0, 10); // Truncate to 10 digits
+      formattedValue = formattedValue.slice(0, 10);
     }
 
     if (formattedValue.length > 3) {
@@ -99,15 +138,12 @@ const RegisterDogOwner = () => {
   return (
     <div className="wrapper">
       <div className="main">
-        {/* Sign up form */}
         <section className="signup">
-          <div className={styles.container}>
+          <div className="container">
             <div className="signup-content">
               <div className="signup-form">
                 <h2 className="form-title">
-                  {" "}
-                  Sign Up <br />
-                  as a Dog Owner
+                  Sign Up as a Dog Owner
                 </h2>
                 <form
                   method="POST"
@@ -115,7 +151,6 @@ const RegisterDogOwner = () => {
                   id="register-form"
                   onSubmit={handleSubmit}
                 >
-                  {/* User name */}
                   <div className="form-group">
                     <label htmlFor="user_name">
                       <i className="zmdi zmdi-account material-icons-name" />
@@ -130,7 +165,6 @@ const RegisterDogOwner = () => {
                       onChange={(e) => setUserName(e.target.value)}
                     />
                   </div>
-                  {/* Last name */}
                   <div className="form-group">
                     <label htmlFor="name">
                       <i className="zmdi zmdi-account material-icons-name" />
@@ -145,7 +179,6 @@ const RegisterDogOwner = () => {
                       onChange={(e) => setUserLastName(e.target.value)}
                     />
                   </div>
-                  {/* user_email */}
                   <div className="form-group">
                     <label htmlFor="user_email">
                       <i className="zmdi zmdi-email" />
@@ -161,7 +194,6 @@ const RegisterDogOwner = () => {
                       onChange={(e) => setUserEmail(e.target.value)}
                     />
                   </div>
-                  {/* password */}
                   <div className="form-group">
                     <label htmlFor="pass">
                       <i className="zmdi zmdi-lock" />
@@ -176,22 +208,20 @@ const RegisterDogOwner = () => {
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
-                  {/* Address */}
                   <div className="form-group">
                     <label htmlFor="Address">
                       <i className="zmdi zmdi-home" />
                     </label>
                     <GoogleAutocomplete
-                      apiKey="YOUR_API_KEY"
+                      apiKey="YOUR_GOOGLE_MAPS_API_KEY"
                       selectProps={{
                         value: address,
-                        onChange: handleAddressSelect,
+                        onChange: setAddress,
                         placeholder: "Address",
                         required: true,
                       }}
                     />
                   </div>
-                  {/* phone number*/}
                   <div className="form-group">
                     <label htmlFor="phone_number">
                       <i className="zmdi zmdi-phone" />
@@ -200,13 +230,12 @@ const RegisterDogOwner = () => {
                       type="text"
                       name="phone_number"
                       id="phone_number"
-                      placeholder="phone"
+                      placeholder="Phone number"
                       required
                       value={phone}
                       onChange={handlePhoneChange}
                     />
                   </div>
-                  {/* country */}
                   <div className="form-group">
                     <label htmlFor="Country">
                       <i className="zmdi zmdi-home" />
@@ -221,7 +250,6 @@ const RegisterDogOwner = () => {
                       onChange={(e) => setCountry(e.target.value)}
                     />
                   </div>
-                  {/* City */}
                   <div className="form-group">
                     <label htmlFor="City">
                       <i className="zmdi zmdi-home" />
@@ -236,7 +264,6 @@ const RegisterDogOwner = () => {
                       onChange={(e) => setCity(e.target.value)}
                     />
                   </div>
-                  {/* Zip*/}
                   <div className="form-group">
                     <label htmlFor="zip">
                       <i className="zmdi zmdi-home" />
@@ -251,7 +278,16 @@ const RegisterDogOwner = () => {
                       onChange={(e) => setZip(e.target.value)}
                     />
                   </div>
-
+                  <div className="form-group">
+                    <label htmlFor="picture">Upload Picture</label>
+                    <input
+                      type="file"
+                      name="picture"
+                      id="picture"
+                      accept="image/*"
+                      onChange={handlePictureChange}
+                    />
+                  </div>
                   <div className="form-group">
                     <input
                       type="checkbox"
@@ -264,9 +300,6 @@ const RegisterDogOwner = () => {
                         <span />
                       </span>
                       I agree all statements in Terms of service
-                      {/* <a href="#" className="term-service">
-                       
-                      </a> */}
                     </label>
                   </div>
                   <div className="form-group form-button">
@@ -282,7 +315,7 @@ const RegisterDogOwner = () => {
               </div>
               <div className="signup-image">
                 <figure>
-                  <img src={signup} alt="sing up image" />
+                  <img src={signup} alt="sign up image" />
                 </figure>
                 <button
                   className="signup-image-link button-54"
@@ -296,10 +329,32 @@ const RegisterDogOwner = () => {
             </div>
           </div>
         </section>
-        {/* Sing in  Form */}
+        <Modal
+          isOpen={isModalOpen}
+          onRequestClose={closeModal}
+          className="modal"
+          overlayClassName="modal-overlay"
+        >
+          <div className="modal-content">
+            <div className="modal-header">
+              <h2 className="modal-title">Error</h2>
+              <button className="modal-close" onClick={closeModal}>
+                &times;
+              </button>
+            </div>
+            <div className="modal-body">
+              {modalIcon}
+              <p>{modalText}</p>
+            </div>
+            <div className="modal-footer">
+              <button className="modal-close-btn" onClick={closeModal}>
+                {modalCloseText}
+              </button>
+            </div>
+          </div>
+        </Modal>
       </div>
     </div>
-
   );
 };
 

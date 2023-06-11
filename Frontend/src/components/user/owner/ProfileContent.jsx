@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import User from "./images/roni.png";
 import { Link } from "react-router-dom";
 import Calendar from "../../Calendar/Calendar";
 import { useGetUserInfoQuery } from "../../tokenApi";
@@ -23,6 +22,7 @@ const ProfileContent = () => {
 
   const { data } = useGetUserInfoQuery();
   const userEmail = data && data.body && data.body.user_email;
+  const userImage = data && data.body && data.body.user_image;
 
   const [open, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -69,7 +69,7 @@ const ProfileContent = () => {
           <div className="p-4 max-w-[900px] mx-auto_ mb-10 flex gap-6 flex-col lg:flex-row bg-white rounded-lg box-shadow">
             <div className="">
               <img
-                src={User}
+                src={userImage}
                 alt="Admin"
                 className="p-1 -translate-y-1/2 rounded-circle "
                 width={130}
