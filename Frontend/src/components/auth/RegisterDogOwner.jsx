@@ -54,13 +54,11 @@ const RegisterDogOwner = () => {
   };
 
   const handlePictureChange = (event) => {
-    console.log("Triggered handlePictureChange");
     const file = event.target.files[0];
 
     const reader = new FileReader();
     reader.onload = () => {
       const base64String = reader.result.split(",")[1];
-      console.log(base64String);
       setPicture(base64String); // Store the base64 encoded picture
     };
     reader.onerror = (error) => console.log("Error: ", error);
@@ -68,8 +66,7 @@ const RegisterDogOwner = () => {
   };
 
   const postData = async () => {
-    const url =
-      "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register";
+    const url = "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register";
 
     const requestData = {
       user_email: userEmail,
@@ -142,9 +139,7 @@ const RegisterDogOwner = () => {
           <div className="container">
             <div className="signup-content">
               <div className="signup-form">
-                <h2 className="form-title">
-                  Sign Up as a Dog Owner
-                </h2>
+                <h2 className="form-title">Sign Up as a Dog Owner</h2>
                 <form
                   method="POST"
                   className="register-form"
@@ -299,7 +294,7 @@ const RegisterDogOwner = () => {
                       <span>
                         <span />
                       </span>
-                      I agree all statements in Terms of service
+                      I agree to all statements in the Terms of Service
                     </label>
                   </div>
                   <div className="form-group form-button">
@@ -308,7 +303,7 @@ const RegisterDogOwner = () => {
                       name="signup"
                       id="signup"
                       className="form-submit"
-                      defaultValue="Register"
+                      value="Register"
                     />
                   </div>
                 </form>
