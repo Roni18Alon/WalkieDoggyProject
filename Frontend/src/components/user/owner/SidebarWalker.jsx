@@ -67,36 +67,7 @@ const SidebarWalker = () => {
 
                 <span className="text-lg capitalize">Profile</span>
               </NavLink>
-              <NavLink
-                to={`/EditWalkerProfile`}
-                onClick={handleCloseSideBar}
-                style={({ isActive }) => ({
-                  backgroundColor: isActive ? currentColor : "",
-                })}
-                className={({ isActive }) =>
-                  isActive ? activeLink : normalLink
-                }
-              >
-                {/* Icon */}
-                <FaUserEdit className="text-xl" />
 
-                <span className="text-lg capitalize">Edit Profile</span>
-              </NavLink>
-              <NavLink
-                to={`/WalkerFutureMeetings`}
-                onClick={handleCloseSideBar}
-                style={({ isActive }) => ({
-                  backgroundColor: isActive ? currentColor : "",
-                })}
-                className={({ isActive }) =>
-                  isActive ? activeLink : normalLink
-                }
-              >
-                {/* Icon */}
-                <FaPlusCircle className="text-xl" />
-
-                <span className="capitalize ">Future Meetings</span>
-              </NavLink>
               <NavLink
                 to={`/WalkerHistory`}
                 onClick={handleCloseSideBar}
@@ -111,34 +82,6 @@ const SidebarWalker = () => {
                 <FaHistory className="text-xl" />
 
                 <span className="capitalize ">History</span>
-              </NavLink>
-              <NavLink
-                to={`/DogWalkersList`}
-                onClick={handleCloseSideBar}
-                style={({ isActive }) => ({
-                  backgroundColor: isActive ? currentColor : "",
-                })}
-                className={({ isActive }) =>
-                  isActive ? activeLink : normalLink
-                }
-              >
-                {/* Icon */}
-                <FaSearch className="text-xl" />
-
-                <span className="capitalize ">Find Dog Walkers</span>
-              </NavLink>
-              <NavLink
-                to={`/#`}
-                onClick={handleCloseSideBar}
-                style={({ isActive }) => ({
-                  backgroundColor: "",
-                })}
-                className={normalLink}
-              >
-                {/* Icon */}
-                <FaSave className="text-xl" />
-
-                <span className="capitalize ">Saved Jobs</span>
               </NavLink>
             </div>
           </div>

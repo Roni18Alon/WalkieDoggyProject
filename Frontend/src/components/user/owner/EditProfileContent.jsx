@@ -2,7 +2,7 @@ import User from "./images/kindpng_248729.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useEditProfileMutation } from '../../editApi';
+import { useEditProfileMutation } from "../../editApi";
 import { useGetUserInfoQuery } from "../../tokenApi";
 //import ReportIcon from "@mui/icons-material/Report";
 
@@ -10,13 +10,13 @@ function EditProfileContent() {
   const navigate = useNavigate();
   const { data: responseData, isLoading, isError } = useGetUserInfoQuery();
   const user = responseData?.body; // Add nullish coalescing operator to handle undefined responseData
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [zip, setZip] = useState("");
+  const [address, setAddress] = useState(user.address);
+  const [city, setCity] = useState(user.city);
+  const [country, setCountry] = useState(user.country);
+  const [phoneNumber, setPhoneNumber] = useState(user.phone_number);
+  const [lastName, setLastName] = useState(user.user_last_name);
+  const [firstName, setFirstName] = useState(user.user_name);
+  const [zip, setZip] = useState(user.zip);
   // const [modalText, setModalText] = useState("");
   // const [isModalOpen, setIsModalOpen] = useState(false);
   // const [modalCloseText, setModalCloseText] = useState("");
@@ -25,12 +25,11 @@ function EditProfileContent() {
   const editProfileMutation = useEditProfileMutation((response) => {
     // Handle success, if needed
     console.log(response);
-    navigate('/Profile'); // Example: navigate to the profile page
+    navigate("/Profile"); // Example: navigate to the profile page
   });
 
   const handleEditProfile = (e) => {
     e.preventDefault();
-    
 
     // // Parameter check
     // if (!firstName || !lastName || !phoneNumber || !country || !city || !address || !zip) {
@@ -51,11 +50,9 @@ function EditProfileContent() {
       user_name: firstName,
       zip: zip,
     };
-    console.log(requestData);
-    console.log(requestData);
-    console.log(requestData);
+    console.log(user.user_email);
 
-    editProfileMutation.mutate(requestData);
+    editProfileMutation.mutate(requestData, user.user_email);
   };
 
   if (isLoading) {
@@ -133,12 +130,11 @@ function EditProfileContent() {
                 />
               </div>
               <button
-  className="bg-[#03C9D7] mt-4 inline-block px-6 py-2 text-white rounded-md"
-  onClick={handleEditProfile}
->
-  Save changes
-</button>
-
+                className="bg-[#03C9D7] mt-4 inline-block px-6 py-2 text-white rounded-md"
+                onClick={handleEditProfile}
+              >
+                Save changes
+              </button>
             </div>
           </div>
         </div>

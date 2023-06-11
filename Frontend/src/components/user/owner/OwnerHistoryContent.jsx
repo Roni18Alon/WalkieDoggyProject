@@ -6,6 +6,8 @@ import Rating from "react-rating-stars-component";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import ChatModal from "../../ChatModal";
 import RateMeModal from "../../RateMeModal";
+import { makeStyles } from "@material-ui/core/styles";
+
 import {
   TableContainer,
   Table,
@@ -17,8 +19,22 @@ import {
 import { useGetUserInfoQuery } from "../../tokenApi";
 import useFetchUserList from "../../recentApi";
 import { MdRequestQuote } from "react-icons/md";
-
+const useStyles = makeStyles({
+  noHistoryMessage: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "400px",
+    background: "#ffffff",
+    borderRadius: "10px",
+    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+    padding: "20px",
+    fontSize: "24px",
+    fontWeight: "bold",
+  },
+});
 function OwnerHistoryContent() {
+  const classes = useStyles();
   const { data: responseData } = useGetUserInfoQuery();
   const [reviewRating, setReviewRating] = useState(0);
   const [reviewName, setReviewName] = useState("");
@@ -186,8 +202,10 @@ function OwnerHistoryContent() {
                   <TableCell>
                     <div>
                       <Button onClick={toggleChatModal}>
-                        <WhatsAppIcon style={{ fontSize: 40, color: "green" }} />
-                        </Button>
+                        <WhatsAppIcon
+                          style={{ fontSize: 40, color: "green" }}
+                        />
+                      </Button>
                       <ChatModal
                         isOpen={isChatModalOpen}
                         onClose={handleCloseChatModal}
