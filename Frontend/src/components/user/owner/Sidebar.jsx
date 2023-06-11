@@ -1,10 +1,17 @@
 import { Link, NavLink } from "react-router-dom";
 import { MdOutlineCancel } from "react-icons/md";
 import { useStateContext } from "../../../contexts/ContextProvider";
-import { FaDog, FaPlusCircle, FaRegUserCircle, FaSearch, FaHistory } from "react-icons/fa";
+import {
+  FaDog,
+  FaPlusCircle,
+  FaRegUserCircle,
+  FaSearch,
+  FaHistory,
+} from "react-icons/fa";
 
 const Sidebar = () => {
-  const { currentColor, activeMenu, setActiveMenu, screenSize } = useStateContext();
+  const { currentColor, activeMenu, setActiveMenu, screenSize } =
+    useStateContext();
 
   const handleCloseSideBar = () => {
     if (activeMenu !== undefined && screenSize <= 900) {
@@ -12,8 +19,10 @@ const Sidebar = () => {
     }
   };
 
-  const activeLink = "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-white text-md m-2";
-  const normalLink = "flex items-center gap-5 pl-4 pt-0 pb-2.5 rounded-lg text-md text-gray-700 dark:text-gray-200 dark:hover:text-black hover:bg-light-gray m-2";
+  const activeLink =
+    "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-white text-md m-2";
+  const normalLink =
+    "flex items-center gap-5 pl-4 pt-0 pb-2.5 rounded-lg text-md text-gray-700 dark:text-gray-200 dark:hover:text-black hover:bg-light-gray m-2";
 
   return (
     <div className="h-screen pb-10 ml-3 overflow-auto md:overflow-hidden md:hover:overflow-auto">
@@ -74,22 +83,7 @@ const Sidebar = () => {
 
                 <span className="text-lg capitalize">Add Dog</span>
               </NavLink>
-              <NavLink
-                to={`/MyDogs`}
-                onClick={handleCloseSideBar}
-                style={({ isActive }) => ({
-                  backgroundColor: isActive ? currentColor : "",
-                  color: isActive ? "#000" : "",
-                })}
-                className={({ isActive }) =>
-                  isActive ? activeLink : normalLink
-                }
-              >
-                {/* Icon */}
-                <FaDog className="text-xl" />
 
-                <span className="text-lg capitalize">My Dogs</span>
-              </NavLink>
               <NavLink
                 to={`/DogWalkersList`}
                 onClick={handleCloseSideBar}

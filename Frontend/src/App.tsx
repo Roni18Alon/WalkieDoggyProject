@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Register from "./components/auth/Home";
 import Profile from "./components/user/owner/Profile";
 import AddDog from "./components/user/owner/AddDog";
-import MyDogs from "./components/user/owner/MyDogs";
 import DogWalkersList from "./components/user/owner/DogWalkersList";
 import EditProfile from "./components/user/owner/EditProfile";
 import WalkerProfile from "./components/user/dogwalker/WalkerProfile";
@@ -53,7 +52,6 @@ function App() {
           <Route path="/OwnerHistory" element={<OwnerHistory />} />
           <Route path="/EditProfile" element={<EditProfile />} />
           <Route path="/AddDog" element={<AddDog />} />
-          <Route path="/MyDogs" element={<MyDogs />} />
           <Route path="/DogWalkersList" element={<DogWalkersList />} />
         </Routes>
       </BrowserRouter>

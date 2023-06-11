@@ -100,6 +100,7 @@ function AddDogContent() {
     };
 
     addDog({ ...newDog, user_email: userEmail });
+    navigate("/Profile");
   };
   return (
     <div
