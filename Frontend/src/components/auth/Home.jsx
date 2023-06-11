@@ -5,6 +5,7 @@ import AboutSection from "../pages/home/AboutSection";
 import OurDogWalkerSection from "../pages/home/OurDogWalkerSection";
 import GallerySection from "../pages/home/GallerySection";
 import { useGetUserInfoQuery } from "../tokenApi";
+import videoBg from "../../../src/assets/FOOT.mp4";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -37,10 +38,10 @@ const Home = () => {
 
   return (
     <div className="site-wrap">
-      <div
-        className="row d-flex align-items-center justify-content-center"
-        style={{ height: "100vh" }}
-      >
+      <div className="bg-video">
+        <video src={videoBg} autoPlay muted loop />
+      </div>
+      <div className="row d-flex align-items-center justify-content-center" style={{ height: "100vh" }}>
         <div className="col-lg-12 col-md-6 col-sm-12">
           <div className="card shadow">
             <div className="card-body text-center py-5">

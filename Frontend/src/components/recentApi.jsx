@@ -8,12 +8,12 @@ const useFetchUserList = (userEmail) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            if(userEmail) {
+            if (userEmail) {
                 try {
                     const response = await axios.get(
                         "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/recent",
                         {
-                        params: { user_mail: userEmail },
+                            params: { user_mail: userEmail },
                         }
                     );
                     const fetchedUserList = JSON.parse(JSON.stringify(response.data.body));
@@ -25,9 +25,9 @@ const useFetchUserList = (userEmail) => {
                 }
             }
         };
-    
+
         fetchData();
-    },); 
+    }, [userEmail]); // Add userEmail as a dependency
 
     return { userList, loading, error };
 };
