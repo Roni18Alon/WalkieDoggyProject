@@ -17,6 +17,7 @@ function AddDogContent() {
 
     const { data: responseData } = useGetUserInfoQuery();
     console.log(responseData?.body?.user_email);
+    
 
 
     //Birthday arrays:
@@ -105,7 +106,7 @@ function AddDogContent() {
             setModalIcon(<ReportIcon />);
             return;
           }
-        addDog({ ...newDog, user_email: responseData.body[0].user_email});
+        addDog({ ...newDog, user_email: responseData.body.user_email});
     };
 
     return (

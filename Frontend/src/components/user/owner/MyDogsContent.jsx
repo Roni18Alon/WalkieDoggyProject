@@ -45,6 +45,18 @@ const useStyles = makeStyles({
   dogButton: {
     margin: "0 10px",
   },
+  noDogsMessage: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "400px",
+    background: "#ffffff",
+    borderRadius: "10px",
+    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+    padding: "20px",
+    fontSize: "24px",
+    fontWeight: "bold",
+  },
 });
 
 function MyDogsContent() {
@@ -83,6 +95,10 @@ function MyDogsContent() {
     // Handle the button click event for a specific dog
     console.log("Dog ID:", dogId);
   };
+
+  if (dogs.length === 0) {
+    return <div className={classes.noDogsMessage}>No dogs available</div>;
+  }
 
   return (
     <div className={classes.carouselContainer}>

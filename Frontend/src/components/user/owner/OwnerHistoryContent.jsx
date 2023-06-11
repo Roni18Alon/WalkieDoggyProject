@@ -15,11 +15,11 @@ import {
   TableCell,
 } from "@mui/material";
 import { useGetUserInfoQuery } from "../../tokenApi";
-import useFetchUserList from '../../recentApi';
+import useFetchUserList from "../../recentApi";
 import { MdRequestQuote } from "react-icons/md";
 
 function OwnerHistoryContent() {
-  const {data: responseData}  = useGetUserInfoQuery();
+  const { data: responseData } = useGetUserInfoQuery();
   const [reviewRating, setReviewRating] = useState(0);
   const [reviewName, setReviewName] = useState("");
   const [reviewEmail, setReviewEmail] = useState("");
@@ -29,7 +29,6 @@ function OwnerHistoryContent() {
 
   const userEmail = responseData?.body?.user_email;
   const { userList, loading, error } = useFetchUserList(userEmail);
-  
 
   const toggleChatModal = () => {
     setIsChatModalOpen((prevIsOpen) => !prevIsOpen);
@@ -56,8 +55,12 @@ function OwnerHistoryContent() {
     console.log(e.target.value);
   };
 
-  if (loading) return 'Loading...';
-  if (error) return 'An error occurred';
+  if (userList.length === 0) {
+    return <div>No History Found</div>;
+  }
+
+  if (loading) return "Loading...";
+  if (error) return "An error occurred";
 
   return (
     <>

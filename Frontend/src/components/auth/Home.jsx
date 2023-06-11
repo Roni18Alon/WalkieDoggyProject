@@ -60,14 +60,14 @@ const Home = () => {
               </div>
               <br />
               <br />
-              <HeroSection />
-              <AboutSection />
-              <OurDogWalkerSection />
-              <GallerySection />
             </div>
           </div>
         </div>
       </div>
+      <HeroSection />
+      <AboutSection />
+      <OurDogWalkerSection />
+      <GallerySection />
     </div>
   );
 };
