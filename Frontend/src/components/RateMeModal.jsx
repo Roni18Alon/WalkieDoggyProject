@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import {
   Dialog,
@@ -7,37 +7,34 @@ import {
   DialogContentText,
   DialogActions,
   Button,
+  Snackbar,
 } from "@material-ui/core";
 import { IoPawSharp } from "react-icons/io5";
 import SendIcon from "@material-ui/icons/Send";
 import axios from "axios";
 import Rating from "react-rating-stars-component";
 import { useGetUserInfoQuery } from "../components/tokenApi";
+import { useNavigate } from "react-router";
 
-
-export const handleCloseRateMeModal = (onClose) => {
-  onClose();
-};
+import "./RateMeModal.css"; // Import custom CSS for styling
 
 export const handleSendRateMeModal = async (
   reviewRating,
   reviewText,
   reviewEmail,
-  onSend
+  userEmail,
+  onSuccess,
+  navigate
 ) => {
-  console.log("Sending...");
-  console.log(reviewEmail);
-  const responseData = useGetUserInfoQuery;
-
   const params = new URLSearchParams({
-    user_mail: responseData.body[0].user_email,
+    user_mail: userEmail,
   });
 
   const urlRank =
     "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/rank";
 
   const requestData = {
-    ranking_user: responseData.body[0].user_email,
+    ranking_user: userEmail,
     rank: reviewRating,
     ranked_user: reviewEmail,
     review: reviewText,
@@ -49,15 +46,11 @@ export const handleSendRateMeModal = async (
         "Content-Type": "application/json",
       },
     });
-
-    console.log(requestData);
-    console.log(response);
+    onSuccess(); // Call the onSuccess function after successful submission
+    navigate("/OwnerHistory");
   } catch (error) {
     console.log("Error:", error.response);
   }
-
-  console.log(requestData);
-  onSend();
 };
 
 const RateMeModal = ({
@@ -69,9 +62,13 @@ const RateMeModal = ({
 }) => {
   const [reviewRating, setReviewRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
+  const { data: responseData } = useGetUserInfoQuery(); // Get responseData from useGetUserInfoQuery
 
-  const handleRatingChange = (e ) => {
-    console.log(e);
+  const [userData, setUserData] = useState(null);
+  const navigate = useNavigate(); // Get the navigate function from useNavigate
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
+  const handleRatingChange = (e) => {
     setReviewRating(e);
   };
 
@@ -80,16 +77,35 @@ const RateMeModal = ({
   };
 
   const handleClose = () => {
-    handleCloseRateMeModal(onClose);
+    onClose();
     setReviewText("");
     setReviewRating(0);
   };
 
-  const handleSend = () => {
-    handleSendRateMeModal(reviewRating, reviewText, reviewEmail, onSend);
+  const handleSend = async () => {
+    await handleSendRateMeModal(
+      reviewRating,
+      reviewText,
+      reviewEmail,
+      userData,
+      onSend,
+      navigate // Pass the navigate function as a parameter
+    );
     setReviewText("");
     setReviewRating(0);
+    setShowSuccessMessage(true);
+    handleClose();
   };
+
+  const handleSuccessMessageClose = () => {
+    setShowSuccessMessage(false);
+  };
+
+  useEffect(() => {
+    if (responseData) {
+      setUserData(responseData.body);
+    }
+  }, [responseData]);
 
   const formattedReviewName = reviewName
     ?.split(" ")
@@ -97,61 +113,63 @@ const RateMeModal = ({
     .join(" ");
 
   return (
-    <Dialog open={isOpen} onClose={handleClose}>
-      <DialogTitle align="center">Rate {formattedReviewName}</DialogTitle>
+    <>
+      <Dialog open={isOpen} onClose={handleClose}>
+        <DialogTitle align="center">Rate {formattedReviewName}</DialogTitle>
 
-      <DialogContent>
-        <div
-          className="form-group"
-          style={{ display: "flex", justifyContent: "center" }}
-        >
-                                <Rating
-                                name="review-rating"
-                      count={5}
-                      value={reviewRating}
-                      onChange={handleRatingChange}
-                      size={35}
-                      activeColor="#ffc107"
-                      filledIcon={
-                        <div className="custom-icon">
-                          <IoPawSharp />
-                        </div>
-                      }
-                      emptyIcon={
-                        <div className="custom-icon">
-                          <IoPawSharp />
-                        </div>
-                      }
-                    />
-        </div>
-        <div className="form-group">
-          <DialogContentText>Write your review here:</DialogContentText>
+        <DialogContent>
+          <div className="rating-container">
+            <Rating
+              name="review-rating"
+              count={5}
+              value={reviewRating}
+              onChange={handleRatingChange}
+              size={40}
+              activeColor="#ffc107"
+              filledIcon={<IoPawSharp />}
+              emptyIcon={<IoPawSharp />}
+            />
+          </div>
+          <div className="form-group">
+            <DialogContentText className="review-label">
+              Write your review here:
+            </DialogContentText>
 
+            <br />
+            <br />
+            <form>
+              <textarea
+                className="form-control review-textarea"
+                id="review-text"
+                value={reviewText}
+                onChange={handleTextChange}
+              ></textarea>
+            </form>
+          </div>
           <br />
-          <br />
-          <form>
-            <textarea
-              className="form-control"
-              id="review-text"
-              value={reviewText}
-              onChange={handleTextChange}
-            ></textarea>
-            {console.log(reviewText)}
-          </form>
-        </div>
-        <br />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Close</Button>
-        <Button
-          variant="contained"
-          onClick={handleSend}
-          endIcon={<SendIcon />}
-        >
-          Send
-        </Button>
-      </DialogActions>
-    </Dialog>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} className="dialog-button">
+            Close
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleSend}
+            endIcon={<SendIcon />}
+            className="dialog-button"
+          >
+            Send
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Snackbar
+        open={showSuccessMessage}
+        autoHideDuration={3000}
+        onClose={handleSuccessMessageClose}
+        message="The rate is sent successfully."
+        className="success-snackbar"
+      />
+    </>
   );
 };
 

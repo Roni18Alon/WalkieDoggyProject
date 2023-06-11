@@ -7,7 +7,6 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import ChatModal from "../../ChatModal";
 import RateMeModal from "../../RateMeModal";
 import { makeStyles } from "@material-ui/core/styles";
-
 import {
   TableContainer,
   Table,
@@ -18,7 +17,9 @@ import {
 } from "@mui/material";
 import { useGetUserInfoQuery } from "../../tokenApi";
 import useFetchUserList from "../../recentApi";
-import { MdRequestQuote } from "react-icons/md";
+import  {handleSendRateMeModal}  from "../../RateMeModal";
+import { useNavigate } from "react-router";
+
 const useStyles = makeStyles({
   noHistoryMessage: {
     display: "flex",
@@ -34,6 +35,7 @@ const useStyles = makeStyles({
   },
 });
 function OwnerHistoryContent() {
+  const navigate = useNavigate();
   const classes = useStyles();
   const { data: responseData } = useGetUserInfoQuery();
   const [reviewRating, setReviewRating] = useState(0);
@@ -53,22 +55,19 @@ function OwnerHistoryContent() {
   const handleCloseChatModal = () => {
     setIsChatModalOpen(false);
   };
+  const handleSend = () => {
+    handleSendRateMeModal(reviewRating, reviewText, reviewEmail, userEmail);
+  };
 
   const handleCloseRateMeModal = () => {
     setIsRateMeModalOpen(false);
   };
 
-  const handleSendRateMeModal = () => {
-    // Handle sending the rating
-    // You can perform any necessary actions here
-    setIsRateMeModalOpen(false); // Close the modal after sending
-  };
 
   const handleRateBtn = (e) => {
     setIsRateMeModalOpen(true);
     setReviewName(e.target.id);
     setReviewEmail(e.target.value);
-    console.log(e.target.value);
   };
 
   if (userList.length === 0) {
@@ -179,13 +178,15 @@ function OwnerHistoryContent() {
 
                   <TableCell>
                     <div className="col-12">
-                      <RateMeModal
-                        isOpen={isRateMeModalOpen}
-                        onClose={handleCloseRateMeModal}
-                        onSend={handleSendRateMeModal}
-                        reviewName={reviewName}
-                        reviewEmail={reviewEmail}
-                      />
+                    <RateMeModal
+  isOpen={isRateMeModalOpen}
+  onClose={handleCloseRateMeModal}
+  onSend={() =>
+    handleSend
+  }
+  reviewName={reviewName}
+  reviewEmail={reviewEmail}
+/>
                       <Button
                         variant="contained"
                         color="success"

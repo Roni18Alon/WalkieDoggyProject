@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import { useGetUserInfoQuery } from "../../tokenApi";
 import Calendar from "../../Calendar/Calendar";
 import { Link } from "react-router-dom";
@@ -70,14 +69,13 @@ function WalkerProfileContent() {
       <div style={{ backgroundColor: "#f8f8f8" }}>
         <div className="md:p-4 !py-[100px] md:!py-4 m-3">
           <div className="p-4 max-w-[900px] mx-auto_ mb-10 flex gap-6 flex-col lg:flex-row bg-white rounded-lg box-shadow">
-            <div className="">
-              <img
-                src={userImage}
-                alt="Admin"
-                className="p-1 -translate-y-1/2 rounded-circle "
-                width={130}
-              />
-
+          <div className="relative w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40">
+                  <img
+                    src={userImage}
+                    alt="Admin"
+                    className="object-cover w-full h-full rounded-full"
+                    style={{ objectPosition: "center top" }}
+                  />
               <h3 className="text-lg font-bold -mt-[40px]">
                 {data.body.user_full_name
                   .split(" ")

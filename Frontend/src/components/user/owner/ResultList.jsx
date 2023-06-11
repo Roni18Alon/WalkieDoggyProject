@@ -12,29 +12,30 @@ import {
   TableRow,
   TableCell,
 } from "@mui/material";
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import { useGetUserInfoQuery } from "../../tokenApi";
 
 const ResultList = () => {
   console.log("in result list");
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const responseData = JSON.parse(localStorage.getItem("responseData"));
-  const user = JSON.parse(JSON.stringify(responseData.body[0]));
+  const {data: responseData} = useGetUserInfoQuery();
+  const user = JSON.parse(JSON.stringify(responseData.body || {}));
   const userList = JSON.parse(localStorage.getItem("SearchResult"));
   const params = new URLSearchParams({
     user_mail: user.user_email,
   });
-
   //add whatsapp icon
-  const handleLiveChat = async (e) => {
-    console.log("in live chat" + e.target.value);
-    e.preventDefault();
-
+  const handleLiveChat = async (value) => {
+    console.log("in live chat", value);
+    
+    
     //post-requset for new contact(whatapp)
     const urlConnect =
       "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/connect";
 
     const requestData = {
-      user_to_connect: e.target.value,
+      user_to_connect: value,
     };
 
     try {
@@ -47,9 +48,10 @@ const ResultList = () => {
           },
         }
       );
-
-      console.log(requestData);
-      console.log(response);
+      if (response.status === 200) {
+        const whatsappLink = response.data.body.whatsapp_link;
+        window.open(whatsappLink, "_blank");
+      }
     } catch (error) {
       console.log("Error:", error.response);
     }
@@ -161,15 +163,16 @@ const ResultList = () => {
                                 </div>
                               </TableCell>
                               <TableCell>
-                                <div className="col-md-12">{row.price} </div>
-                              </TableCell>
+  <div className="col-md-12">{row.price}₪</div>
+</TableCell>
+
                               <TableCell>
-                                <Button
-                                  onClick={handleLiveChat}
-                                  value={row.connected_user}
-                                >
-                                  place whatapp icon here
-                                </Button>
+                              <Button onClick={() => handleLiveChat(row.user_mail)}>
+                                {console.log(row.connected_user)}
+                                <WhatsAppIcon
+                          style={{ fontSize: 40, color: "green" }}
+                        />
+</Button>
                               </TableCell>
                             </TableRow>
                           ))}
