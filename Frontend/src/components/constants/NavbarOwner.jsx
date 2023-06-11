@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { useStateContext } from "../../contexts/ContextProvider";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useGetUserInfoQuery } from "../tokenApi";
 
 const NavButton = ({ customFunc, icon, color, dotColor }) => (
@@ -30,6 +30,7 @@ const Navbar = () => {
   } = useStateContext();
 
   const { data: responseData } = useGetUserInfoQuery();
+  const navigate = useNavigate(); // Use the useNavigate hook for navigation
 
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
@@ -60,6 +61,11 @@ const Navbar = () => {
           .join(" ")
       : "";
 
+  const handleLogout = () => {
+    document.cookie = "walkieDoggy=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    navigate("/"); // Navigate to the Home page using useNavigate
+  };
+
   return (
     <div className="relative flex justify-between w-full p-2 ">
       <div className="flex items-center gap-4">
@@ -78,9 +84,7 @@ const Navbar = () => {
         <div className="relative flex items-center gap-2 p-1 rounded-lg cursor-pointer group hover:bg-light-gray">
           <img
             className="w-8 h-8 rounded-full"
-            src={
-              "http://localhost:3000/static/media/roni.9b135d7a803b49120cfc.png"
-            }
+            src="http://localhost:3000/static/media/roni.9b135d7a803b49120cfc.png"
             alt="user-profile"
           />
           <p>
@@ -96,9 +100,9 @@ const Navbar = () => {
                 Profile
               </Link>
               <div className="dropdown-divider"></div>
-              <Link className="dropdown-item" to="/">
+              <button className="dropdown-item" onClick={handleLogout}>
                 Logout
-              </Link>
+              </button>
             </li>
           </ul>
         </div>

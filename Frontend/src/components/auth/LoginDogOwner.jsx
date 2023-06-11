@@ -1,42 +1,77 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../authApi";
-import { useGetUserInfoQuery } from "../tokenApi";
 import signin from "./dist/images/sign_in.png";
+import Modal from "react-modal";
 import ReportIcon from "@mui/icons-material/Report";
+
+Modal.setAppElement("#root"); // add this line to avoid accessibility warnings from React Modal
 
 const LoginDogOwner = () => {
   const [modalText, setModalText] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalCloseText, setModalCloseText] = useState("");
-  const [modalIcon, setModalIcon] = useState("</ReportIcon>");
   const navigate = useNavigate();
-  const loginMutation = useLoginMutation((response) => {
-    // Route to the profile page
-    navigate("/Profile");
-  });
-  const checkData = useGetUserInfoQuery();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const loginMutation = useLoginMutation(
+    (response) => {
+      navigate("/Profile");
+    },
+    (error) => {
+      if (error.message === "Error: User not exists or password invalid") {
+        reportModal("User does not exist or the password is invalid");
+      } else {
+        reportModal("User does not exist or the password is invalid");
+      }
+    }
+  );
 
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!email || !password) {
-      // Show error dialog if any parameter is empty
-      setModalText("Please fill in all the required fields.");
-      setIsModalOpen(true);
-      setModalCloseText("Close");
-      setModalIcon(<ReportIcon />);
+      reportModal("Please fill in all the required fields.");
     } else {
       loginMutation.mutate({ user_email: email, password });
-      console.log("this is email: " + email);
     }
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      width: '300px',
+      height: '200px',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#f5f5f5',
+      borderRadius: '8px',
+      boxShadow: '0px 0px 15px 1px rgba(0, 0, 0, 0.2)',
+      color: '#333'
+    },
+    overlay: {
+      backgroundColor: 'rgba(0, 0, 0, 0.5)'
+    }
+  };
+
+  const reportModal = (message) => {
+    setModalText(message);
+    setIsModalOpen(true);
   };
 
   return (
     <div className="wrapper">
       <div className="main">
-        {/* Sign in  Form */}
         <section className="sign-in">
           <div className="container">
             <div className="inner">
@@ -121,6 +156,23 @@ const LoginDogOwner = () => {
             </div>
           </div>
         </section>
+        <Modal
+          isOpen={isModalOpen}
+          onRequestClose={closeModal}
+          className="fixed inset-0 flex items-center justify-center p-4 bg-black bg-opacity-75"
+          overlayClassName="Overlay"
+        >
+          <div className="w-full max-w-md p-8 bg-white rounded">
+            <h2 className="mb-4 text-xl font-semibold text-gray-900">Error</h2>
+            <p className="mb-6 text-gray-600">{modalText}</p>
+            <button 
+              className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-400 focus:outline-none"
+              onClick={closeModal}
+            >
+              Close
+            </button>
+          </div>
+        </Modal>
       </div>
     </div>
   );

@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { IoPawSharp } from "react-icons/io5";
 import AddReactionIcon from "@mui/icons-material/AddReaction";
 import Button from "@mui/material/Button";
-import axios from "axios";
-import { useLocation } from "react-router-dom";
 import Rating from "react-rating-stars-component";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import ChatModal from "../../ChatModal";
@@ -16,16 +14,22 @@ import {
   TableRow,
   TableCell,
 } from "@mui/material";
+import { useGetUserInfoQuery } from "../../tokenApi";
+import useFetchUserList from '../../recentApi';
+import { MdRequestQuote } from "react-icons/md";
 
 function OwnerHistoryContent() {
-  const responseData = JSON.parse(localStorage.getItem("responseData"));
+  const {data: responseData}  = useGetUserInfoQuery();
   const [reviewRating, setReviewRating] = useState(0);
   const [reviewName, setReviewName] = useState("");
   const [reviewEmail, setReviewEmail] = useState("");
   const [reviewText, setReviewText] = useState("");
-  const [userList, setUserList] = useState([]);
   const [isChatModalOpen, setIsChatModalOpen] = useState(false);
   const [isRateMeModalOpen, setIsRateMeModalOpen] = useState(false);
+
+  const userEmail = responseData?.body?.user_email;
+  const { userList, loading, error } = useFetchUserList(userEmail);
+  
 
   const toggleChatModal = () => {
     setIsChatModalOpen((prevIsOpen) => !prevIsOpen);
@@ -52,30 +56,8 @@ function OwnerHistoryContent() {
     console.log(e.target.value);
   };
 
-  const params = new URLSearchParams({
-    user_mail: responseData.body[0].user_email,
-  });
-
-  // get-request for recent people contact.
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/recent",
-          {
-            params: { user_mail: responseData.body[0].user_email },
-          }
-        );
-        const fetchedUserList = JSON.parse(JSON.stringify(response.data.body));
-        setUserList(fetchedUserList);
-        console.log(fetchedUserList);
-      } catch (error) {
-        console.log("Error:", error.response);
-      }
-    };
-
-    fetchData();
-  }, []);
+  if (loading) return 'Loading...';
+  if (error) return 'An error occurred';
 
   return (
     <>
@@ -204,11 +186,10 @@ function OwnerHistoryContent() {
                         <WhatsAppIcon style={{ fontSize: 40, color: "green" }} />
                         </Button>
                       <ChatModal
-  isOpen={isChatModalOpen}
-  onClose={() => setIsChatModalOpen(false)}
-  userToConnect={reviewName}
-/>
-
+                        isOpen={isChatModalOpen}
+                        onClose={handleCloseChatModal}
+                        userToConnect={reviewName}
+                      />
                     </div>
                   </TableCell>
                 </TableRow>

@@ -16,6 +16,9 @@ const login = async (credentials) => {
     });
 
     console.log(response.status);
+    if (response.status !== 200) {
+      throw new Error('User does not exist');
+    }
     const responseBody = response.data;
 
     const walkieDoggyCookie = response.data.body[0].token;
@@ -30,7 +33,7 @@ const login = async (credentials) => {
 };
 
 
-export const useLoginMutation = (onSuccess) => {
+export const useLoginMutation = (onSuccess, onError) => {
   const queryClient = useQueryClient();
 
   return useMutation(login, {
@@ -38,6 +41,9 @@ export const useLoginMutation = (onSuccess) => {
       queryClient.setQueryData([ROUTE], responseBody);
       onSuccess(responseBody);
     },
+    onError: (error) => {
+      onError(error);
+    }
   });
 };
 
