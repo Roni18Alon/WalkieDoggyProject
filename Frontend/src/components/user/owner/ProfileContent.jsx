@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-
-import User from "./images/roni.png";
 import { Link } from "react-router-dom";
 import Calendar from "../../Calendar/Calendar";
-import { useGetUserQuery } from "../../authApi";
+import { useGetUserInfoQuery } from "../../tokenApi";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -19,24 +17,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ProfileContent() {
-  const { data } = useGetUserQuery();
-  localStorage.setItem(
-    "userEmailForCalander",
-    JSON.stringify(data.body[0].user_email)
-  );
-  console.log(data);
-  console.log(data.body[0]);
+const ProfileContent = () => {
+  const classes = useStyles();
+
+  const { data } = useGetUserInfoQuery();
+  const userEmail = data && data.body && data.body.user_email;
+  const userImage = data && data.body && data.body.user_image;
+
+  const [open, setOpen] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+
+  useEffect(() => {
+    if (data) {
+      localStorage.setItem(
+        "userEmailForCalander",
+        JSON.stringify(userEmail)
+      );
+    }
+  }, [data, userEmail]);
 
   const handleDateSelection = (selectedDateTime) => {
     console.log("Selected date/time:", selectedDateTime);
     setOpen(true);
     // Perform additional actions
   };
-
-  const classes = useStyles();
-  const [open, setOpen] = useState(false);
-  const [inputValue, setInputValue] = useState("");
 
   const handleClose = () => {
     setOpen(false);
@@ -53,6 +57,11 @@ function ProfileContent() {
     handleClose();
   };
 
+  if (!data) {
+    // Handle loading state or error condition
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <div style={{ backgroundColor: "#f8f8f8" }}>
@@ -60,18 +69,17 @@ function ProfileContent() {
           <div className="p-4 max-w-[900px] mx-auto_ mb-10 flex gap-6 flex-col lg:flex-row bg-white rounded-lg box-shadow">
             <div className="">
               <img
-                src={User}
+                src={userImage}
                 alt="Admin"
                 className="p-1 -translate-y-1/2 rounded-circle "
                 width={130}
               />
 
               <h3 className="text-lg font-bold -mt-[40px]">
-                {data &&
-                  data.body[0].user_full_name
-                    .split(" ")
-                    .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
-                    .join(" ")}
+                {data.body.user_full_name
+                  .split(" ")
+                  .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
+                  .join(" ")}
               </h3>
 
               <div className="flex gap-4 my-2">
@@ -97,11 +105,11 @@ function ProfileContent() {
                     />
                   </svg>
 
-                  {data.body[0].city.charAt(0).toUpperCase() +
-                    data.body[0].city.slice(1) +
+                  {data.body.city.charAt(0).toUpperCase() +
+                    data.body.city.slice(1) +
                     ", " +
-                    data.body[0].country.charAt(0).toUpperCase() +
-                    data.body[0].country.slice(1)}
+                    data.body.country.charAt(0).toUpperCase() +
+                    data.body.country.slice(1)}
                 </p>
               </div>
               <Link
@@ -118,41 +126,38 @@ function ProfileContent() {
               <div className="flex items-center gap-4 my-3">
                 <h6 className="mb-0 text-lg">Full Name</h6>
                 <div className="font-bold text-secondary text-md">
-                  {data &&
-                    data.body[0].user_full_name
-                      .split(" ")
-                      .map(
-                        (name) => name.charAt(0).toUpperCase() + name.slice(1)
-                      )
-                      .join(" ")}
+                  {data.body.user_full_name
+                    .split(" ")
+                    .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
+                    .join(" ")}
                 </div>
               </div>
 
               <div className="flex items-center gap-4 my-3">
                 <h6 className="mb-0 text-lg">Email</h6>
                 <div className="font-bold text-secondary text-md">
-                  {data.body[0].user_email}
+                  {data.body.user_email}
                 </div>
               </div>
 
               <div className="flex items-center gap-4 my-3">
                 <h6 className="mb-0 text-lg">Mobile</h6>
                 <div className="font-bold text-secondary text-md">
-                  {data.body[0].phone_number}
+                  {data.body.phone_number}
                 </div>
               </div>
 
               <div className="flex items-center gap-4 my-3">
                 <h6 className="mb-0 text-lg">Address</h6>
                 <div className="font-bold text-secondary text-md">
-                  {data.body[0].address.charAt(0).toUpperCase() +
-                    data.body[0].address.slice(1) +
+                  {data.body.address.charAt(0).toUpperCase() +
+                    data.body.address.slice(1) +
                     ", " +
-                    data.body[0].city.charAt(0).toUpperCase() +
-                    data.body[0].city.slice(1) +
+                    data.body.city.charAt(0).toUpperCase() +
+                    data.body.city.slice(1) +
                     ", " +
-                    data.body[0].country.charAt(0).toUpperCase() +
-                    data.body[0].country.slice(1)}
+                    data.body.country.charAt(0).toUpperCase() +
+                    data.body.country.slice(1)}
                 </div>
               </div>
             </div>
@@ -164,7 +169,7 @@ function ProfileContent() {
                 <div className="card-body">
                   <div className="calendar-container">
                     <Calendar
-                      value={data.body[0].user_email}
+                      value={userEmail || ""}
                       onClick={handleDateSelection}
                       onSelectDateTime={handleDateSelection}
                     />
@@ -177,6 +182,6 @@ function ProfileContent() {
       </div>
     </>
   );
-}
+};
 
 export default ProfileContent;

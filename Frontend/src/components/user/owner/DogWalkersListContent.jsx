@@ -6,58 +6,58 @@ import Rating from "react-rating-stars-component";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
-import { format } from "date-fns";
+import { useGetUserInfoQuery } from "../../tokenApi";
 
 function DogWalkerListContent() {
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const responseData = JSON.parse(localStorage.getItem("responseData"));
-  const user = JSON.parse(JSON.stringify(responseData.body[0]));
+  const { data } = useGetUserInfoQuery();
+  const user = data && data.body;
 
   // State variables for search criteria
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
-  const [distance, setDistance] = useState(0);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [distance, setDistance] = useState("");
   const [rating, setRating] = useState(null);
   const [price, setPrice] = useState(null);
   const [isSearch, setIsSearch] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  const url =
-    "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/search";
+  const url = "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/search";
 
   // Event handler for search button
   const handleSearch = async (e) => {
     e.preventDefault();
-    setIsSearch(false);
+
+    if (!startDate || !endDate) {
+      setShowModal(true);
+      return;
+    }
 
     const requestData = {
       distance_km: parseInt(distance),
-      start_time: startDate ? format(startDate, "yyyy-MM-dd HH:mm:ss") : "",
-      end_time: endDate ? format(endDate, "yyyy-MM-dd HH:mm:ss") : "",
+      start_time: startDate.toISOString(),
+      end_time: endDate.toISOString(),
       max_price: parseInt(price),
       min_rating: parseFloat(rating),
     };
-    console.log("requestData: " + JSON.stringify(requestData));
+
     const params = new URLSearchParams({ user_mail: user.user_email });
 
     try {
-      const response = await axios.post(
-        `${url}?${params}`,
-        JSON.stringify(requestData),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log("respone:" + JSON.stringify(response.data));
+      const response = await axios.post(`${url}?${params}`, JSON.stringify(requestData), {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
       localStorage.setItem("SearchResult", JSON.stringify(response.data));
+      setIsSearch(true);
+
+      if (response.data.length === 0) {
+        setShowModal(true);
+      }
     } catch (error) {
       console.log("Error message:", error.message);
     }
-
-    setIsSearch(true);
   };
 
   // Event handler for rating change
@@ -78,25 +78,6 @@ function DogWalkerListContent() {
   // Refs for date pickers
   const startDatePickerRef = useRef(null);
   const endDatePickerRef = useRef(null);
-
-  // rows.forEach((row) => {
-  //   const name = row.cells[1].textContent;
-
-  //   if (name.toLowerCase().includes(searchTerm.toLowerCase())) {
-  //     row.style.display = "";
-  //     rowCount++;
-  //   } else {
-  //     row.style.display = "none";
-  //   }
-  // });
-
-  // const message = rowCount === 0 ? "No records found." : "";
-
-  // const [startDate, setStartDate] = useState();
-  // const [endDate, setEndDate] = useState();
-
-  // const [startDate, setStartDate] = useState(null);
-  // const [selectedTime, setSelectedTime] = useState(null);
 
   return (
     <>
@@ -124,6 +105,7 @@ function DogWalkerListContent() {
                       className="btn w-[100px] btn-outline-secondary"
                       type="button"
                       onClick={openStartDatePicker}
+                      style={{ backgroundColor: "#03C9D7", color: "#ffffff" }}
                     >
                       From
                     </button>
@@ -142,6 +124,7 @@ function DogWalkerListContent() {
                       className="btn btn-outline-secondary w-[100px]"
                       type="button"
                       onClick={openEndDatePicker}
+                      style={{ backgroundColor: "#03C9D7", color: "#ffffff" }}
                     >
                       To
                     </button>
@@ -152,7 +135,7 @@ function DogWalkerListContent() {
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}
                     showTimeSelect
-                    dateFormat="yy-MM-dd HH:mm:ss"
+                    dateFormat="yyyy-MM-dd HH:mm:ss"
                     timeFormat="HH:mm:ss"
                     timeIntervals={1}
                     timeCaption="Time"
@@ -164,7 +147,7 @@ function DogWalkerListContent() {
                     selected={endDate}
                     onChange={(date) => setEndDate(date)}
                     showTimeSelect
-                    dateFormat="yy-MM-dd HH:mm:ss"
+                    dateFormat="yyyy-MM-dd HH:mm:ss"
                     timeFormat="HH:mm:ss"
                     timeIntervals={1}
                     timeCaption="Time"
@@ -175,14 +158,13 @@ function DogWalkerListContent() {
               </div>
               <form id="search-form">
                 <div className="grid grid-cols-1 sm:grid-te !p-3">
-                  {/* Rating  Section*/}
-
+                  {/* Rating Section*/}
                   <label className="!static !p-0 !my-0">
                     <Rating
                       count={5}
                       onChange={handleChange}
                       size={35}
-                      activeColor="#ffc107"
+                      activeColor="#8B4513"
                       filledIcon={
                         <div className="custom-icon">
                           <IoPawSharp />
@@ -197,7 +179,7 @@ function DogWalkerListContent() {
                     />
                   </label>
 
-                  {/* Price-Range */}
+                  {/* Price Range */}
                   <div className="mb-3">
                     <label htmlFor="Price-range" className="form-label"></label>
                     <input
@@ -207,9 +189,9 @@ function DogWalkerListContent() {
                       step="1"
                       value={price}
                       onChange={(e) => setPrice(e.target.value)}
-                      // class="form-control"
                       className="h-2 p-0 bg-gray-300 border-none outline-none focus:border-none focus:outline-none"
-                      id={"Price-range" + price} // save for back
+                      id={"Price-range" + price}
+                      style={{ backgroundColor: "#03C9D7" }}
                     />
                     <h4 className="mt-2">Price range ({price})</h4>
                   </div>
@@ -222,6 +204,7 @@ function DogWalkerListContent() {
                       onChange={(e) => {
                         setDistance(e.target.value);
                       }}
+                      style={{ backgroundColor: "#03C9D7", color: "#ffffff" }}
                     >
                       <option value={0}>Distance</option>
                       <option value={1}>1 km</option>
@@ -230,62 +213,53 @@ function DogWalkerListContent() {
                     </select>
                   </div>
 
-                  {/* Search btn */}
+                  {/* Search button */}
                   <div>
                     <button
                       type="submit"
-                      className="bg-[#03C9D7] px-8 text-white py-2.5 rounded-lg"
+                      className="mt-4 w-full"
                       onClick={handleSearch}
+                      style={{ backgroundColor: "#03C9D7", color: "#ffffff" }}
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width={24}
-                        height={24}
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="feather feather-search"
-                      >
-                        <circle cx={11} cy={11} r={8} />
-                        <line x1={21} y1={21} x2="16.65" y2="16.65" />
-                      </svg>
+                      Search
                     </button>
                   </div>
                 </div>
               </form>
-            </div>
-
-            {/*Result Section------ */}
-          </div>
-          <div className="row" style={{ marginTop: "-50px" }}>
-            <div className="col-12">
-              <div className="card card-margin">
-                <div className="card-body">
-                  <div className="row search-body">
-                    <div className="col-lg-12">
-                      <div className="search-result">
-                        <div
-                          className="result-body"
-                          style={{ height: "70vh", overflowY: "auto" }}
-                        >
-                          <div className="table-responsive">
-                            <table className="table widget-26">
-                              <tbody>{isSearch && ResultList()}</tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+              {isSearch && (
+                <div className="mt-8">
+                  {localStorage.getItem("SearchResult") && (
+                    <ResultList results={JSON.parse(localStorage.getItem("SearchResult"))} />
+                  )}
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
       </div>
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="modal-overlay" onClick={() => setShowModal(false)}></div>
+          <div className="modal-container bg-white w-1/3 rounded shadow-lg z-50">
+            <div className="modal-content py-4 px-6">
+              <div className="modal-header">
+                <h3 className="text-lg font-semibold">No results found</h3>
+              </div>
+              <div className="modal-body">
+                <p>Please adjust your search criteria and try again.</p>
+              </div>
+              <div className="modal-footer">
+                <button
+                  className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 focus:outline-none"
+                  onClick={() => setShowModal(false)}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

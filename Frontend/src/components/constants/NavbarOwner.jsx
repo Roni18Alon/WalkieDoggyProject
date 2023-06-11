@@ -1,14 +1,15 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { useStateContext } from "../../contexts/ContextProvider";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useGetUserInfoQuery } from "../tokenApi";
 
 const NavButton = ({ customFunc, icon, color, dotColor }) => (
   <button
     type="button"
     onClick={() => customFunc()}
-    style={{ color }}
+    style={{ color: color || "inherit" }}
     className="relative p-3 text-xl rounded-full hover:bg-light-gray"
   >
     <span
@@ -24,14 +25,15 @@ const Navbar = () => {
     currentColor,
     activeMenu,
     setActiveMenu,
-    handleClick,
     setScreenSize,
     screenSize,
   } = useStateContext();
 
+  const { data } = useGetUserInfoQuery();
+  const userImage = data && data.body && data.body.user_image;
+
+  const navigate = useNavigate();
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const responseData = JSON.parse(localStorage.getItem("responseData"));
 
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
@@ -53,8 +55,23 @@ const Navbar = () => {
     }
   }, [screenSize, setActiveMenu]);
 
+  const handleLogout = () => {
+    document.cookie =
+      "walkieDoggy=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    navigate("/");
+  };
+
+  // Check if data exists and contains the necessary properties
+  const userFullName =
+    data && data.body && data.body.user_full_name
+      ? data.body.user_full_name
+          .split(" ")
+          .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
+          .join(" ")
+      : "";
+
   return (
-    <div className="relative flex justify-between w-full p-2 ">
+    <div className="relative flex justify-between w-full p-2">
       <div className="flex items-center gap-4">
         <NavButton
           title="Menu"
@@ -63,7 +80,7 @@ const Navbar = () => {
           icon={<AiOutlineMenu />}
         />
         <Link className="text-3xl font-bold" to="/">
-          WalkieDoggy<span className=" text-primary">.</span>{" "}
+          WalkieDoggy<span className="text-primary">.</span>{" "}
         </Link>
       </div>
 
@@ -71,40 +88,25 @@ const Navbar = () => {
         <div className="relative flex items-center gap-2 p-1 rounded-lg cursor-pointer group hover:bg-light-gray">
           <img
             className="w-8 h-8 rounded-full"
-            src={
-              "http://localhost:3000/static/media/roni.9b135d7a803b49120cfc.png"
-            }
+            src={userImage}
             alt="user-profile"
           />
           <p>
             <span className="text-gray-400 text-14">Hi,</span>{" "}
             <span className="ml-1 font-bold text-gray-400 text-14">
-              {/* {responseData &&
-                                responseData.user_full_name &&
-                                responseData.user_full_name
-                                    .split(" ")
-                                    .map(
-                                        (name) =>
-                                            name.charAt(0).toUpperCase() +
-                                            name.slice(1)
-                                    )
-                                    .join(" ")} */}
-              {responseData.body[0].user_full_name
-                .split(" ")
-                .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
-                .join(" ")}
+              {userFullName}
             </span>
           </p>
           <MdKeyboardArrowDown className="text-gray-400 text-14" />
           <ul className="absolute top-[100%] box-shadow hidden bg-white group-hover:block">
             <li>
-              <Link class="dropdown-item" to="/Profile">
+              <Link className="dropdown-item" to="/Profile">
                 Profile
               </Link>
-              <div class="dropdown-divider"></div>
-              <Link class="dropdown-item" to="/">
+              <div className="dropdown-divider"></div>
+              <button className="dropdown-item" onClick={handleLogout}>
                 Logout
-              </Link>
+              </button>
             </li>
           </ul>
         </div>

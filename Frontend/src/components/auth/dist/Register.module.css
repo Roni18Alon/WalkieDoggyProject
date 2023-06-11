@@ -12,3 +12,30 @@
     -webkit-border-radius: 20px;
     -o-border-radius: 20px;
     -ms-border-radius: 20px; }
+
+
+    .pictureLabel {
+        display: flex;
+        align-items: center;
+        margin-right: 10px;
+      }
+      
+      
+      .pictureInput {
+        margin-left: 10px;
+      }
+
+
+      .form-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      
+      .form-group label {
+        margin-right: 10px;
+      }
+      
+      .form-group input[type="file"] {
+        flex-grow: 1;
+      }

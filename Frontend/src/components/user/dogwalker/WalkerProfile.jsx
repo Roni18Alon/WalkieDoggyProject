@@ -6,10 +6,12 @@ import '../owner/owner.module.css';
 import SidebarWalker from '../owner/SidebarWalker';
 import NavbarWalker from '../../constants/NavbarWalker';
 import { useStateContext } from '../../../contexts/ContextProvider';
+import { useGetUserInfoQuery } from '../../tokenApi';
 
 function WalkerProfile() {
-   
-
+    
+    const {data:requestData} = useGetUserInfoQuery();
+    console.log(requestData);
     const { activeMenu } = useStateContext();
 
     return (
