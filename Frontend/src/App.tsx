@@ -9,7 +9,7 @@ import WalkerProfile from "./components/user/dogwalker/WalkerProfile";
 import WalkerProfileForUser from "./components/user/dogwalker/WalkerProfileForUser";
 import RegisterDogWalker from "./components/auth/RegisterDogWalker";
 import RegisterDogOwner from "./components/auth/RegisterDogOwner";
-import LoginDowOwner from "./components/auth/LoginDogOwner";
+import LoginDogOwner from "./components/auth/LoginDogOwner";
 import LoginDogWalker from "./components/auth/LoginDogWalker";
 import HomeOwner from "./components/pages/home/HomeOwner";
 import HomeWalker from "./components/pages/home/HomeWalker";
@@ -32,7 +32,7 @@ function App() {
           <Route path="/HomeWalker" element={<HomeWalker />} />
           <Route path="/RegisterDogWalker" element={<RegisterDogWalker />} />
           <Route path="/RegisterDogOwner" element={<RegisterDogOwner />} />
-          <Route path="/LoginDogOwner" element={<LoginDowOwner />} />
+          <Route path="/LoginDogOwner" element={<LoginDogOwner />} />
           <Route path="/LoginDogWalker" element={<LoginDogWalker />} />
           <Route path="/Profile" element={<Profile />} />
           <Route path="/WalkerProfile" element={<WalkerProfile />} />

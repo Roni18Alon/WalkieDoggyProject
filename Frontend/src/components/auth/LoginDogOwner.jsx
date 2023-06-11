@@ -1,30 +1,36 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../authApi";
-import {useGetUserInfoQuery} from "../tokenApi"
+import { useGetUserInfoQuery } from "../tokenApi";
 import signin from "./dist/images/sign_in.png";
+import ReportIcon from "@mui/icons-material/Report";
 
 const LoginDogOwner = () => {
+  const [modalText, setModalText] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalCloseText, setModalCloseText] = useState("");
+  const [modalIcon, setModalIcon] = useState("</ReportIcon>");
   const navigate = useNavigate();
   const loginMutation = useLoginMutation((response) => {
-    console.log(response);
-    console.log(response);
-    console.log(response);
-    console.log(response+ "hhhhhhhhhhhhhhhhhhhhhhhhhhh");
     // Route to the profile page
     navigate("/Profile");
-    navigate("/AddDog");  
   });
-
+  const checkData = useGetUserInfoQuery();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const checkData = useGetUserInfoQuery();
-  console.log(checkData)
   const handleSubmit = (event) => {
     event.preventDefault();
-    loginMutation.mutate({ user_email: email, password });
-    console.log("this is ,ail: " + email);
+    if (!email || !password) {
+      // Show error dialog if any parameter is empty
+      setModalText("Please fill in all the required fields.");
+      setIsModalOpen(true);
+      setModalCloseText("Close");
+      setModalIcon(<ReportIcon />);
+    } else {
+      loginMutation.mutate({ user_email: email, password });
+      console.log("this is email: " + email);
+    }
   };
 
   return (

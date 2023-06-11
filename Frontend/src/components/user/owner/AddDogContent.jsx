@@ -13,11 +13,11 @@ import { useNavigate } from "react-router-dom";
 import { useGetUserInfoQuery } from "../../tokenApi";
 
 function AddDogContent() {
-    const checkData  = useGetUserInfoQuery();
-    console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
-    console.log(checkData.data.body[0])
-    console.log(checkData.data)
-    const { data: responseData } = useGetUserQuery();
+
+
+    const { data: responseData } = useGetUserInfoQuery();
+    console.log(responseData?.body?.user_email);
+
 
     //Birthday arrays:
     const days = [
@@ -97,7 +97,14 @@ function AddDogContent() {
             human_friendly: hFriendly,
             dog_friendly: DFriendly,
         };
-
+        if (!name || !breed || !Weight || !bithDay || !bithMonth || !bithYear) {
+            // Show error dialog if any parameter is empty
+            setModalText("Please fill in all the required fields.");
+            setIsModalOpen(true);
+            setModalCloseText("Close");
+            setModalIcon(<ReportIcon />);
+            return;
+          }
         addDog({ ...newDog, user_email: responseData.body[0].user_email});
     };
 

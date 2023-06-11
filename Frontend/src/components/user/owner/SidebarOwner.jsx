@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-
 import { Link, useLocation } from "react-router-dom";
 
 function SidebarOwner() {
@@ -23,6 +22,7 @@ function SidebarOwner() {
   const isActive = (path) => {
     return activePage === path;
   };
+
   return (
     <div
       className="col-12 col-md-3 col-md-3-profile p-0"
@@ -106,7 +106,7 @@ function SidebarOwner() {
                 className="icon icon-user"
                 style={{ marginLeft: "4px", marginRight: "23px" }}
               />
-              Profile
+              <span className="sidebar-link-text">Profile</span>
             </span>
           </Link>
         </li>
@@ -122,7 +122,7 @@ function SidebarOwner() {
           >
             <span className="d-flex jusitfy-content-center">
               <span className="icon fa-solid fa-pen-to-square" />
-              Edit Profile
+              <span className="sidebar-link-text">Edit Profile</span>
             </span>
           </Link>
         </li>
@@ -138,7 +138,7 @@ function SidebarOwner() {
           >
             <span className="d-flex jusitfy-content-center">
               <span className="icon fa-solid fa-handshake" />
-              Future Meetings
+              <span className="sidebar-link-text">Future Meetings</span>
             </span>
           </Link>
         </li>
@@ -154,7 +154,7 @@ function SidebarOwner() {
           >
             <span className="d-flex jusitfy-content-center">
               <span className="icon icon-search" />
-              History
+              <span className="sidebar-link-text">History</span>
             </span>{" "}
             <i className=""></i>
           </Link>
@@ -171,7 +171,7 @@ function SidebarOwner() {
           >
             <span className="d-flex jusitfy-content-center">
               <span className="icon icon-calendar" />
-              History
+              <span className="sidebar-link-text">History</span>
             </span>{" "}
             <i className=""></i>
           </Link>

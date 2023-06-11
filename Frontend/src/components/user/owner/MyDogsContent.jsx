@@ -1,77 +1,111 @@
-import dog1 from "./images/2.jfif";
+import React from "react";
 import { useGetUserInfoQuery } from "../../tokenApi";
+import Carousel from "react-material-ui-carousel";
+import { makeStyles } from "@material-ui/core/styles";
+import dog1 from "./images/2.jfif";
+import Button from "@material-ui/core/Button";
 
-import {
-  TableContainer,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-} from "@mui/material";
+const useStyles = makeStyles({
+  carouselContainer: {
+    backgroundColor: "#f8f8f8",
+    minHeight: "calc(100vh - 100px)", // Adjust the height to leave some space at the bottom
+    padding: "0",
+  },
+  cardContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "400px",
+    background: "#ffffff",
+    borderRadius: "10px",
+    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+    padding: "20px",
+  },
+  dogImage: {
+    width: "200px",
+    height: "200px",
+    borderRadius: "50%",
+    overflow: "hidden",
+    marginBottom: "20px",
+  },
+  dogName: {
+    fontWeight: "bold",
+    fontSize: "24px",
+    marginBottom: "8px",
+  },
+  dogAge: {
+    fontSize: "18px",
+  },
+  buttonContainer: {
+    display: "flex",
+    justifyContent: "center",
+    marginTop: "20px",
+  },
+  dogButton: {
+    margin: "0 10px",
+  },
+});
 
 function MyDogsContent() {
-  const { data } = useGetUserInfoQuery;
-  console.log(data.body[0]);
+  const classes = useStyles();
+  const { data } = useGetUserInfoQuery();
 
-  return (
-    <>
-      <div
-        className=""
-        style={{
-          backgroundColor: "#f8f8f8",
-          minHeight: "100vh",
-        }}
-      >
-        <div className="container p-0 md:p-4 !py-[100px] md:!py-4">
-          <div className="">
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {/* Single Advisor*/}
-              <TableContainer>
-                <Table>
-                  <TableBody>
-                    {(data.body[0].dogs|| []).map((dog, i) => (
-                      <TableRow key={dog.id}>
-                        <TableCell>
-                          <div
-                            className="transition border border-opacity-25 rounded-lg cursor-pointer box-shadow_ wow fadeInUp hover:shadow hover:scale-105 group"
-                            data-wow-delay="0.5s"
-                            style={{
-                              visibility: "visible",
-                              animationDelay: "0.5s",
-                              animationName: "fadeInUp",
-                            }}
-                          >
-                            {/* Team Thumb*/}
-                            <div className="advisor_thumb h-[220px] rounded-t-lg overflow-hidden">
-                              <img
-                                src={dog1}
-                                alt=""
-                                className="object-cover w-full h-full"
-                              />
-                              {/* Social Info*/}
-                            </div>
-                            {/* Team Details*/}
-                            <div className="p-2 ">
-                              <h6 className="mt-3 font-semibold text-black text-md">
-                                {dog.dog_name}
-                              </h6>
-                              <p className="mt-1 text-sm line-clamp-2">
-                                Age: {dog.dog_age}
-                              </p>
-                            </div>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </div>
-          </div>
+  const dogs = data?.body?.dogs || [];
+
+  const renderDogCards = () => {
+    return dogs.map((dog) => (
+      <div key={dog.id} className={classes.cardContainer}>
+        <div className={classes.dogImage}>
+          <img
+            src={dog1}
+            alt={dog.dog_name}
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        </div>
+        <h6 className={classes.dogName}>{dog.dog_name}</h6>
+        <p className={classes.dogAge}>Age: {dog.dog_age}</p>
+        <div className={classes.buttonContainer}>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.dogButton}
+            onClick={() => handleDogButtonClick(dog.id)}
+          >
+            View Details
+          </Button>
         </div>
       </div>
-    </>
+    ));
+  };
+
+  const handleDogButtonClick = (dogId) => {
+    // Handle the button click event for a specific dog
+    console.log("Dog ID:", dogId);
+  };
+
+  return (
+    <div className={classes.carouselContainer}>
+      <div className="container p-0 md:p-4 !py-[100px] md:!py-4">
+        <Carousel
+          animation="slide"
+          navButtonsAlwaysVisible
+          autoPlay={false}
+          indicators={false}
+          timeout={500}
+          navButtonsProps={{
+            style: {
+              backgroundColor: "transparent",
+              color: "#000000",
+              borderRadius: "50%",
+              margin: "0 10px",
+            },
+          }}
+        >
+          {renderDogCards()}
+        </Carousel>
+      </div>
+    </div>
   );
 }
 

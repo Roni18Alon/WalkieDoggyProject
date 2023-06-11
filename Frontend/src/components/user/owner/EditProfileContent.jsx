@@ -3,15 +3,13 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useEditProfileMutation } from '../../editApi';
-import { useGetUserQuery } from "../../authApi";
-
-
+import { useGetUserInfoQuery } from "../../tokenApi";
+//import ReportIcon from "@mui/icons-material/Report";
 
 function EditProfileContent() {
-  
   const navigate = useNavigate();
-  const { data } = useGetUserQuery();
-  const user = data.body[0];
+  const { data: responseData, isLoading, isError } = useGetUserInfoQuery();
+  const user = responseData?.body; // Add nullish coalescing operator to handle undefined responseData
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
@@ -19,16 +17,31 @@ function EditProfileContent() {
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");
   const [zip, setZip] = useState("");
+  // const [modalText, setModalText] = useState("");
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [modalCloseText, setModalCloseText] = useState("");
+  // const [modalIcon, setModalIcon] = useState("</ReportIcon>");
 
   const editProfileMutation = useEditProfileMutation((response) => {
     // Handle success, if needed
     console.log(response);
     navigate('/Profile'); // Example: navigate to the profile page
   });
-  
 
-  const handleEditProfile = async (e) => {
+  const handleEditProfile = (e) => {
     e.preventDefault();
+    
+
+    // // Parameter check
+    // if (!firstName || !lastName || !phoneNumber || !country || !city || !address || !zip) {
+    //         // Show error dialog if any parameter is empty
+    //         setModalText("Please fill in all the required fields.");
+    //         setIsModalOpen(true);
+    //         setModalCloseText("Close");
+    //         setModalIcon(<ReportIcon />);
+    //         return;
+    // }
+
     const requestData = {
       address: address,
       city: city,
@@ -38,9 +51,20 @@ function EditProfileContent() {
       user_name: firstName,
       zip: zip,
     };
+    console.log(requestData);
+    console.log(requestData);
+    console.log(requestData);
+
     editProfileMutation.mutate(requestData);
   };
-  
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error occurred while fetching user data.</div>;
+  }
 
   return (
     <>
@@ -58,21 +82,21 @@ function EditProfileContent() {
               <div className="text-lg font-bold -mt-[40px]">
                 <input
                   type="text"
-                  defaultValue={user.user_name}
+                  defaultValue={user?.user_name}
                   onInput={(e) => setFirstName(e.target.value)}
                 />
               </div>
               <div className="text-lg font-bold -mt-[0px]">
                 <input
                   type="text"
-                  defaultValue={user.user_last_name}
+                  defaultValue={user?.user_last_name}
                   onInput={(e) => setLastName(e.target.value)}
                 />
               </div>
               <div className="text-lg font-bold -mt[40px]">
                 <input
                   type="text"
-                  defaultValue={user.phone_number}
+                  defaultValue={user?.phone_number}
                   onInput={(e) => setPhoneNumber(e.target.value)}
                 />
               </div>
@@ -80,8 +104,8 @@ function EditProfileContent() {
                 <input
                   type="text"
                   defaultValue={
-                    data.body[0].country.charAt(0).toUpperCase() +
-                    data.body[0].country.slice(1)
+                    user?.country.charAt(0).toUpperCase() +
+                    user?.country.slice(1)
                   }
                   onInput={(e) => setCountry(e.target.value)}
                 />
@@ -89,14 +113,14 @@ function EditProfileContent() {
               <div className="text-lg font-bold -mt[120px]">
                 <input
                   type="text"
-                  defaultValue={user.city}
+                  defaultValue={user?.city}
                   onInput={(e) => setCity(e.target.value)}
                 />
               </div>
               <div className="text-lg font-bold -mt[160px]">
                 <input
                   type="text"
-                  defaultValue={user.address}
+                  defaultValue={user?.address}
                   onInput={(e) => setAddress(e.target.value)}
                 />
               </div>
@@ -104,17 +128,17 @@ function EditProfileContent() {
                 <input
                   type="text"
                   className="text"
-                  defaultValue={user.zip}
+                  defaultValue={user?.zip}
                   onInput={(e) => setZip(e.target.value)}
                 />
               </div>
-              <Link
-                className="bg-[#03C9D7] mt-4 inline-block px-6 py-2 text-white rounded-md"
-                to="/Profile"
-                onClick={handleEditProfile}
-              >
-                Save changes
-              </Link>
+              <button
+  className="bg-[#03C9D7] mt-4 inline-block px-6 py-2 text-white rounded-md"
+  onClick={handleEditProfile}
+>
+  Save changes
+</button>
+
             </div>
           </div>
         </div>

@@ -2,50 +2,37 @@ import React, { useState } from "react";
 import "./dist/Register.css";
 import styles from "./dist/Register.module.css";
 import signin from "./dist/images/sign_in.png";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import { useLoginMutation } from "../authApi";
+import { useGetUserInfoQuery } from "../tokenApi";
+import ReportIcon from "@mui/icons-material/Report";
 
 const LoginDogWalker = () => {
-  const [username, setUsername] = useState("");
+  const [modalText, setModalText] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalCloseText, setModalCloseText] = useState("");
+  const [modalIcon, setModalIcon] = useState("</ReportIcon>");
+  const navigate = useNavigate();
+  const loginMutation = useLoginMutation((response) => {
+    // Route to the profile page
+    navigate("/Profile");
+  });
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleFormSubmit = (e) => {
-    console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
-    console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
-    console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
-    console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
-
     e.preventDefault();
-
-    // Make a POST request using Axios
-    axios
-      .post(
-        " https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/login",
-        {
-          username: username,
-          password: password,
-        }
-      )
-      .then((response) => {
-        // Handle the response data
-        console.log("Response:", response.data);
-        console.log("Response:", response.data);
-        console.log("Response:", response.data);
-        console.log("Response:", response.data);
-
-        console.log("Response:", response.data);
-        console.log("Response:", response.data);
-        console.log("Response:", response.data);
-        console.log("Response:", response.data);
-        console.log("Response:", response.data);
-        console.log("Response:", response.data);
-        console.log("Response:", response.data);
-        console.log("Response:", response.data);
-      })
-      .catch((error) => {
-        // Handle the error
-        console.error("Error:", error);
-      });
+    if (!email || !password) {
+      // Show error dialog if any parameter is empty
+      setModalText("Please fill in all the required fields.");
+      setIsModalOpen(true);
+      setModalCloseText("Close");
+      setModalIcon(<ReportIcon />);
+    } else {
+      loginMutation.mutate({ user_email: email, password });
+      console.log("this is email: " + email);
+      navigate("/WalkerProfile")
+    }
   };
   return (
     <div className="wrapper">
@@ -87,7 +74,7 @@ const LoginDogWalker = () => {
                         placeholder="Your Name"
                         required
                         pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={(e) => setEmail(e.target.value)}
                       />
                     </div>
                     <div className="form-group">

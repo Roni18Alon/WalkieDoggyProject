@@ -1,14 +1,15 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { Link, useLocation } from "react-router-dom";
+import { useGetUserInfoQuery } from "../tokenApi";
 
 const NavButton = ({ customFunc, icon, color, dotColor }) => (
   <button
     type="button"
     onClick={() => customFunc()}
-    style={{ color }}
+    style={{ color: color || "inherit" }} // Set a default value if color is not provided
     className="relative p-3 text-xl rounded-full hover:bg-light-gray"
   >
     <span
@@ -24,14 +25,11 @@ const Navbar = () => {
     currentColor,
     activeMenu,
     setActiveMenu,
-    handleClick,
     setScreenSize,
     screenSize,
   } = useStateContext();
 
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const responseData = JSON.parse(localStorage.getItem("responseData"));
+  const { data: responseData } = useGetUserInfoQuery();
 
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
@@ -53,6 +51,15 @@ const Navbar = () => {
     }
   }, [screenSize, setActiveMenu]);
 
+  // Check if responseData exists and contains the necessary properties
+  const userFullName =
+    responseData && responseData.body && responseData.body.user_full_name
+      ? responseData.body.user_full_name
+          .split(" ")
+          .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
+          .join(" ")
+      : "";
+
   return (
     <div className="relative flex justify-between w-full p-2 ">
       <div className="flex items-center gap-4">
@@ -63,7 +70,7 @@ const Navbar = () => {
           icon={<AiOutlineMenu />}
         />
         <Link className="text-3xl font-bold" to="/">
-          WalkieDoggy<span className=" text-primary">.</span>{" "}
+          WalkieDoggy<span className="text-primary">.</span>{" "}
         </Link>
       </div>
 
@@ -79,30 +86,17 @@ const Navbar = () => {
           <p>
             <span className="text-gray-400 text-14">Hi,</span>{" "}
             <span className="ml-1 font-bold text-gray-400 text-14">
-              {/* {responseData &&
-                                responseData.user_full_name &&
-                                responseData.user_full_name
-                                    .split(" ")
-                                    .map(
-                                        (name) =>
-                                            name.charAt(0).toUpperCase() +
-                                            name.slice(1)
-                                    )
-                                    .join(" ")} */}
-              {responseData.body[0].user_full_name
-                .split(" ")
-                .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
-                .join(" ")}
+              {userFullName}
             </span>
           </p>
           <MdKeyboardArrowDown className="text-gray-400 text-14" />
           <ul className="absolute top-[100%] box-shadow hidden bg-white group-hover:block">
             <li>
-              <Link class="dropdown-item" to="/Profile">
+              <Link className="dropdown-item" to="/Profile">
                 Profile
               </Link>
-              <div class="dropdown-divider"></div>
-              <Link class="dropdown-item" to="/">
+              <div className="dropdown-divider"></div>
+              <Link className="dropdown-item" to="/">
                 Logout
               </Link>
             </li>

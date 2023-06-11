@@ -5,12 +5,13 @@ import signup from "./dist/images/sign_up.png";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import GoogleAutocomplete from "react-google-autocomplete";
+import ReportIcon from "@mui/icons-material/Report";
 
 const RegisterDogOwner = () => {
-
   const handleAddressSelect = (address) => {
     setAddress(address);
   };
+
   // State to store the user parameters
   const [phone, setPhone] = useState("");
   const [isValid, setIsValid] = useState(true);
@@ -22,6 +23,32 @@ const RegisterDogOwner = () => {
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
   const [zip, setZip] = useState("");
+  const [modalText, setModalText] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalCloseText, setModalCloseText] = useState("");
+  const [modalIcon, setModalIcon] = useState("</ReportIcon>");
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (
+      !userName ||
+      !userEmail ||
+      !userLastName ||
+      !password ||
+      !address ||
+      !zip ||
+      !city ||
+      !phone
+    ) {
+      setModalText("Please fill in all the required fields.");
+      setIsModalOpen(true);
+      setModalCloseText("Close");
+      setModalIcon(<ReportIcon />);
+    } else {
+      postData();
+    }
+  };
 
   const postData = async () => {
     const url =
@@ -86,6 +113,7 @@ const RegisterDogOwner = () => {
                   method="POST"
                   className="register-form"
                   id="register-form"
+                  onSubmit={handleSubmit}
                 >
                   {/* User name */}
                   <div className="form-group">
@@ -154,14 +182,12 @@ const RegisterDogOwner = () => {
                       <i className="zmdi zmdi-home" />
                     </label>
                     <GoogleAutocomplete
-                      apiKey="AIzaSyDsq09ATa2cc1TlmbLQrqJSwaFpyblnJAI"
+                      apiKey="YOUR_API_KEY"
                       selectProps={{
                         value: address,
                         onChange: handleAddressSelect,
                         placeholder: "Address",
                         required: true,
-                        value: {address},
-                        onChange: handleAddressSelect,
                       }}
                     />
                   </div>
@@ -244,16 +270,13 @@ const RegisterDogOwner = () => {
                     </label>
                   </div>
                   <div className="form-group form-button">
-                    <Link to="/Profile">
-                      <input
-                        type="submit"
-                        name="signup"
-                        id="signup"
-                        className="form-submit"
-                        defaultValue="Register"
-                        onClick={postData}
-                      />
-                    </Link>
+                    <input
+                      type="submit"
+                      name="signup"
+                      id="signup"
+                      className="form-submit"
+                      defaultValue="Register"
+                    />
                   </div>
                 </form>
               </div>
@@ -276,6 +299,7 @@ const RegisterDogOwner = () => {
         {/* Sing in  Form */}
       </div>
     </div>
+
   );
 };
 
