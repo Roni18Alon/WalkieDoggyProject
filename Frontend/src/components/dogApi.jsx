@@ -1,8 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
 
+
 const ROUTE = 'dog';
 const url = "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register-dog";
+
 
 const addDog = async ({ user_email, ...newDog }) => {
   // Replace with your actual API endpoint URL
@@ -26,7 +28,7 @@ const addDog = async ({ user_email, ...newDog }) => {
   }
 }
 
-export const useAddDogMutation = (onSuccess) =>
+export const useAddDogMutation = (onSuccess, onE) =>
   useMutation({
     mutationFn: addDog,
     onSuccess

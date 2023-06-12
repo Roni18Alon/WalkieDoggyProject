@@ -28,10 +28,6 @@ const RegisterDogWalker = () => {
   const [picture, setPicture] = useState(null); // State to store the selected picture file
   const navigate = useNavigate();
 
-  const handleAddressSelect = (address) => {
-    setAddress(address);
-  };
-
   const handlePhoneChange = (e) => {
     const inputValue = e.target.value;
     let formattedValue = inputValue.replace(/[^0-9]/g, ""); // Remove non-numeric characters
@@ -126,8 +122,16 @@ const RegisterDogWalker = () => {
       else {
         reportModal("Error: Invalid response from server.");
       }
-    } catch (error) {
-      reportModal(`Error: ${error.message}`);
+    }  catch (error) {
+      if(error.message == "Request failed with status code 406" ){
+        reportModal("Invalid Address , Please Try Again ");
+      } 
+      else if(error.message == "Request failed with status code 402" ){
+        reportModal("The user already exists");
+      } 
+      else {
+        reportModal(error.message);
+      }
     }
   };
 
