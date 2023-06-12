@@ -21,7 +21,7 @@ const LoginDogWalker = () => {
       if (error.message === "Error: User not exists or password invalid") {
         reportModal("User does not exist or the password is invalid");
       } else {
-        reportModal(error.message);
+        reportModal("User does not exist or the password is invalid");
       }
     }
   );

@@ -120,7 +120,10 @@ const RegisterDogWalker = () => {
 
       if (res.status === 200) {
         navigate("/LoginDogWalker"); // replace with your login page route
-      } else {
+      }else if(res.status == 406 ){
+        reportModal("Invalid Address , Please Try Again ")
+      }  
+      else {
         reportModal("Error: Invalid response from server.");
       }
     } catch (error) {
@@ -205,40 +208,6 @@ const RegisterDogWalker = () => {
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="Address">
-                      <i className="zmdi zmdi-home" />
-                    </label>
-                    <PlacesAutocomplete
-                      value={address}
-                      onChange={setAddress}
-                      onSelect={handleAddressSelect}
-                      apiKey="AIzaSyAMtdGhYZfpWVoO45JBPghp2GOK4yLuFl4" // Replace with your actual API key
-                    >
-                      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-                        <div>
-                          <input
-                            {...getInputProps({
-                              placeholder: "Address",
-                              required: true,
-                              className: "form-control",
-                            })}
-                          />
-                          <div className="suggestions">
-                            {loading && <div>Loading...</div>}
-                            {suggestions.map((suggestion) => (
-                              <div
-                                {...getSuggestionItemProps(suggestion)}
-                                key={suggestion.placeId}
-                              >
-                                {suggestion.description}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </PlacesAutocomplete>
-                  </div>
-                  <div className="form-group">
                     <label htmlFor="phone_number">
                       <i className="zmdi zmdi-phone" />
                     </label>
@@ -252,6 +221,21 @@ const RegisterDogWalker = () => {
                       onChange={handlePhoneChange}
                     />
                   </div>
+                  <div className="form-group">
+                    <label htmlFor="Country">
+                      <i className="zmdi zmdi-home" />
+                    </label>
+                    <input
+                      type="text"
+                      name="Address"
+                      id="Address"
+                      placeholder="Address"
+                      required
+                      value={country}
+                      onChange={(e) => setCountry(e.target.value)}
+                    />
+                  </div>
+
                   <div className="form-group">
                     <label htmlFor="Country">
                       <i className="zmdi zmdi-home" />

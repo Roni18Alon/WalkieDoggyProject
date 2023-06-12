@@ -198,23 +198,31 @@ const ProfileContent = () => {
     <>
       <div style={{ backgroundColor: "#f8f8f8" }}>
         <div className="md:p-4 !py-[100px] md:!py-4 m-3">
-          <div className="p-4 max-w-[900px] mx-auto_ mb-10 flex gap-6 flex-col lg:flex-row bg-white rounded-lg box-shadow">
-            <div className="md:p-4 !py-[100px] md:!py-4 m-3">
-              {userImage && (
-                <img
-                  src={userImage}
-                  alt="Admin"
-                  className="p-1 -translate-y-1/2 rounded-circle "
-                  width={130}
-                />
-              )}
-              <h3 className="text-lg font-bold -mt-[40px]">
-                {data.body.user_full_name
-                  .split(" ")
-                  .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
-                  .join(" ")}
-              </h3>
+
+          <div className="p-4 max-w-[900px] mx-auto_ mb-10 flex flex-col md:flex-row bg-white rounded-lg box-shadow">
+            <div className="md:w-1/3">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="relative w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40">
+                  <img
+ {userImage && (
+                    src={userImage}
+                    alt="Admin"
+                    className="object-cover w-full h-full rounded-full"
+                    style={{ objectPosition: "center top" }}
+                  />
+)}
+                </div>
+
+              </div>
+              <h3 className="text-lg font-bold">
+                  {data.body.user_full_name
+                    .split(" ")
+                    .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
+                    .join(" ")}
+                </h3>
+
               <div className="flex gap-4 my-2">
+
                 <p className="mb-1">Dog Owner</p>-
                 <p className="flex items-center gap-2 text-muted font-size-sm">
                   <svg
@@ -252,44 +260,46 @@ const ProfileContent = () => {
               </Link>
             </div>
 
-            <hr className="my-6 opacity-40" />
+            <div className="md:w-2/3">
+              <hr className="my-6 opacity-40" />
 
-            <div className="">
-              <div className="flex items-center gap-4 my-3">
-                <h6 className="mb-0 text-lg">Full Name</h6>
-                <div className="font-bold text-secondary text-md">
-                  {data.body.user_full_name
-                    .split(" ")
-                    .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
-                    .join(" ")}
+              <div className="">
+                <div className="flex items-center gap-4 my-3">
+                  <h6 className="mb-0 text-lg">Full Name</h6>
+                  <div className="font-bold text-secondary text-md">
+                    {data.body.user_full_name
+                      .split(" ")
+                      .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
+                      .join(" ")}
+                  </div>
                 </div>
-              </div>
 
-              <div className="flex items-center gap-4 my-3">
-                <h6 className="mb-0 text-lg">Email</h6>
-                <div className="font-bold text-secondary text-md">
-                  {data.body.user_email}
+                <div className="flex items-center gap-4 my-3">
+                  <h6 className="mb-0 text-lg">Email</h6>
+                  <div className="font-bold text-secondary text-md">
+                    {data.body.user_email}
+                  </div>
                 </div>
-              </div>
 
-              <div className="flex items-center gap-4 my-3">
-                <h6 className="mb-0 text-lg">Mobile</h6>
-                <div className="font-bold text-secondary text-md">
-                  {data.body.phone_number}
+                <div className="flex items-center gap-4 my-3">
+                  <h6 className="mb-0 text-lg">Mobile</h6>
+                  <div className="font-bold text-secondary text-md">
+                    {data.body.phone_number}
+                  </div>
                 </div>
-              </div>
 
-              <div className="flex items-center gap-4 my-3">
-                <h6 className="mb-0 text-lg">Address</h6>
-                <div className="font-bold text-secondary text-md">
-                  {data.body.address.charAt(0).toUpperCase() +
-                    data.body.address.slice(1) +
-                    ", " +
-                    data.body.city.charAt(0).toUpperCase() +
-                    data.body.city.slice(1) +
-                    ", " +
-                    data.body.country.charAt(0).toUpperCase() +
-                    data.body.country.slice(1)}
+                <div className="flex items-center gap-4 my-3">
+                  <h6 className="mb-0 text-lg">Address</h6>
+                  <div className="font-bold text-secondary text-md">
+                    {data.body.address.charAt(0).toUpperCase() +
+                      data.body.address.slice(1) +
+                      ", " +
+                      data.body.city.charAt(0).toUpperCase() +
+                      data.body.city.slice(1) +
+                      ", " +
+                      data.body.country.charAt(0).toUpperCase() +
+                      data.body.country.slice(1)}
+                  </div>
                 </div>
               </div>
             </div>

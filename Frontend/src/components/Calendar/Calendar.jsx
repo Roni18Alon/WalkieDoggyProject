@@ -4,7 +4,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import FullCalendar from "@fullcalendar/react";
 import interactionPlugin from "@fullcalendar/interaction";
 import dayjs from "dayjs";
-import { Modal, TextField, Button } from "@material-ui/core";
+import { Modal, TextField, Button, Select, MenuItem } from "@material-ui/core";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -195,16 +195,16 @@ const Calendar = () => {
         <label style={{ position: "static" }} className="text-gray-500 text-md">
           Select Duration:
         </label>
-        <select
+        <Select
           className="inline-block -mt-4 w-[150px]"
           value={selectedDuration}
           onChange={handleDurationChange}
         >
-          <option value={10}>10 minutes</option>
-          <option value={20}>20 minutes</option>
-          <option value={50}>50 minutes</option>
-          <option value={1440}>Full day</option>
-        </select>
+          <MenuItem value={10}>10 minutes</MenuItem>
+          <MenuItem value={20}>20 minutes</MenuItem>
+          <MenuItem value={50}>50 minutes</MenuItem>
+          <MenuItem value={1440}>Full day</MenuItem>
+        </Select>
       </div>
 
       <FullCalendar

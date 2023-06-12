@@ -27,16 +27,27 @@ function DogWalkerListContent() {
   // Event handler for search button
   const handleSearch = async (e) => {
     e.preventDefault();
-
+    
     if (!startDate || !endDate) {
       setShowModal(true);
       return;
     }
 
+    const formatDate = (date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      const hours = String(date.getHours()).padStart(2, "0");
+      const minutes = String(date.getMinutes()).padStart(2, "0");
+      const seconds = String(date.getSeconds()).padStart(2, "0");
+      
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    };
+
     const requestData = {
       distance_km: parseInt(distance),
-      start_time: startDate.toISOString(),
-      end_time: endDate.toISOString(),
+      start_time: formatDate(startDate),
+      end_time: formatDate(endDate),
       max_price: parseInt(price),
       min_rating: parseFloat(rating),
     };
@@ -54,6 +65,7 @@ function DogWalkerListContent() {
         }
       );
 
+      console.log(requestData);
       localStorage.setItem("SearchResult", JSON.stringify(response.data));
       setIsSearch(true);
 
@@ -184,22 +196,23 @@ function DogWalkerListContent() {
                     />
                   </label>
 
-                  {/* Price Range */}
-                  <div className="mb-3">
-                    <label htmlFor="Price-range" className="form-label"></label>
-                    <input
-                      type="range"
-                      min="0"
-                      max="100"
-                      step="1"
-                      value={price}
-                      onChange={(e) => setPrice(e.target.value)}
-                      className="h-2 p-0 bg-gray-300 border-none outline-none focus:border-none focus:outline-none"
-                      id={"Price-range" + price}
-                      style={{ backgroundColor: "#03C9D7" }}
-                    />
-                    <h4 className="mt-2">Price range ({price})</h4>
-                  </div>
+{/* Price Range */}
+<div className="mb-3">
+  <label htmlFor="Price-range" className="form-label"></label>
+  <input
+    type="range"
+    min="0"
+    max="100"
+    step="1"
+    value={price}
+    onChange={(e) => setPrice(e.target.value)}
+    className="h-2 p-0 bg-gray-300 border-none outline-none focus:border-none focus:outline-none"
+    id={"Price-range" + price}
+    style={{ backgroundColor: "#03C9D7" }}
+  />
+  <h4 className="mt-2">Price range ({price}₪)</h4>
+</div>
+
 
                   {/* Distance */}
                   <div>
@@ -215,6 +228,8 @@ function DogWalkerListContent() {
                       <option value={1}>1 km</option>
                       <option value={5}>5 km</option>
                       <option value={10}>10 km</option>
+                      <option value={20}>20 km</option>
+                      <option value={30}>30 km</option>
                     </select>
                   </div>
 
