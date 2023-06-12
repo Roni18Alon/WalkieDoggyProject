@@ -81,11 +81,13 @@ const Navbar = () => {
 
       <div className="flex">
         <div className="relative flex items-center gap-2 p-1 rounded-lg cursor-pointer group hover:bg-light-gray">
-          <img
-            className="w-8 h-8 rounded-full"
-            src={userImage}
-            alt="user-profile"
-          />
+          {userImage && (
+            <img
+              className="w-8 h-8 rounded-full"
+              src={userImage}
+              alt="user-profile"
+            />
+          )}
           <p>
             <span className="text-gray-400 text-14">Hi,</span>{" "}
             <span className="ml-1 font-bold text-gray-400 text-14">

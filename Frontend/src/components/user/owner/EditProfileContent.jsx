@@ -25,7 +25,7 @@ function EditProfileContent() {
   const editProfileMutation = useEditProfileMutation((response) => {
     // Handle success, if needed
     console.log(response);
-    navigate("/Profile"); // Example: navigate to the profile page
+    navigate("/Profile");
   });
 
   const handleEditProfile = (e) => {

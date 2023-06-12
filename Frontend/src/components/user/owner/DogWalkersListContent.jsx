@@ -21,7 +21,8 @@ function DogWalkerListContent() {
   const [isSearch, setIsSearch] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  const url = "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/search";
+  const url =
+    "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/search";
 
   // Event handler for search button
   const handleSearch = async (e) => {
@@ -54,11 +55,15 @@ function DogWalkerListContent() {
     const params = new URLSearchParams({ user_mail: user.user_email });
 
     try {
-      const response = await axios.post(`${url}?${params}`, JSON.stringify(requestData), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.post(
+        `${url}?${params}`,
+        JSON.stringify(requestData),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       console.log(requestData);
       localStorage.setItem("SearchResult", JSON.stringify(response.data));
@@ -243,9 +248,7 @@ function DogWalkerListContent() {
               </form>
               {isSearch && (
                 <div className="mt-8">
-                  {localStorage.getItem("SearchResult") && (
-                    <ResultList results={JSON.parse(localStorage.getItem("SearchResult"))} />
-                  )}
+                  {localStorage.getItem("SearchResult") && <ResultList />}
                 </div>
               )}
             </div>
@@ -254,7 +257,10 @@ function DogWalkerListContent() {
       </div>
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="modal-overlay" onClick={() => setShowModal(false)}></div>
+          <div
+            className="modal-overlay"
+            onClick={() => setShowModal(false)}
+          ></div>
           <div className="modal-container bg-white w-1/3 rounded shadow-lg z-50">
             <div className="modal-content py-4 px-6">
               <div className="modal-header">

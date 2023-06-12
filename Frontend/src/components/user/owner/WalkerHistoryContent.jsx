@@ -6,7 +6,6 @@ import Rating from "react-rating-stars-component";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import ChatModal from "../../ChatModal";
 import RateMeModal from "../../RateMeModal";
-import { makeStyles } from "@material-ui/core/styles";
 import {
   TableContainer,
   Table,
@@ -17,26 +16,9 @@ import {
 } from "@mui/material";
 import { useGetUserInfoQuery } from "../../tokenApi";
 import useFetchUserList from "../../recentApi";
-import  {handleSendRateMeModal}  from "../../RateMeModal";
-import { useNavigate } from "react-router";
+import { MdRequestQuote } from "react-icons/md";
 
-const useStyles = makeStyles({
-  noHistoryMessage: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "400px",
-    background: "#ffffff",
-    borderRadius: "10px",
-    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-    padding: "20px",
-    fontSize: "24px",
-    fontWeight: "bold",
-  },
-});
 function OwnerHistoryContent() {
-  const navigate = useNavigate();
-  const classes = useStyles();
   const { data: responseData } = useGetUserInfoQuery();
   const [reviewRating, setReviewRating] = useState(0);
   const [reviewName, setReviewName] = useState("");
@@ -55,24 +37,28 @@ function OwnerHistoryContent() {
   const handleCloseChatModal = () => {
     setIsChatModalOpen(false);
   };
-  const handleSend = () => {
-    handleSendRateMeModal(reviewRating, reviewText, reviewEmail, userEmail);
-  };
 
   const handleCloseRateMeModal = () => {
     setIsRateMeModalOpen(false);
   };
 
+  const handleSendRateMeModal = () => {
+    // Handle sending the rating
+    // You can perform any necessary actions here
+    setIsRateMeModalOpen(false); // Close the modal after sending
+  };
 
   const handleRateBtn = (e) => {
     setIsRateMeModalOpen(true);
     setReviewName(e.target.id);
     setReviewEmail(e.target.value);
+    console.log(e.target.value);
   };
 
   if (userList.length === 0) {
-    return <div className={classes.noHistoryMessage}>No history yet..</div>;
+    return <div>No History Found</div>;
   }
+
   if (loading) return "Loading...";
   if (error) return "An error occurred";
 
@@ -177,17 +163,13 @@ function OwnerHistoryContent() {
 
                   <TableCell>
                     <div className="col-12">
-
-                    <RateMeModal
-  isOpen={isRateMeModalOpen}
-  onClose={handleCloseRateMeModal}
-  onSend={() =>
-    handleSend
-  }
-  reviewName={reviewName}
-  reviewEmail={reviewEmail}
-/>
-
+                      <RateMeModal
+                        isOpen={isRateMeModalOpen}
+                        onClose={handleCloseRateMeModal}
+                        onSend={handleSendRateMeModal}
+                        reviewName={reviewName}
+                        reviewEmail={reviewEmail}
+                      />
                       <Button
                         variant="contained"
                         color="success"
