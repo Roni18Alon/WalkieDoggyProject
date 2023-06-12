@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useEditProfileMutation } from "../../editApi";
 import { useGetUserInfoQuery } from "../../tokenApi";
-import User from "./images/kindpng_248729.png";
 //import ReportIcon from "@mui/icons-material/Report";
 
 function EditProfileContent() {
