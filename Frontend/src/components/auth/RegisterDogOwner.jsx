@@ -246,7 +246,7 @@ const RegisterDogOwner = () => {
                       placeholder="Address"
                       required
                       value={country}
-                      onChange={(e) => setCountry(e.target.value)}
+                      onChange={(e) => setAddress(e.target.value)}
                     />
                   </div>
 
