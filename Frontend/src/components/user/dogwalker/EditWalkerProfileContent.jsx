@@ -26,7 +26,7 @@ function EditWalkerProfileContent() {
   const editProfileMutation = useEditProfileMutation((response) => {
     // Handle success, if needed
     console.log(response);
-    navigate("/Profile");
+    navigate("/WalkerProfile");
   });
 
   const handleEditProfile = (e) => {
