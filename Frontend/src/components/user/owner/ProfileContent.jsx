@@ -74,12 +74,13 @@ const useStyles = makeStyles((theme) => ({
 const ProfileContent = () => {
   const classes = useStyles();
   const { data } = useGetUserInfoQuery();
+  
 
   console.log(data);
   const [isMoreDitails, setMoreDitails] = useState(false);
 
   const dogs = data?.body?.dogs || [];
-
+  
   const userEmail = data && data.body && data.body.user_email;
   const userImage =
     data && data.body && data.body.user_image
@@ -147,7 +148,7 @@ const ProfileContent = () => {
         <div key={dog.id} className={classes.cardContainer}>
           <div className={classes.dogImage}>
             <img
-              src={dog1}
+              src={ dog.dog_image? dog.dog_image : dog1}
               alt={dog.dog_name}
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
