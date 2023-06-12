@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useEditProfileMutation } from "../../editApi";
 import { useGetUserInfoQuery } from "../../tokenApi";
+import User from "./images/kindpng_248729.png";
 //import ReportIcon from "@mui/icons-material/Report";
 
 function EditProfileContent() {
@@ -72,7 +73,7 @@ function EditProfileContent() {
           <div className="p-4 max-w-[900px] mx-auto_ mb-10 flex gap-6 flex-col lg:flex-row bg-white rounded-lg box-shadow">
             <div className="">
               <img
-                src={userImage}
+                src={userImage ? userImage : User}
                 alt="Admin"
                 className="p-1 -translate-y-1/2 rounded-circle "
                 width={130}

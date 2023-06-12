@@ -3,6 +3,7 @@ import { useGetUserInfoQuery } from "../../tokenApi";
 import Calendar from "../../Calendar/Calendar";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
+import User from "./images/kindpng_248729.png";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -76,7 +77,7 @@ function WalkerProfileContent() {
               <div className="flex items-center gap-4 mb-4">
                 <div className="relative w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40">
                   <img
-                    src={userImage}
+                    src={userImage ? userImage : User}
                     alt="Admin"
                     className="object-cover w-full h-full rounded-full"
                     style={{ objectPosition: "center top" }}
