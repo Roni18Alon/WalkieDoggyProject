@@ -107,6 +107,7 @@ function AddDogContent() {
   async function delay() {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     navigate("/Profile");
+    window.location.reload();
   }
   return (
     <div
