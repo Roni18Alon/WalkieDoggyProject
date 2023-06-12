@@ -10,7 +10,6 @@ import PlacesAutocomplete from "react-places-autocomplete";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import { useNavigate } from "react-router-dom";
 
-Modal.setAppElement("#root");
 
 const RegisterDogOwner = () => {
   const [phone, setPhone] = useState("");
@@ -114,14 +113,17 @@ const RegisterDogOwner = () => {
 
       if (res.status === 200) {
         navigate("/LoginDogOwner"); // replace with your login page route
-      }else if(res.status == 406 ){
-        reportModal("Invalid Address , Please Try Again ")
-      } 
-      else {
-        reportModal("Error: Invalid response from server.");
       }
     } catch (error) {
-      reportModal(`Error: ${error.message}`);
+      if(error.message == "Request failed with status code 406" ){
+        reportModal("Invalid Address , Please Try Again ");
+      } 
+      else if(error.message == "Request failed with status code 402" ){
+        reportModal("The user already exists");
+      } 
+      else {
+        reportModal(error.message);
+      }
     }
   };
 
