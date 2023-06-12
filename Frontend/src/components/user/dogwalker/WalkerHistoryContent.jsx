@@ -72,8 +72,13 @@ function OwnerHistoryContent() {
   };
 
   if (userList.length === 0) {
-    return <div className={classes.noHistoryMessage}>No history yet..</div>;
+    return (
+      <div className={classes.noHistoryMessage} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <span style={{ fontSize: '24px', fontWeight: 'bold' }}>No history yet...</span>
+      </div>
+    );
   }
+  
 
   if (loading) return "Loading...";
   if (error) return "An error occurred";
