@@ -98,14 +98,14 @@ function AddDogContent() {
       rabies_vaccinated: vaccinated,
       human_friendly: hFriendly,
       dog_friendly: DFriendly,
-      dog_image:picture,    
+      dog_image: picture,
     };
 
     addDog({ ...newDog, user_email: userEmail });
     delay();
   };
   async function delay() {
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     navigate("/Profile");
   }
   return (
