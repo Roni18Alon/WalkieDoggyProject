@@ -100,8 +100,12 @@ function AddDogContent() {
     };
 
     addDog({ ...newDog, user_email: userEmail });
-    navigate("/Profile");
+    delay();
   };
+  async function delay() {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    navigate("/Profile");
+  }
   return (
     <div
       className=""
