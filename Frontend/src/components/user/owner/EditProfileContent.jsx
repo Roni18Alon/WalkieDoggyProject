@@ -10,6 +10,7 @@ function EditProfileContent() {
   const navigate = useNavigate();
   const { data: responseData, isLoading, isError } = useGetUserInfoQuery();
   const user = responseData?.body; // Add nullish coalescing operator to handle undefined responseData
+  const userImage = responseData.body.user_image ;
   const [address, setAddress] = useState(user.address);
   const [city, setCity] = useState(user.city);
   const [country, setCountry] = useState(user.country);
@@ -71,7 +72,7 @@ function EditProfileContent() {
           <div className="p-4 max-w-[900px] mx-auto_ mb-10 flex gap-6 flex-col lg:flex-row bg-white rounded-lg box-shadow">
             <div className="">
               <img
-                src={User}
+                src={userImage}
                 alt="Admin"
                 className="p-1 -translate-y-1/2 rounded-circle "
                 width={130}
