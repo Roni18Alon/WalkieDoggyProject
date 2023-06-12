@@ -3,19 +3,17 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const ROUTE = "dog";
-const url =
-  "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register-dog";
+const url = "https://aej45saso5.execute-api.us-east-1.amazonaws.com/prod/register-dog";
 
 const addDog = async ({ user_email, ...newDog }) => {
-  // Replace with your actual API endpoint URL
   const params = new URLSearchParams({
     user_mail: user_email,
   });
 
   try {
     const response = await axios.post(
-      `${url}?${new URLSearchParams(params)}`,
-      JSON.stringify(newDog),
+      `${url}?${params.toString()}`,
+      newDog,
       {
         headers: {
           "Content-Type": "application/json",
@@ -26,27 +24,25 @@ const addDog = async ({ user_email, ...newDog }) => {
     return response;
   } catch (error) {
     console.log("Error:", error.message);
+    throw error;
   }
 };
 
-export const useAddDogMutation = (onSuccess) =>
-  useMutation({
-    mutationFn: addDog,
+export const useAddDogMutation = (onSuccess, onE) =>
+  useMutation(addDog, {
     onSuccess,
   });
 
 export const useGetDogBreedsQuery = () =>
-  useQuery({
-    queryKey: [ROUTE, "breeds"],
-    queryFn: async () => {
-      try {
-        const response = await fetch("https://dog.ceo/api/breeds/list/all");
-        const jsonData = await response.json();
-        const breedList = Object.keys(jsonData.message);
+  useQuery([ROUTE, "breeds"], async () => {
+    try {
+      const response = await fetch("https://dog.ceo/api/breeds/list/all");
+      const jsonData = await response.json();
+      const breedList = Object.keys(jsonData.message);
 
-        return breedList;
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    },
+      return breedList;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      throw error;
+    }
   });

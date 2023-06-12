@@ -72,17 +72,19 @@ function WalkerProfileContent() {
       <div style={{ backgroundColor: "#f8f8f8" }}>
         <div className="md:p-4 !py-[100px] md:!py-4 m-3">
           <div className="p-4 max-w-[900px] mx-auto_ mb-10 flex gap-6 flex-col lg:flex-row bg-white rounded-lg box-shadow">
-            <div className="relative w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40">
-              {userImage && (
-                <img
-                  src={userImage}
-                  alt="Admin"
-                  className="object-cover w-full h-full rounded-full"
-                  style={{ objectPosition: "center top" }}
-                />
-              )}
+            <div className="md:w-1/3">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="relative w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40">
+                  <img
+                    src={userImage}
+                    alt="Admin"
+                    className="object-cover w-full h-full rounded-full"
+                    style={{ objectPosition: "center top" }}
+                  />
+                </div>
+              </div>
 
-              <h3 className="text-lg font-bold -mt-[40px]">
+              <h3 className="text-lg font-bold">
                 {data.body.user_full_name
                   .split(" ")
                   .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
@@ -120,7 +122,7 @@ function WalkerProfileContent() {
               </div>
               <Link
                 className="bg-[#03C9D7] mt-4 inline-block px-6 py-2 text-white rounded-md"
-                to="/EditProfile"
+                to="/EditWalkerProfile"
               >
                 Edit Profile
               </Link>
