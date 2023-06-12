@@ -44,7 +44,7 @@ const Home = () => {
       </div>
       <div className="row d-flex align-items-center justify-content-center" style={{ height: "100vh" }}>
         <div className="col-lg-12 col-md-6 col-sm-12">
-          <div className="card shadow">
+          <div className="card shadow" style={{ background: "transparent" }}>
             <div className="card-body text-center py-5">
               <h2 className="card-title">Walkie Doggy</h2>
               <p className="">

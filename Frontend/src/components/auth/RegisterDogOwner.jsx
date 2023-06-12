@@ -236,7 +236,7 @@ const RegisterDogOwner = () => {
                   </div>
 
                   <div className="form-group">
-                    <label htmlFor="Country">
+                    <label htmlFor="Address">
                       <i className="zmdi zmdi-home" />
                     </label>
                     <input
@@ -245,7 +245,7 @@ const RegisterDogOwner = () => {
                       id="Address"
                       placeholder="Address"
                       required
-                      value={country}
+                      value={address}
                       onChange={(e) => setAddress(e.target.value)}
                     />
                   </div>

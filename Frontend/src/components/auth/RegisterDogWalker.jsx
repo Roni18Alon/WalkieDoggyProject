@@ -222,7 +222,7 @@ const RegisterDogWalker = () => {
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="Country">
+                    <label htmlFor="Address">
                       <i className="zmdi zmdi-home" />
                     </label>
                     <input
@@ -231,7 +231,7 @@ const RegisterDogWalker = () => {
                       id="Address"
                       placeholder="Address"
                       required
-                      value={country}
+                      value={address}
                       onChange={(e) => setAddress(e.target.value)}
                     />
                   </div>
