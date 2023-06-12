@@ -82,7 +82,6 @@ const Calendar = () => {
       } else {
         end = dayjs(selectInfo.end).format("YYYY-MM-DD HH:mm:ss");
       }
-      console.log("my EndTime: " + end);
       const newEvent = {
         title: modalTitle,
         start: selectInfo.startStr,
