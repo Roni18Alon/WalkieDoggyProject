@@ -52,4 +52,3 @@ export const useGetDogBreedsQuery = () =>
         console.error("Error fetching data:", error);
       }
     },
-  });

@@ -74,27 +74,20 @@ const useStyles = makeStyles((theme) => ({
 const ProfileContent = () => {
   const classes = useStyles();
   const { data } = useGetUserInfoQuery();
+
+  console.log(data);
   const [isMoreDitails, setMoreDitails] = useState(false);
 
   const dogs = data?.body?.dogs || [];
 
   const userEmail = data && data.body && data.body.user_email;
-  const userImage = data && data.body && data.body.user_image;
+  const userImage =
+    data && data.body && data.body.user_image
+      ? data.body.user_image
+      : "https://bootdey.com/img/Content/user_3.jpg";
 
   const [open, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
-
-  useEffect(() => {
-    if (data) {
-      localStorage.setItem("userEmailForCalander", JSON.stringify(userEmail));
-    }
-  }, [data, userEmail]);
-
-  const handleDateSelection = (selectedDateTime) => {
-    console.log("Selected date/time:", selectedDateTime);
-    setOpen(true);
-    // Perform additional actions
-  };
 
   const handleClose = () => {
     setOpen(false);
@@ -121,9 +114,8 @@ const ProfileContent = () => {
           <p className={classes.dogAge}>Gender: {dog.dog_gender}</p>
           <p className={classes.dogAge}>Birthday: {dog.dog_birthday}</p>
           {dog.free_text ? (
-  <p className={classes.dogAge}>About Me: {dog.free_text}</p>
-) : null}
-
+            <p className={classes.dogAge}>About Me: {dog.free_text}</p>
+          ) : null}
           {dog.spayed && (
             <div>
               <span>Spayed</span>
@@ -199,29 +191,26 @@ const ProfileContent = () => {
     <>
       <div style={{ backgroundColor: "#f8f8f8" }}>
         <div className="md:p-4 !py-[100px] md:!py-4 m-3">
-
           <div className="p-4 max-w-[900px] mx-auto_ mb-10 flex flex-col md:flex-row bg-white rounded-lg box-shadow">
             <div className="md:w-1/3">
               <div className="flex items-center gap-4 mb-4">
                 <div className="relative w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40">
                   <img
- src={userImage}
+                    src={userImage}
                     alt="Admin"
                     className="object-cover w-full h-full rounded-full"
                     style={{ objectPosition: "center top" }}
                   />
                 </div>
-
               </div>
               <h3 className="text-lg font-bold">
-                  {data.body.user_full_name
-                    .split(" ")
-                    .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
-                    .join(" ")}
-                </h3>
+                {data.body.user_full_name
+                  .split(" ")
+                  .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
+                  .join(" ")}
+              </h3>
 
               <div className="flex gap-4 my-2">
-
                 <p className="mb-1">Dog Owner</p>-
                 <p className="flex items-center gap-2 text-muted font-size-sm">
                   <svg
@@ -268,7 +257,9 @@ const ProfileContent = () => {
                   <div className="font-bold text-secondary text-md">
                     {data.body.user_full_name
                       .split(" ")
-                      .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
+                      .map(
+                        (name) => name.charAt(0).toUpperCase() + name.slice(1)
+                      )
                       .join(" ")}
                   </div>
                 </div>
