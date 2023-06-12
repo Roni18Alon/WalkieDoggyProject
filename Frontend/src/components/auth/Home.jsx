@@ -6,6 +6,7 @@ import OurDogWalkerSection from "../pages/home/OurDogWalkerSection";
 import GallerySection from "../pages/home/GallerySection";
 import { useGetUserInfoQuery } from "../tokenApi";
 import videoBg from "../../../src/assets/FOOT.mp4";
+import "../auth/dist/Home.css"
 
 const Home = () => {
   const navigate = useNavigate();

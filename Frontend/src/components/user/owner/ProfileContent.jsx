@@ -204,13 +204,11 @@ const ProfileContent = () => {
               <div className="flex items-center gap-4 mb-4">
                 <div className="relative w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40">
                   <img
- {userImage && (
-                    src={userImage}
+ src={userImage}
                     alt="Admin"
                     className="object-cover w-full h-full rounded-full"
                     style={{ objectPosition: "center top" }}
                   />
-)}
                 </div>
 
               </div>
