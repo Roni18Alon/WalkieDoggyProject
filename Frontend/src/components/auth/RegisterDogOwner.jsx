@@ -41,10 +41,6 @@ const RegisterDogOwner = () => {
     setIsModalOpen(true);
   };
 
-  const handleAddressSelect = (address) => {
-    setAddress(address);
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 

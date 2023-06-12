@@ -116,26 +116,27 @@ const ProfileContent = () => {
         <div key={dog.id} className={classes.cardContainer}>
           <h6 className={classes.dogName}>{dog.dog_name}</h6>
           <p className={classes.dogAge}>Age: {dog.dog_age}</p>
-          <p className={classes.dogAge}>breed: {dog.dog_breed}</p>{" "}
-          <p className={classes.dogAge}>weight: {dog.dog_weight}</p>
-          <p className={classes.dogAge}>gender: {dog.dog_gender}</p>
-          <p className={classes.dogAge}>birthday: {dog.dog_birthday}</p>
-          {dog.free_text && (
-            <p className={classes.dogAge}>free_text: {dog.free_text}</p>
-          )}
+          <p className={classes.dogAge}>Breed: {dog.dog_breed}</p>{" "}
+          <p className={classes.dogAge}>Weight: {dog.dog_weight}</p>
+          <p className={classes.dogAge}>Gender: {dog.dog_gender}</p>
+          <p className={classes.dogAge}>Birthday: {dog.dog_birthday}</p>
+          {dog.free_text ? (
+  <p className={classes.dogAge}>About Me: {dog.free_text}</p>
+) : null}
+
           {dog.spayed && (
             <div>
-              <span>spayed</span>
+              <span>Spayed</span>
               <div className="flex flex-col"></div>
             </div>
           )}
           {dog.rabies_vaccinated && (
-            <p className="flex flex-col"> rabies vaccinated</p>
+            <p className="flex flex-col"> Rabies vaccinated</p>
           )}
           {dog.human_friendly && (
-            <p className="flex flex-col">human friendly</p>
+            <p className="flex flex-col">Human friendly</p>
           )}
-          {dog.dog_friendly && <p className="flex flex-col">dog friendly</p>}
+          {dog.dog_friendly && <p className="flex flex-col">Dog friendly</p>}
           <div className={classes.buttonContainer}>
             <Button
               variant="contained"
