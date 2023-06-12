@@ -113,7 +113,7 @@ function OwnerHistoryContent() {
                             <div className="">
                               <span>
                                 <strong>
-                                  <a href="/WalkerProfileForUser">
+                                  <p>
                                     {row.user_full_name
                                       .split(" ")
                                       .map(
@@ -122,7 +122,7 @@ function OwnerHistoryContent() {
                                           name.slice(1)
                                       )
                                       .join(" ")}
-                                  </a>
+                                  </p>
                                 </strong>
                               </span>{" "}
                               <br />

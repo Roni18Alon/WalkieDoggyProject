@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import { useGetUserInfoQuery } from "../../tokenApi";
 import useFetchUserList from "../../recentApi";
-import  {handleSendRateMeModal}  from "../../RateMeModal";
+import { handleSendRateMeModal } from "../../RateMeModal";
 import { useNavigate } from "react-router";
 
 const useStyles = makeStyles({
@@ -62,7 +62,6 @@ function OwnerHistoryContent() {
   const handleCloseRateMeModal = () => {
     setIsRateMeModalOpen(false);
   };
-
 
   const handleRateBtn = (e) => {
     setIsRateMeModalOpen(true);
@@ -127,7 +126,7 @@ function OwnerHistoryContent() {
                             <div className="">
                               <span>
                                 <strong>
-                                  <a href="/WalkerProfileForUser">
+                                  <p>
                                     {row.user_full_name
                                       .split(" ")
                                       .map(
@@ -136,7 +135,7 @@ function OwnerHistoryContent() {
                                           name.slice(1)
                                       )
                                       .join(" ")}
-                                  </a>
+                                  </p>
                                 </strong>
                               </span>{" "}
                               <br />
@@ -177,16 +176,13 @@ function OwnerHistoryContent() {
 
                   <TableCell>
                     <div className="col-12">
-
-                    <RateMeModal
-  isOpen={isRateMeModalOpen}
-  onClose={handleCloseRateMeModal}
-  onSend={() =>
-    handleSend
-  }
-  reviewName={reviewName}
-  reviewEmail={reviewEmail}
-/>
+                      <RateMeModal
+                        isOpen={isRateMeModalOpen}
+                        onClose={handleCloseRateMeModal}
+                        onSend={() => handleSend}
+                        reviewName={reviewName}
+                        reviewEmail={reviewEmail}
+                      />
 
                       <Button
                         variant="contained"
