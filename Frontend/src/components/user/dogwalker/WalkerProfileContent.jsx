@@ -20,7 +20,10 @@ const useStyles = makeStyles((theme) => ({
 function WalkerProfileContent() {
   const { data } = useGetUserInfoQuery();
   const userEmail = data && data.body && data.body.user_email;
-  const userImage = data && data.body && data.body.user_image;
+  const userImage =
+    data && data.body && data.body.user_image
+      ? data.body.user_image
+      : "https://bootdey.com/img/Content/user_3.jpg";
   const userName = data && data.body && data.body.user_full_name;
   const userRegDate = data && data.body && data.body.registration_date;
   const userCountry = data && data.body && data.body.country;
@@ -69,7 +72,7 @@ function WalkerProfileContent() {
       <div style={{ backgroundColor: "#f8f8f8" }}>
         <div className="md:p-4 !py-[100px] md:!py-4 m-3">
           <div className="p-4 max-w-[900px] mx-auto_ mb-10 flex gap-6 flex-col lg:flex-row bg-white rounded-lg box-shadow">
-          <div className="md:w-1/3">
+            <div className="md:w-1/3">
               <div className="flex items-center gap-4 mb-4">
                 <div className="relative w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40">
                   <img
@@ -79,17 +82,15 @@ function WalkerProfileContent() {
                     style={{ objectPosition: "center top" }}
                   />
                 </div>
-
               </div>
-              
-              <h3 className="text-lg font-bold">
-                  {data.body.user_full_name
-                    .split(" ")
-                    .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
-                    .join(" ")}
-                </h3>
-              <div className="flex gap-4 my-2">
 
+              <h3 className="text-lg font-bold">
+                {data.body.user_full_name
+                  .split(" ")
+                  .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
+                  .join(" ")}
+              </h3>
+              <div className="flex gap-4 my-2">
                 <p className="mb-1">Dog Walker</p>-
                 <p className="flex items-center gap-2 text-muted font-size-sm">
                   <svg
