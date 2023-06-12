@@ -198,31 +198,28 @@ const ProfileContent = () => {
     <>
       <div style={{ backgroundColor: "#f8f8f8" }}>
         <div className="md:p-4 !py-[100px] md:!py-4 m-3">
-
           <div className="p-4 max-w-[900px] mx-auto_ mb-10 flex flex-col md:flex-row bg-white rounded-lg box-shadow">
             <div className="md:w-1/3">
               <div className="flex items-center gap-4 mb-4">
                 <div className="relative w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40">
-                  <img
- {userImage && (
-                    src={userImage}
-                    alt="Admin"
-                    className="object-cover w-full h-full rounded-full"
-                    style={{ objectPosition: "center top" }}
-                  />
-)}
+                  {userImage && (
+                    <img
+                      src={userImage}
+                      alt="Admin"
+                      className="object-cover w-full h-full rounded-full"
+                      style={{ objectPosition: "center top" }}
+                    />
+                  )}
                 </div>
-
               </div>
               <h3 className="text-lg font-bold">
-                  {data.body.user_full_name
-                    .split(" ")
-                    .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
-                    .join(" ")}
-                </h3>
+                {data.body.user_full_name
+                  .split(" ")
+                  .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
+                  .join(" ")}
+              </h3>
 
               <div className="flex gap-4 my-2">
-
                 <p className="mb-1">Dog Owner</p>-
                 <p className="flex items-center gap-2 text-muted font-size-sm">
                   <svg
@@ -269,7 +266,9 @@ const ProfileContent = () => {
                   <div className="font-bold text-secondary text-md">
                     {data.body.user_full_name
                       .split(" ")
-                      .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
+                      .map(
+                        (name) => name.charAt(0).toUpperCase() + name.slice(1)
+                      )
                       .join(" ")}
                   </div>
                 </div>
