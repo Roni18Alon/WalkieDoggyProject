@@ -41,7 +41,6 @@ function AddDogContent() {
   const [vaccinated, setVaccinated] = useState(false);
   const [hFriendly, setHFriendly] = useState(false);
   const [DFriendly, setDFriendly] = useState(false);
-  const [date, setDate] = useState("");
   const [base64Image, setBase64Image] = useState("");
   const [modalText, setModalText] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -49,6 +48,7 @@ function AddDogContent() {
   const [flag, setFlag] = useState(false);
   const [path, setPath] = useState("#");
   const [modalIcon, setModalIcon] = useState("</ReportIcon>");
+  const [picture, setPicture] = useState(null);
   //fetch dog breed list
 
   const navigate = useNavigate();
@@ -71,17 +71,18 @@ function AddDogContent() {
     setDFriendly(event.target.checked);
   };
 
-  const handleImageUpload = (event) => {
+  const handlePictureChange = (event) => {
     const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = (e) => {
-        const base64String = e.target.result;
-        setBase64Image(base64String);
-      };
-      reader.readAsDataURL(file);
-    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64String = reader.result.split(",")[1];
+      setPicture(base64String); // Store the base64 encoded picture
+    };
+    reader.onerror = (error) => console.log("Error: ", error);
+    reader.readAsDataURL(file);
   };
+
   //add Dog to database
   const handleAddDog = () => {
     console.log("in HandleaddDog");
@@ -97,6 +98,7 @@ function AddDogContent() {
       rabies_vaccinated: vaccinated,
       human_friendly: hFriendly,
       dog_friendly: DFriendly,
+      dog_image:picture,    
     };
 
     addDog({ ...newDog, user_email: userEmail });
@@ -311,7 +313,7 @@ function AddDogContent() {
               accept="image/*"
               className="px-2 py-2 pb-3 mt-3 border form-control"
               id="inputImage"
-              onChange={handleImageUpload}
+              onChange={handlePictureChange}
             />
             <div className="mt-3">
               <button
