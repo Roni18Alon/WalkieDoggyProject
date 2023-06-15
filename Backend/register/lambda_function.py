@@ -1,3 +1,4 @@
+import requests
 import simplejson
 import json
 import logging
@@ -11,7 +12,7 @@ from responses import responses
 import base64
 
 event = {'resource': '/register', 'path': '/register', 'httpMethod': 'POST',
-         'headers': {'accept': '*/*', 'accept-encoding': 'gzip, deflate, br', 'accept-language': 'en-US,en;q=0.9',
+         'headers': {'accept': '/', 'accept-encoding': 'gzip, deflate, br', 'accept-language': 'en-US,en;q=0.9',
                      'content-type': 'application/json', 'Host': 'aej45saso5.execute-api.us-east-1.amazonaws.com',
                      'origin': 'http://localhost:3000', 'referer': 'http://localhost:3000/',
                      'sec-ch-ua': '"Chromium";v="112", "Google Chrome";v="112", "Not:A-Brand";v="99"',
@@ -20,7 +21,7 @@ event = {'resource': '/register', 'path': '/register', 'httpMethod': 'POST',
                      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36',
                      'X-Amzn-Trace-Id': 'Root=1-64614286-27809c76657a173b50064282', 'X-Forwarded-For': '93.172.169.19',
                      'X-Forwarded-Port': '443', 'X-Forwarded-Proto': 'https'},
-         'multiValueHeaders': {'accept': ['*/*'], 'accept-encoding': ['gzip, deflate, br'],
+         'multiValueHeaders': {'accept': ['/'], 'accept-encoding': ['gzip, deflate, br'],
                                'accept-language': ['en-US,en;q=0.9'], 'content-type': ['application/json'],
                                'Host': ['aej45saso5.execute-api.us-east-1.amazonaws.com'],
                                'origin': ['http://localhost:3000'], 'referer': ['http://localhost:3000/'],
@@ -45,7 +46,7 @@ event = {'resource': '/register', 'path': '/register', 'httpMethod': 'POST',
                                          'userAgent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36',
                                          'user': None}, 'domainName': 'aej45saso5.execute-api.us-east-1.amazonaws.com',
                             'apiId': 'aej45saso5'},
-         'body': '{"user_email":"gb@example.com","address":"123 Main St","city":"Holon","country":"Israel","password":"123456","phone_number":"555-555-5555","user_name":"Ben haim","zip":"1234567"}',
+         'body': '{"user_email":"gb_test@example.com","address":"blalala 20","city":"blala","country":"Israel","password":"123456","phone_number":"555-555-5555","user_name":"Ben haim","zip":"1234567"}',
          'isBase64Encoded': False}
 
 # Set up logging
@@ -59,6 +60,7 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 
 dynamo = DynamoDB('users-info')
+api_key = 'AIzaSyAMtdGhYZfpWVoO45JBPghp2GOK4yLuFl4'
 s3_bucket = S3(bucket_name='walkie-doggy-users')
 
 
@@ -87,12 +89,17 @@ def lambda_handler(event, context):
             key = f"{user_mail}_img.png"
             image_bytes = base64.b64decode(image_b64)
             s3_bucket.upload_image(img=image_bytes, key=key)
+        if user_address and user_city and user_country:
+            full_address = f"{user_address}, {user_city}, {user_country}"
+            if not get_coordinates(full_address):
+                return responses.failed(error=f"Wrong address inserted, please register again", status_code=406)
+
 
         # Verify if the required variables are not None or empty
         if all([user_name, user_mail, phone_number, user_address, user_city, user_country, user_zip, password]):
             existing_user = dynamo.get_item(key_name="user_email", key_value=user_mail)
             if existing_user:
-                return responses.failed(error=f"User {user_mail} already exists.", status_code=400)
+                return responses.failed(error=f"User {user_mail} already exists.", status_code=402)
             hashed_password = pbkdf2_sha256.hash(password)
             token = secrets.token_hex(16)
             hashed_token = hashlib.sha256(token.encode()).hexdigest()
@@ -147,6 +154,30 @@ def lambda_handler(event, context):
         # Handle the case when the event does not contain the relevant keys
         logger.error("Event does not contain the required user details")
         return responses.failed(error=f"didn't get body in request", status_code=400)
+
+
+def get_coordinates(full_address):
+    try:
+        api_endpoint = 'https://maps.googleapis.com/maps/api/geocode/json'
+        params = {'address': full_address, 'key': api_key}
+        response = requests.get(api_endpoint, params=params)
+        response_json = response.json()
+        if response_json['status'] == 'OK' and not response_json.get('results')[0].get('partial_match'):
+            result = response_json['results'][0]
+            geometry = result['geometry']
+            location = geometry['location']
+            latitude = location['lat']
+            longitude = location['lng']
+            logger.info("Address has been verified, it's legit")
+            return True
+        else:
+            logger.error("Wrong address given")
+            return False
+
+    except Exception as e:
+        logger.error("Event does not contain correct address")
+        return False
+
 
 
 if __name__ == '__main__':

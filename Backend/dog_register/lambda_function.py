@@ -86,6 +86,8 @@ def lambda_handler(event, context):
             key = f"{user_mail}_{dog_name}.png"
             image_bytes = base64.b64decode(dog_image_b64)
             s3_bucket.upload_image(img=image_bytes, key=key)
+        if is_date_in_future(dog_birthday):
+            return responses.failed(error=f"The date {dog_birthday} has not yet occurred. ", status_code=406)
 
         # check if user exists
         user = dynamo.get_item(key_name="user_email", key_value=user_mail)
@@ -105,7 +107,7 @@ def lambda_handler(event, context):
                 "dog_friendly": dog_friendly,
             }
             if dog_image_b64:
-                dog_data['dog_image']=f'https://walkie-doggy-dogs.s3.amazonaws.com/{key}'
+                dog_data['dog_image'] = f'https://walkie-doggy-dogs.s3.amazonaws.com/{key}'
 
             dogs_list = user_data.get('dogs', [])
             # add dog to the list
@@ -120,7 +122,7 @@ def lambda_handler(event, context):
                 return responses.succeeded(message=user_data)
             else:
                 logger.error(f"dog already exists for this user")
-                return responses.failed(error=f"dog {dog_name} already exists for this user", status_code=404)
+                return responses.failed(error=f"dog {dog_name} already exists for this user", status_code=407)
 
         else:
             # Handle the case when any of the required variables are missing
@@ -150,6 +152,13 @@ def check_duplication_in_list(given_list, dog_name, dog_birthday):
         else:
             seen.add(item_key)
     return True
+
+
+def is_date_in_future(date_string):
+    current_date = datetime.now().date()
+    date_format = "%d-%m-%Y"
+    date = datetime.strptime(date_string, date_format).date()
+    return date > current_date
 
 
 if __name__ == '__main__':

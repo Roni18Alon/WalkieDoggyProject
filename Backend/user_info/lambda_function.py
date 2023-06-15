@@ -38,11 +38,13 @@ dynamo = DynamoDB('users-info')
 def lambda_handler(event, context):
     # get event data
     logger.info(f"event: {event}")
-    headers = event['headers']
+    query = event['queryStringParameters']
+    # headers = event['headers']
     # get user mail from params
 
     # get user password from headers
-    token = headers.get('token')
+    # token = headers.get('token')
+    token = query.get('user_id')
     if token:
         # check from DB the relevant data
         user = dynamo.get_item_by_index(key=token)
