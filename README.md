@@ -66,7 +66,6 @@ Once the application is up and running, you can start exploring its features and
 ## Contributing
 We welcome contributions to the WalkieDoggyProject repository! If you have any ideas, bug fixes, or improvements, feel free to submit a pull request. Please make sure to follow the existing coding style and guidelines.
 
-## License
-This project is licensed under the [MIT License](LICENSE).
+
 
 
